@@ -1,26 +1,176 @@
-@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap');
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* Custom font families */
+@layer base {
+  .font-abril {
+    font-family: 'Abril Fatface', serif;
+  }
+  
+  .font-sequel {
+    font-family: 'Inter', sans-serif;
+  }
+  
+  .font-dharrochy {
+    font-family: 'Abril Fatface', serif;
+    font-style: italic;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Line clamp utilities */
+@layer utilities {
+  .shadow-plantea {
+    box-shadow: 0px 4px 8px 0px rgba(219, 219, 219, 0.25);
+  }
+
+  .shadow-plantea-lg {
+    box-shadow: 0px 6px 12px 0px rgba(219, 219, 219, 0.35);
+  }
+  .line-clamp-1 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+  }
+  
+  .line-clamp-2 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+  
+  .line-clamp-3 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+  }
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #4ade80;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #22c55e;
+}
+
+/* Focus styles */
+button:focus,
+input:focus,
+textarea:focus,
+select:focus {
+  outline: 2px solid #4ade80;
+  outline-offset: 2px;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.animate-slide-in {
+  animation: slideIn 0.3s ease-out;
+}
+
+/* Custom shadows */
+.shadow-plantea {
+  box-shadow: 0px 4px 8px 0px rgba(219, 219, 219, 0.25);
+}
+
+.shadow-plantea-lg {
+  box-shadow: 0px 6px 12px 0px rgba(219, 219, 219, 0.35);
+}
+
+/* Hover effects */
+.hover-lift {
+  transition: transform 0.2s ease-in-out;
+}
+
+.hover-lift:hover {
+  transform: translateY(-2px);
+}
+
+/* Button styles */
+.btn-primary {
+  @apply bg-green-400 hover:bg-green-500 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200;
+}
+
+.btn-secondary {
+  @apply bg-white hover:bg-gray-50 text-green-600 font-medium py-2 px-4 rounded-lg border border-green-600 transition-colors duration-200;
+}
+
+.btn-outline {
+  @apply bg-transparent hover:bg-green-50 text-green-600 font-medium py-2 px-4 rounded-lg border border-green-600 transition-colors duration-200;
+}
+
+/* Form styles */
+.form-input {
+  @apply w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors duration-200;
+}
+
+/* Card styles */
+.card {
+  @apply bg-white rounded-lg shadow-plantea p-6;
+}
+
+.card-hover {
+  @apply bg-white rounded-lg shadow-plantea hover:shadow-plantea-lg transition-shadow duration-200 p-6;
+}
+
+/* Text colors */
+.text-plantea-green {
+  color: #4ade80;
+}
+
+.text-plantea-dark-green {
+  color: #166534;
+}
+
+/* Background colors */
+.bg-plantea-green {
+  background-color: #4ade80;
+}
+
+.bg-plantea-light-green {
+  background-color: #dcfce7;
 }
