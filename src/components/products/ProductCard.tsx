@@ -4,19 +4,19 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ROUTES } from '@/lib/utils/routes';
-import { Product } from '@/types/product';
+import { Product, Product_Mock } from '@/types/product';
 import { HeartIcon, ShoppingCartIcon } from '@/components/ui/Icons';
 import ProductRating from './ProductRating';
 import ProductPrice from './ProductPrice';
 
 interface ProductCardProps {
-  product: Product;
+  product: Product_Mock;
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const { name, slug, price, compare_price, images, stock_quantity, rating = 4 } = product;
   const productUrl = ROUTES.MAIN.PRODUCTS.DETAIL(slug);
-  const imageUrl = images?.[0] || 'https://placehold.co/200x200/e5e7eb/6b7280?text=Image';
+  const imageUrl = images?.[0] || '/images/default.png';
 
   const salePercentage = compare_price && parseFloat(compare_price) > parseFloat(price)
     ? Math.round(((parseFloat(compare_price) - parseFloat(price)) / parseFloat(compare_price)) * 100)

@@ -105,69 +105,73 @@ export const API_ROUTES = {
   
   // Products API (app/api/products/)
   PRODUCTS: {
-    LIST: '/api/products',
-    DETAIL: (id: string) => `/api/products/${id}`,
-    FEATURED: '/api/products?featured=true',
-    NEW_ARRIVALS: '/api/products?new=true',
-    SEARCH: (query: string) => `/api/products?search=${query}`,
+    LIST: '/api/v1/products',
+    LIMIT: (page: number, limit: number) => `/api/v1/products?page=${page}&limit=${limit}`,
+    DETAIL: (id: number) => `/api/v1/products/${id}`,
+    FEATURED: '/api/v1/products?isFeatured=true',
+    NEWEST: '/api/v1/products?sortBy=created_at&sortOrder=desc',
+    SORT_PRICE:'/api/v1/products?sortBy=price&sortOrder=asc',
+    SEARCH: (query: string) => `/api/v1/products?search=${query}`,
+    PRICE_RANGE: (min: number, max: number) => `/api/v1/products?priceMin=${min}&priceMax=${max}`,
+    COMPLEX: (categoryId: number, search: string, min: number, sortBy: string, sortOrder: string) => `/api/v1/products?categoryId=${categoryId}&search=${search}&minPrice=${min}&sortBy=${sortBy}&sortOrder=${sortOrder}`,
   },
   
-  // Categories API (app/api/categories/)
+  // Categories API (app/api/v1/categories/)
   CATEGORIES: {
-    LIST: '/api/categories',
-    DETAIL: (id: string) => `/api/categories/${id}`,
-    PRODUCTS: (id: string) => `/api/categories/${id}/products`,
+    LIST: '/api/v1/categories',
+    DETAIL: (id: string) => `/api/v1/categories/${id}`,
+    PRODUCTS: (id: string) => `/api/v1/categories/${id}/products`,
   },
   
-  // Cart API (app/api/cart/)
+  // Cart API (app/api/v1/cart/)
   CART: {
-    BASE: '/api/cart',
-    ITEM: (id: string) => `/api/cart/${id}`,
-    CLEAR: '/api/cart/clear',
+    BASE: '/api/v1/cart',
+    ITEM: (id: string) => `/api/v1/cart/${id}`,
+    CLEAR: '/api/v1/cart/clear',
   },
   
-  // Orders API (app/api/orders/)
+  // Orders API (app/api/v1/orders/)
   ORDERS: {
-    BASE: '/api/orders',
-    DETAIL: (id: string) => `/api/orders/${id}`,
-    CANCEL: (id: string) => `/api/orders/${id}/cancel`,
-    TRACKING: (orderNumber: string) => `/api/orders/tracking/${orderNumber}`,
+    BASE: '/api/v1/orders',
+    DETAIL: (id: string) => `/api/v1/orders/${id}`,
+    CANCEL: (id: string) => `/api/v1/orders/${id}/cancel`,
+    TRACKING: (orderNumber: string) => `/api/v1/orders/tracking/${orderNumber}`,
   },
   
-  // Users API (app/api/users/)
+  // Users API (app/api/v1/users/)
   USERS: {
-    PROFILE: '/api/users/profile',
-    ADDRESSES: '/api/users/addresses',
-    ADDRESS: (id: string) => `/api/users/addresses/${id}`,
-    WISHLIST: '/api/users/wishlist',
-    WISHLIST_ITEM: (productId: string) => `/api/users/wishlist/${productId}`,
+    PROFILE: '/api/v1/users/profile',
+    ADDRESSES: '/api/v1/users/addresses',
+    ADDRESS: (id: string) => `/api/v1/users/addresses/${id}`,
+    WISHLIST: '/api/v1/users/wishlist',
+    WISHLIST_ITEM: (productId: string) => `/api/v1/users/wishlist/${productId}`,
   },
   
-  // Reviews API (app/api/reviews/)
+  // Reviews API (app/api/v1/reviews/)
   REVIEWS: {
-    BASE: '/api/reviews',
-    BY_PRODUCT: (productId: string) => `/api/reviews?productId=${productId}`,
-    CREATE: '/api/reviews',
+    BASE: '/api/v1/reviews',
+    BY_PRODUCT: (productId: string) => `/api/v1/reviews?productId=${productId}`,
+    CREATE: '/api/v1/reviews',
   },
   
-  // Promotions API (app/api/promotions/)
+  // Promotions API (app/api/v1/promotions/)
   PROMOTIONS: {
-    LIST: '/api/promotions',
-    DETAIL: (id: string) => `/api/promotions/${id}`,
-    ACTIVE: '/api/promotions?active=true',
+    LIST: '/api/v1/promotions',
+    DETAIL: (id: string) => `/api/v1/promotions/${id}`,
+    ACTIVE: '/api/v1/promotions?active=true',
   },
   
-  // Checkout API (app/api/checkout/)
+  // Checkout API (app/api/v1/checkout/)
   CHECKOUT: {
-    CREATE: '/api/checkout',
-    VERIFY: '/api/checkout/verify',
-    CALLBACK: '/api/checkout/callback',
+    CREATE: '/api/v1/checkout',
+    VERIFY: '/api/v1/checkout/verify',
+    CALLBACK: '/api/v1/checkout/callback',
   },
   
-  // Upload API (app/api/upload/)
+  // Upload API (app/api/v1/upload/)
   UPLOAD: {
-    IMAGE: '/api/upload/image',
-    DOCUMENT: '/api/upload/document',
+    IMAGE: '/api/v1/upload/image',
+    DOCUMENT: '/api/v1/upload/document',
   },
 } as const;
 

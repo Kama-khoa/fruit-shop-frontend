@@ -3,10 +3,10 @@
 import { useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import ProductCard from '@/components/products/ProductCard';
-import type { Product } from '@/types';
+import type { Product, Product_Mock } from '@/types/product';
 
 interface Props {
-  products: Product[];
+  products: Product_Mock[];
   title?: string;
 }
 

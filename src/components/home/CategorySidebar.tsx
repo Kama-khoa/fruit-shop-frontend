@@ -1,43 +1,37 @@
-'use client';
-
-import { ChevronRight } from 'lucide-react';
+import React from 'react';
 import Link from 'next/link';
+import { ROUTES } from '@/lib/utils/routes';
+import { Leaf, Carrot, Fish, Milk, Snowflake, ShoppingBasket } from 'lucide-react';
 
-interface Category {
-  id: string;
-  name: string;
-  slug: string;
-  icon: string;
-}
+const categories = [
+  { name: 'Rau củ & hoa quả', href: ROUTES.MAIN.CATEGORIES.VEGETABLES, icon: <Carrot size={20} /> },
+  { name: 'Thịt & hải sản', href: ROUTES.MAIN.CATEGORIES.MEAT, icon: <Fish size={20} /> },
+  { name: 'Bữa sáng dinh dưỡng', href: '#', icon: <Leaf size={20} /> },
+  { name: 'Đồ uống', href: ROUTES.MAIN.CATEGORIES.DRINKS, icon: <Milk size={20} /> },
+  { name: 'Thực phẩm đông lạnh', href: '#', icon: <Snowflake size={20} /> },
+  { name: 'Nhu yếu phẩm', href: '#', icon: <ShoppingBasket size={20} /> },
+];
 
-interface Props {
-  categories: Category[];
-}
+const CategorySidebar = () => {
+  return (
+    <div className="w-full max-w-xs bg-white rounded-lg border border-gray-200 p-4">
+      <h2 className="text-center text-green-950 text-xl font-semibold font-['Gluten'] leading-tight mb-4">
+        DANH MỤC SẢN PHẨM
+      </h2>
+      <nav>
+        <ul className="space-y-1">
+          {categories.map((category) => (
+            <li key={category.name}>
+              <Link href={category.href} className="flex items-center gap-4 p-3 text-sm font-medium text-gray-800 rounded-md hover:bg-green-50 transition-colors">
+                {category.icon}
+                <span>{category.name}</span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </div>
+  );
+};
 
-export default function CategorySidebar({ categories }: Props) {
-  return (
-    <div className="w-80 bg-white border border-gray-200 rounded-lg p-6">
-      <h3 className="text-2xl font-semibold text-green-950 mb-4 text-center">
-        DANH MỤC SẢN PHẨM
-      </h3>
-      
-      <div className="space-y-1">
-        {categories.map((category) => (
-          <Link
-            key={category.id}
-            href={`/danh-muc/${category.slug}`}
-            className="flex items-center justify-between px-4 py-3 bg-white border border-gray-200 hover:bg-gray-50 transition"
-          >
-            <div className="flex items-center gap-3">
-              <span className="text-xl">{category.icon}</span>
-              <span className="text-sm font-medium text-gray-950">
-                {category.name}
-              </span>
-            </div>
-            <ChevronRight className="w-4 h-4 text-gray-600" />
-          </Link>
-        ))}
-      </div>
-    </div>
-  );
-}
+export default CategorySidebar;

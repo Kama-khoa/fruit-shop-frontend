@@ -1,39 +1,56 @@
-import React from 'react';
-import HeroBanner from '@/components/common/HeroBanner';
-import CategoryGrid from '@/components/common/CategoryGrid';
-import PromoSection from '@/components/common/PromoSection';
-import ReviewSection from '@/components/products/ReviewSection';
+// This component is a Server Component, so we can fetch data directly.
+import { getFeaturedProducts, getBestsellerProducts } from '@/lib/api/products';
+import CategorySidebar from '@/components/home/CategorySidebar';
+import HeroBanner from '@/components/home/HeroBanner';
+import FeaturesSection from '@/components/home/FeaturesSection';
+import ProductCarousel from '@/components/home/ProductCarousel';
+import BestsellerBanner from '@/components/home/BestsellerBanner';
+import PromotionBanners from '@/components/home/PromotionBanners';
+import NewsSection from '@/components/home/NewsSection';
 
-export default function HomePage() {
+export default async function HomePage() {
+  // Fetch data for the carousels on the server
+  const featuredProducts = await getFeaturedProducts();
+  const bestsellerProducts = await getBestsellerProducts();
+
   return (
-    <div className="min-h-screen bg-neutral-50">
-      {/* Hero Banner */}
-      <HeroBanner />
+    <div className="bg-neutral-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+          
+          {/* Left Sidebar */}
+          <aside className="hidden lg:block lg:col-span-1">
+            <CategorySidebar />
+          </aside>
+
+          {/* Main Content */}
+          <div className="lg:col-span-3">
+            <HeroBanner />
+          </div>
+        </div>
+      </div>
+
+      <FeaturesSection />
+
+      {/* Featured Products Section */}
+      <ProductCarousel 
+        products={featuredProducts} 
+        title="Sản phẩm"
+      />
       
-      {/* Green Sale 9.9 Section */}
-      <section className="py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-center text-black text-3xl font-normal font-['Abril_Fatface'] mb-8">
-            Green Sale 9.9
-          </h2>
-        </div>
-      </section>
+      <BestsellerBanner />
 
-      {/* Best Reviews Section */}
-      <ReviewSection />
+      {/* Bestseller Products Section */}
+      <ProductCarousel 
+        products={bestsellerProducts} 
+        title="Best Seller"
+      />
+      
+      <PromotionBanners />
+      
+      <NewsSection />
 
-      {/* Categories Section */}
-      <section className="py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-center text-black text-3xl font-normal font-['Abril_Fatface'] mb-8">
-            Categories For You
-          </h2>
-          <CategoryGrid />
-        </div>
-      </section>
-
-      {/* Available Coupons Section */}
-      <PromoSection />
     </div>
   );
 }
+
