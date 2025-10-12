@@ -1,9 +1,8 @@
 import React from 'react';
 import HeroBanner from '@/components/common/HeroBanner';
-import ProductGrid from '@/components/product/ProductGrid';
 import CategoryGrid from '@/components/common/CategoryGrid';
 import PromoSection from '@/components/common/PromoSection';
-import ReviewSection from '@/components/product/ReviewSection';
+import ReviewSection from '@/components/products/ReviewSection';
 
 export default function HomePage() {
   return (
@@ -17,7 +16,6 @@ export default function HomePage() {
           <h2 className="text-center text-black text-3xl font-normal font-['Abril_Fatface'] mb-8">
             Green Sale 9.9
           </h2>
-          <ProductGrid />
         </div>
       </section>
 

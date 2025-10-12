@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useAuth } from '@/hooks/useAuth';
+import { useAuth } from '@/lib/hooks/useAuth';
 import { User, Mail, Phone, Calendar, Shield } from 'lucide-react';
 import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
 

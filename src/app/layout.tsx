@@ -1,20 +1,20 @@
-import './globals.css';
+import '@/styles/globals.css';
 import { Inter } from 'next/font/google';
 import { Toaster } from 'react-hot-toast';
-import Header from '@/components/layout/Header';
-import Footer from '@/components/layout/Footer';
-import { AuthProvider } from '@/contexts/AuthContext';
+import Header from '@/components/layout/Header/Header';
+import Footer from '@/components/layout/Footer/Footer';
+import { AuthProvider } from '@/lib/contexts/AuthContext';
 import type { Metadata } from 'next';
 
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Plantea - Nông sản tươi ngon',
+  title: 'Fruity Fruit - Tươi ngon mỗi ngày',
   description: 'Cửa hàng nông sản tươi ngon, chất lượng cao với giá cả hợp lý',
   keywords: 'nông sản, trái cây, tươi ngon, organic, healthy, vitamin',
-  authors: [{ name: 'Plantea Team' }],
-  creator: 'Plantea',
-  publisher: 'Plantea',
+  authors: [{ name: 'Fruity Fruit Team' }],
+  creator: 'Fruity Fruit',
+  publisher: 'Fruity Fruit',
   formatDetection: {
     email: false,
     address: false,
@@ -25,23 +25,17 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'vi_VN',
     url: process.env.NEXT_PUBLIC_APP_URL,
-    title: 'Plantea - Nông sản tươi ngon',
+    title: 'Fruity Fruit - Nông sản tươi ngon',
     description: 'Cửa hàng nông sản tươi ngon, chất lượng cao với giá cả hợp lý',
-    siteName: 'Plantea',
+    siteName: 'Fruity Fruit',
     images: [
       {
-        url: '/images/og-image.jpg',
+        url: '/images/logos/Logo_Fruity_fruit.jpg',
         width: 1200,
         height: 630,
-        alt: 'Plantea',
+        alt: 'Fruity Fruit',
       },
     ],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Plantea - Nông sản tươi ngon',
-    description: 'Cửa hàng nông sản tươi ngon, chất lượng cao với giá cả hợp lý',
-    images: ['/images/twitter-image.jpg'],
   },
   robots: {
     index: true,

@@ -17,6 +17,9 @@ module.exports = {
     },
     extend: {
       colors: {
+        'bg-Button-Auth': 'rgba(76, 159, 145, 1)', 
+        'Green-fruit': 'rgba(102, 191, 132, 1)',
+        "bg-Xanh-Nav": "#BAFD91",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -67,7 +70,12 @@ module.exports = {
         sm: "calc(var(--radius) - 4px)",
       },
       fontFamily: {
+        Open_Sans: ['"Open Sans"', 'sans-serif'],
+        'inter': ['Inter', 'sans-serif'],
+        'ibm-plex': ['IBM Plex Serif', 'serif'],
+        'dharrochy': ['Dharrochy', 'cursive'],
         sans: ['Inter', 'system-ui', 'sans-serif'],
+        sans: ['Inter', 'sans-serif'],
       },
       keyframes: {
         "accordion-down": {

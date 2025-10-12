@@ -1,21 +1,22 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getAuthToken, verifyToken } from '@/lib/auth';
+import { getAuthToken, verifyToken } from '@/lib/auth/session';
+import { UserSession } from '@/types/auth';
 
-// Routes that require authentication
+// Các đường dẫn cần đăng nhập để truy cập
 const protectedRoutes = [
-  '/profile',
-  '/cart',
-  '/checkout',
-  '/orders'
+  '/main/profile',
+  '/main/cart',
+  '/main/checkout',
+  '/main/orders'
 ];
 
-// Routes that should redirect to home if user is authenticated
+// Các đường dẫn sẽ chuyển hướng đi nếu đã đăng nhập
 const authRoutes = [
   '/auth/login',
   '/auth/register'
 ];
 
-// Admin routes that require admin role
+// Các đường dẫn yêu cầu quyền admin
 const adminRoutes = [
   '/admin'
 ];
@@ -24,85 +25,76 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const token = getAuthToken(request);
 
-  // Check if route is protected
   const isProtectedRoute = protectedRoutes.some(route => pathname.startsWith(route));
   const isAuthRoute = authRoutes.some(route => pathname.startsWith(route));
   const isAdminRoute = adminRoutes.some(route => pathname.startsWith(route));
 
-  // Handle authentication for protected routes
+  // 1. Xử lý các trang yêu cầu đăng nhập
   if (isProtectedRoute) {
     if (!token) {
-      // Redirect to login with return URL
+      // Nếu không có token, chuyển hướng đến trang đăng nhập với returnUrl
       const loginUrl = new URL('/auth/login', request.url);
       loginUrl.searchParams.set('returnUrl', pathname);
       return NextResponse.redirect(loginUrl);
     }
 
-    // Verify token
     const payload = await verifyToken(token);
     if (!payload) {
-      // Invalid token, clear cookie and redirect to login
+      // Token không hợp lệ, xóa cookie và chuyển hướng về trang đăng nhập
       const response = NextResponse.redirect(new URL('/auth/login', request.url));
       response.cookies.delete('auth-token');
       return response;
     }
-
-    // Add user info to request headers for API routes
-    const requestHeaders = new Headers(request.headers);
-    requestHeaders.set('x-user-id', payload.userId);
-    requestHeaders.set('x-user-role', payload.role_id?.toString() || '');
-
-    return NextResponse.next({
-      request: {
-        headers: requestHeaders,
-      },
-    });
   }
 
-  // Handle admin routes
+  // 2. Xử lý các trang yêu cầu quyền admin
   if (isAdminRoute) {
     if (!token) {
       return NextResponse.redirect(new URL('/auth/login', request.url));
     }
 
-    const payload = await verifyToken(token);
+    const payload = await verifyToken(token) as UserSession; // Ép kiểu để có gợi ý code
     if (!payload) {
       const response = NextResponse.redirect(new URL('/auth/login', request.url));
       response.cookies.delete('auth-token');
       return response;
     }
-
-    // Check if user has admin role (assuming role_id 1 is admin)
+    
+    // Giả sử role_id = 1 là admin
     if (payload.role_id !== 1) {
+      // Nếu không phải admin, chuyển hướng về trang chủ
       return NextResponse.redirect(new URL('/', request.url));
     }
   }
 
-  // Redirect authenticated users away from auth pages
-  if (isAuthRoute && token) {
-    const payload = await verifyToken(token);
-    if (payload) {
-      // Check for return URL
-      const returnUrl = request.nextUrl.searchParams.get('returnUrl');
-      const redirectUrl = returnUrl && returnUrl.startsWith('/') ? returnUrl : '/';
-      return NextResponse.redirect(new URL(redirectUrl, request.url));
+  // 3. Xử lý các trang đăng nhập/đăng ký
+  if (isAuthRoute) {
+    if (token) {
+      const payload = await verifyToken(token);
+      if (payload) {
+        // Nếu đã đăng nhập, chuyển hướng khỏi trang auth
+        const returnUrl = request.nextUrl.searchParams.get('returnUrl');
+        const redirectUrl = returnUrl && returnUrl.startsWith('/') ? returnUrl : '/main'; // Mặc định về /main
+        return NextResponse.redirect(new URL(redirectUrl, request.url));
+      }
     }
   }
 
+  // Nếu không rơi vào các trường hợp trên, cho phép request đi tiếp
   return NextResponse.next();
 }
 
-// Configure which paths the middleware should run on
+// Cấu hình các đường dẫn mà middleware sẽ chạy
 export const config = {
   matcher: [
     /*
      * Match all request paths except for the ones starting with:
      * - api/auth (authentication API routes)
+     * - api/public (các API công khai không cần auth)
      * - _next/static (static files)
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
-     * - public files (public folder)
      */
-    '/((?!api/auth|_next/static|_next/image|favicon.ico|public).*)',
+    '/((?!api/auth|api/public|_next/static|_next/image|favicon.ico).*)',
   ],
 };
