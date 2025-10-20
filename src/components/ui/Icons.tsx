@@ -106,11 +106,9 @@ export const DeliveryIcon = () => (
 );
 
 export const PlusIcon = ({ className }: { className?: string }) => (
-  <svg className={className} width="29" height="30" viewBox="0 0 29 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect x="0.722168" y="1.27783" width="27.4444" height="27.4444" rx="13.7222" fill="#4C9F91"/>
-    <rect x="0.722168" y="1.27783" width="27.4444" height="27.4444" rx="13.7222" stroke="#F8F7F8"/>
-    <path d="M10.2963 15H18.5926" stroke="white" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M14.4443 19.1482V10.8519" stroke="white" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <svg className={className} width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M4 8H12" stroke="#4C9F91" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M8 12V4" stroke="#4C9F91" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
   </svg>
 );
 
@@ -120,6 +118,12 @@ export const MinusIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
+export const PlusIconWhite = ({ className }: { className?: string }) => (
+  <svg className={className} width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M4 8H12" stroke="#ffffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M8 12V4" stroke="#ffffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+);
 
 export const TrashIcon = ({ className }: { className?: string }) => (
   <svg className={className} width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -174,4 +178,62 @@ export const CheckoutIcon = ({ className }: { className?: string }) => (
     <path d="M10.5 16.5049H14.5" stroke="white" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
     <path d="M6.44 3.50488H17.55C21.11 3.50488 22 4.38488 22 7.89488V16.1049C22 19.6149 21.11 20.4949 17.56 20.4949H6.44C2.89 20.5049 2 19.6249 2 16.1149V7.89488C2 4.38488 2.89 3.50488 6.44 3.50488Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
   </svg>
+);
+
+export const PencilIcon = ({ className }: { className?: string }) => (
+  <svg className={className} width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M10.0833 1.83337H8.24992C3.66659 1.83337 1.83325 3.66671 1.83325 8.25004V13.75C1.83325 18.3334 3.66659 20.1667 8.24992 20.1667H13.7499C18.3333 20.1667 20.1666 18.3334 20.1666 13.75V11.9167" stroke="#4C9F91" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M14.7032 2.76832L7.47989 9.99165C7.20489 10.2667 6.92989 10.8075 6.87489 11.2017L6.48072 13.9608C6.33406 14.96 7.03989 15.6567 8.03906 15.5192L10.7982 15.125C11.1832 15.07 11.7241 14.795 12.0082 14.52L19.2316 7.29665C20.4782 6.04999 21.0649 4.60165 19.2316 2.76832C17.3982 0.934987 15.9499 1.52165 14.7032 2.76832Z" stroke="#4C9F91" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M13.6675 3.8042C14.2816 5.99503 15.9958 7.7092 18.1958 8.33253L13.6675 3.8042Z" fill="#4C9F91"/>
+    <path d="M13.6675 3.8042C14.2816 5.99503 15.9958 7.7092 18.1958 8.33253" stroke="#4C9F91" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+);
+
+export const XIcon = ({ className }: { className?: string }) => (
+  <svg className={className} width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M1.00098 1L15 14.9991" stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M0.999964 14.9991L14.999 1" stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+);
+
+export const HomeIcon = ({ className }: { className?: string }) => (
+  <svg className={className} width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M16.5 17.0625H1.5C1.1925 17.0625 0.9375 16.8075 0.9375 16.5C0.9375 16.1925 1.1925 15.9375 1.5 15.9375H16.5C16.8075 15.9375 17.0625 16.1925 17.0625 16.5C17.0625 16.8075 16.8075 17.0625 16.5 17.0625Z" fill="#53A653"/>
+    <path d="M2.77515 16.5H1.65015L1.68765 7.47753C1.68765 6.84003 1.98015 6.24755 2.48265 5.85755L7.73265 1.77004C8.47515 1.19254 9.51765 1.19254 10.2677 1.77004L15.5177 5.85004C16.0127 6.24004 16.3126 6.84753 16.3126 7.47753V16.5H15.1876V7.48504C15.1876 7.20004 15.0526 6.92254 14.8276 6.74254L9.57765 2.66254C9.24015 2.40004 8.76765 2.40004 8.42265 2.66254L3.17265 6.75005C2.94765 6.92255 2.81265 7.20004 2.81265 7.48504L2.77515 16.5Z" fill="#53A653"/>
+    <path d="M12.75 17.0625H5.25C4.9425 17.0625 4.6875 16.8075 4.6875 16.5V9.375C4.6875 8.445 5.445 7.6875 6.375 7.6875H11.625C12.555 7.6875 13.3125 8.445 13.3125 9.375V16.5C13.3125 16.8075 13.0575 17.0625 12.75 17.0625ZM5.8125 15.9375H12.1875V9.375C12.1875 9.0675 11.9325 8.8125 11.625 8.8125H6.375C6.0675 8.8125 5.8125 9.0675 5.8125 9.375V15.9375Z" fill="#53A653"/>
+    <path d="M7.5 13.875C7.1925 13.875 6.9375 13.62 6.9375 13.3125V12.1875C6.9375 11.88 7.1925 11.625 7.5 11.625C7.8075 11.625 8.0625 11.88 8.0625 12.1875V13.3125C8.0625 13.62 7.8075 13.875 7.5 13.875Z" fill="#53A653"/>
+    <path d="M10.125 6.1875H7.875C7.5675 6.1875 7.3125 5.9325 7.3125 5.625C7.3125 5.3175 7.5675 5.0625 7.875 5.0625H10.125C10.4325 5.0625 10.6875 5.3175 10.6875 5.625C10.6875 5.9325 10.4325 6.1875 10.125 6.1875Z" fill="#53A653"/>
+  </svg>
+);
+
+export const OfficeIcon = ({ className }: { className?: string }) => (
+  <svg className={className} width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M16.5 17.0625H1.5C1.1925 17.0625 0.9375 16.8075 0.9375 16.5C0.9375 16.1925 1.1925 15.9375 1.5 15.9375H16.5C16.8075 15.9375 17.0625 16.1925 17.0625 16.5C17.0625 16.8075 16.8075 17.0625 16.5 17.0625Z" fill="#53A653"/>
+    <path d="M2.77515 16.5H1.65015L1.68765 7.47753C1.68765 6.84003 1.98015 6.24755 2.48265 5.85755L7.73265 1.77004C8.47515 1.19254 9.51765 1.19254 10.2677 1.77004L15.5177 5.85004C16.0127 6.24004 16.3126 6.84753 16.3126 7.47753V16.5H15.1876V7.48504C15.1876 7.20004 15.0526 6.92254 14.8276 6.74254L9.57765 2.66254C9.24015 2.40004 8.76765 2.40004 8.42265 2.66254L3.17265 6.75005C2.94765 6.92255 2.81265 7.20004 2.81265 7.48504L2.77515 16.5Z" fill="#53A653"/>
+    <path d="M12.75 17.0625H5.25C4.9425 17.0625 4.6875 16.8075 4.6875 16.5V9.375C4.6875 8.445 5.445 7.6875 6.375 7.6875H11.625C12.555 7.6875 13.3125 8.445 13.3125 9.375V16.5C13.3125 16.8075 13.0575 17.0625 12.75 17.0625ZM5.8125 15.9375H12.1875V9.375C12.1875 9.0675 11.9325 8.8125 11.625 8.8125H6.375C6.0675 8.8125 5.8125 9.0675 5.8125 9.375V15.9375Z" fill="#53A653"/>
+    <path d="M7.5 13.875C7.1925 13.875 6.9375 13.62 6.9375 13.3125V12.1875C6.9375 11.88 7.1925 11.625 7.5 11.625C7.8075 11.625 8.0625 11.88 8.0625 12.1875V13.3125C8.0625 13.62 7.8075 13.875 7.5 13.875Z" fill="#53A653"/>
+    <path d="M10.125 6.1875H7.875C7.5675 6.1875 7.3125 5.9325 7.3125 5.625C7.3125 5.3175 7.5675 5.0625 7.875 5.0625H10.125C10.4325 5.0625 10.6875 5.3175 10.6875 5.625C10.6875 5.9325 10.4325 6.1875 10.125 6.1875Z" fill="#53A653"/>
+  </svg>
+);
+
+export const BuildingIcon = ({ className }: { className?: string }) => (
+    <svg className={className} width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M7.5 17.5V5H2.5V17.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M17.5 17.5V2.5H7.5V17.5H17.5Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M10.625 14.375H14.375" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M10.625 11.25H14.375" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M10.625 8.125H14.375" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+);
+
+export const ChevronLeftIcon = ({ className }: { className?: string }) => (
+    <svg className={className} width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10 12L6 8L10 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+);
+
+export const ChevronDownIcon = ({ className }: { className?: string }) => (
+    <svg className={className} width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M1 1L5 5L9 1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
 );

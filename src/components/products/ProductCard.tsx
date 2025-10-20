@@ -1,32 +1,68 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ROUTES } from '@/lib/utils/routes';
-import { Product, Product_Mock } from '@/types/product';
+import { Product } from '@/types/product';
+import { addToCart } from '@/lib/api/cart';
+import toast from 'react-hot-toast';
 import { HeartIcon, ShoppingCartIcon } from '@/components/ui/Icons';
 import ProductRating from './ProductRating';
 import ProductPrice from './ProductPrice';
+import VariantSelectorModal from './VariantSelectorModal';
 
 interface ProductCardProps {
-  product: Product_Mock;
+  product: Product;
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
-  const { name, slug, price, compare_price, images, stock_quantity, rating = 4 } = product;
+  const { id, name, slug, price, compare_price, images, stock_quantity, variants, rating = 4, review_count } = product;
+  const [isVariantModalOpen, setIsVariantModalOpen] = useState(false);
+  const [isAdding, setIsAdding] = useState(false);
   const productUrl = ROUTES.MAIN.PRODUCTS.DETAIL(slug);
-  const imageUrl = images?.[0] || '/images/default.png';
+  const initialImageUrl = images?.[0] || '/images/default.png';
 
+  const [imageSrc, setImageSrc] = useState(initialImageUrl);
+  const handleImageError = () => {
+    setImageSrc('/images/default.png'); // Chuyển sang ảnh mặc định
+  };
+  
   const salePercentage = compare_price && parseFloat(compare_price) > parseFloat(price)
     ? Math.round(((parseFloat(compare_price) - parseFloat(price)) / parseFloat(compare_price)) * 100)
     : 0;
 
-  const handleAddToCart = (e: React.MouseEvent) => {
-    e.preventDefault();
-    console.log(`Added ${name} to cart`);
-    // Thêm logic thêm vào giỏ hàng ở đây
-  };
+  const handleAddToCart = async (e: React.MouseEvent) => {
+    e.preventDefault();
+
+    const hasVariants = variants && variants.length > 0;
+    const hasMultipleVariants = hasVariants && variants.length > 1;
+
+    // Nếu có nhiều biến thể, mở dialog để người dùng chọn
+    if (hasMultipleVariants) {
+      setIsVariantModalOpen(true);
+    } 
+    // Nếu chỉ có một biến thể, tự động thêm biến thể đó
+    else if (hasVariants) {
+      setIsAdding(true);
+      try {
+        await addToCart({ 
+          variantId: variants[0].id, // Lấy ID của biến thể duy nhất
+          quantity: 1 
+        });
+        toast.success(`Đã thêm "${name}" vào giỏ hàng!`);
+      } catch (error) {
+        toast.error('Không thể thêm sản phẩm. Vui lòng thử lại.');
+      } finally {
+        setIsAdding(false);
+      }
+    }
+    // Trường hợp dự phòng nếu sản phẩm không có biến thể
+    else {
+        toast.error('Sản phẩm này hiện không có sẵn để mua.');
+        console.warn('Attempted to add a product with no variants.', product);
+    }
+  };
 
   const handleToggleWishlist = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -34,14 +70,15 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   };
 
   return (
+    <>
     <Link href={productUrl} className="group w-full max-w-[208px] h-96 relative bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300 flex flex-col">
       <div className="relative w-full h-48 flex-shrink-0">
         <Image
-          src={imageUrl}
+          src={imageSrc}
           alt={name}
-          width={152}
-          height={152}
-          className="w-full h-full object-cover p-4 transition-transform duration-300 group-hover:scale-105"
+          fill
+          onError={handleImageError}
+          className="object-contain p-4 transition-transform duration-300 group-hover:scale-105"
         />
 
         {salePercentage > 0 && (
@@ -82,6 +119,15 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         </div>
       </div>
     </Link>
+    {/* Render Dialog nếu sản phẩm có biến thể */}
+      {product.variants && product.variants.length > 0 && (
+        <VariantSelectorModal 
+          product={product}
+          isOpen={isVariantModalOpen}
+          onClose={() => setIsVariantModalOpen(false)}
+        />
+      )}
+    </>
   );
 };
 

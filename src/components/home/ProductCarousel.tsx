@@ -2,11 +2,11 @@
 
 import { useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import ProductCard from '@/components/products/ProductCard';
-import type { Product, Product_Mock } from '@/types/product';
+import type { Product } from '@/types/product';
+import ProductCard from '../products/ProductCard';
 
 interface Props {
-  products: Product_Mock[];
+  products: Product[];
   title?: string;
 }
 
@@ -49,7 +49,7 @@ export default function ProductSection({ products, title = 'Sản phẩm' }: Pro
           <ChevronLeft className="w-3 h-3" />
         </button>
 
-        <div className="grid grid-cols-7 gap-4">
+        <div className="grid grid-cols-7">
           {products.slice(0, 7).map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}

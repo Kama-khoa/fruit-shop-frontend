@@ -174,3 +174,11 @@ select:focus {
 .bg-plantea-light-green {
   background-color: #dcfce7;
 }
+
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+}
+.scrollbar-hide {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}

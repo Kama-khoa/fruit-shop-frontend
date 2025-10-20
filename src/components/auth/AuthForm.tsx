@@ -32,7 +32,7 @@ export default function AuthForm({ type }: AuthFormProps) {
 
     if (isLogin) {
       try {
-        await login({ email, password });
+        await login({ email, password }, rememberMe);
         console.log('✅ Đăng nhập thành công!');
         navigateTo(ROUTES.MAIN.HOME);
       } catch (err: any) {

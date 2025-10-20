@@ -1,22 +1,13 @@
 import { apiClient } from './client';
 import { API_ROUTES } from '../utils/routes';
-import { User } from '@/types/index';
 import { CustomerAddress } from '@/types/customers';
 import { ApiResponse } from '@/types/api';
 
-type AddressPayload = Omit<CustomerAddress, 'id' | 'customer_id' | 'created_at' | 'updated_at'>;
 /**
- * Lấy thông tin hồ sơ của người dùng hiện tại.
+ * Định nghĩa kiểu dữ liệu cho payload khi tạo hoặc cập nhật một địa chỉ.
+ * Loại bỏ các trường do backend quản lý như id, customer_id, v.v.
  */
-export const getUserProfile = async (): Promise<User> => {
-  try {
-    const response = await apiClient.get<User>(API_ROUTES.USERS.PROFILE);
-    return response.data;
-  } catch (error) {
-    console.error('Lỗi khi lấy thông tin người dùng:', error);
-    throw error;
-  }
-};
+export type AddressPayload = Omit<CustomerAddress, 'id' | 'customer_id' | 'created_at' | 'updated_at'>;
 
 /**
  * READ: Lấy danh sách tất cả địa chỉ của một khách hàng.
@@ -89,4 +80,3 @@ export const deleteUserAddress = async (customerId: number | string, addressId: 
         throw error;
     }
 };
-

@@ -100,7 +100,11 @@ export const API_ROUTES = {
     REGISTER: '/api/v1/auth/register',
     LOGOUT: '/api/v1/auth/logout',
     REFRESH: '/api/v1/auth/refresh',
-    ME: '/api/v1/auth/me',
+  },
+
+  PROFILE: {
+    ME: '/api/v1/profile/me',
+    CHANGE_PASSWORD: '/api/v1/profile/change-password',
   },
   
   // Products API (app/api/products/)
@@ -133,6 +137,12 @@ export const API_ROUTES = {
     LIST: '/api/v1/coupons',
     ITEM: (id: string) => `/api/v1/cart/${id}`,
   },
+
+  LOCATIONS: {
+    PROVINCES: '/api/v1/locations/provinces',
+    DISTRICTS: (provinceId: string) => `/api/v1/locations/districts/${provinceId}`,
+    WARDS: (districtId: string) => `/api/v1/locations/wards/${districtId}`,
+  },
   
   // Orders API (app/api/v1/orders/)
   ORDERS: {
@@ -144,7 +154,7 @@ export const API_ROUTES = {
   
   // Users API (app/api/v1/users/)
   USERS: {
-    PROFILE: '/api/v1/users/profile',
+    PROFILE: '/api/v1/profile/me',
     ADDRESSES: '/api/v1/users/addresses',
     ADDRESS: (id: string) => `/api/v1/users/addresses/${id}`,
     WISHLIST: '/api/v1/users/wishlist',
