@@ -34,7 +34,7 @@ export default async function HomePage() {
 
       {/* Featured Products Section */}
       <ProductCarousel 
-        products={featuredProducts} 
+        products={featuredProducts.data} 
         title="Sản phẩm"
       />
       
@@ -42,7 +42,7 @@ export default async function HomePage() {
 
       {/* Bestseller Products Section */}
       <ProductCarousel 
-        products={bestsellerProducts} 
+        products={bestsellerProducts.data} 
         title="Best Seller"
       />
       

@@ -17,7 +17,9 @@ module.exports = {
     },
     extend: {
       colors: {
-        'bg-Button-Auth': 'rgba(76, 159, 145, 1)', 
+        'Click-on': '#53A653', 
+        'Button-Auth': 'rgba(76, 159, 145, 1)',
+        'Button-Auth-hover': 'rgba(60, 143, 129, 1)',
         'Green-fruit': 'rgba(102, 191, 132, 1)',
         "bg-Xanh-Nav": "#BAFD91",
         border: "hsl(var(--border))",

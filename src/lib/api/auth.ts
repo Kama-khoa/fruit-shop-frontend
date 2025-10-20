@@ -7,6 +7,9 @@ export const loginUser = async (credentials: LoginCredentials): Promise<AuthResp
   const loginData = { email, password };
 
   const response = await apiClient.post<AuthResponse>(API_ROUTES.AUTH.LOGIN, loginData);
+  if (response.data && response.data.token) {
+    localStorage.setItem('access_token', response.data.token);
+  }
   return response.data;
 };
 

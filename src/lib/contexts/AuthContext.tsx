@@ -8,7 +8,8 @@ import React, {
   ReactNode 
 } from 'react';
 
-import { getCurrentUser, loginUser, logoutUser, registerUser } from '../api/auth';
+import { jwtDecode } from 'jwt-decode';
+import { loginUser, logoutUser, registerUser } from '../api/auth';
 import { AuthState, User, LoginCredentials, RegisterCredentials, AuthResponse } from '../../types/auth';
 import { authReducer, initialState } from '@/store/auth/reducer';
 
@@ -16,7 +17,6 @@ interface AuthContextType extends AuthState {
   login: (credentials: LoginCredentials) => Promise<AuthResponse>;
   register: (credentials: RegisterCredentials) => Promise<AuthResponse>;
   logout: () => Promise<void>;
-  refreshUser: () => Promise<void>;
   setError: (error: string | null) => void;
 }
 
@@ -26,30 +26,60 @@ export const AuthContext = createContext<AuthContextType | undefined>(undefined)
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
 
-  useEffect(() => {
-    // Hàm này chạy một lần khi provider được mount để kiểm tra session hiện tại
-    const initializeAuth = async () => {
-      try {
-        // Gọi API để lấy thông tin người dùng dựa trên token trong cookie
-        const response = await getCurrentUser();
-        if (response.success && response.user) {
-          dispatch({ type: 'INITIALIZE', payload: { isAuthenticated: true, user: response.user } });
-        } else {
+  // Sửa 2: Tái cấu trúc lại useEffect để giải mã token ở client
+  useEffect(() => {
+      const initializeAuth = () => {
+      // Tìm token trong cả hai nơi lưu trữ
+      const token = localStorage.getItem('access_token') || sessionStorage.getItem('access_token');
+      // Tìm thông tin người dùng đã lưu
+      const storedUser = localStorage.getItem('user') || sessionStorage.getItem('user');
+
+      if (token && storedUser) {
+        try {
+          const decodedToken: { exp: number } = jwtDecode(token);
+          
+          // Kiểm tra xem token đã hết hạn chưa
+          // Date.now() trả về milliseconds, exp là seconds, nên cần * 1000
+          if (decodedToken.exp * 1000 > Date.now()) {
+            // Nếu token hợp lệ, khôi phục session
+            const user: User = JSON.parse(storedUser);
+            dispatch({ type: 'INITIALIZE', payload: { isAuthenticated: true, user: user } });
+          } else {
+            // Nếu token hết hạn, xóa nó đi
+            localStorage.removeItem('access_token');
+            localStorage.removeItem('user');
+            sessionStorage.removeItem('access_token');
+            sessionStorage.removeItem('user');
+            dispatch({ type: 'INITIALIZE', payload: { isAuthenticated: false, user: null } });
+          }
+        } catch (error) {
+          // Nếu token không hợp lệ, xóa đi
+          console.error("Token không hợp lệ:", error);
+          localStorage.removeItem('access_token');
+          localStorage.removeItem('user');
+          sessionStorage.removeItem('access_token');
+          sessionStorage.removeItem('user');
           dispatch({ type: 'INITIALIZE', payload: { isAuthenticated: false, user: null } });
         }
-      } catch (error) {
+      } else {
+        // Nếu không có token, khởi tạo trạng thái chưa đăng nhập
         dispatch({ type: 'INITIALIZE', payload: { isAuthenticated: false, user: null } });
       }
-    };
-    initializeAuth();
-  }, []);
+    };
+    initializeAuth();
+  }, []);
+
 
   // --- AUTH FUNCTIONS ---
-  const login = async (credentials: LoginCredentials): Promise<AuthResponse> => {
+  const login = async (credentials: LoginCredentials, rememberMe: boolean = false): Promise<AuthResponse> => {
     dispatch({ type: 'SET_LOADING', payload: true });
     try {
       const response = await loginUser(credentials);
       if (response.success && response.user) {
+        const storage = rememberMe ? localStorage : sessionStorage;
+        if (response.token) {
+          storage.setItem('access_token', response.token);
+        }
         dispatch({ type: 'LOGIN_SUCCESS', payload: response.user });
       } else {
         throw new Error(response.message);
@@ -83,21 +113,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       console.error('API Logout error:', error);
     } finally {
       // Dù API có lỗi hay không, vẫn xóa state ở client
+      localStorage.removeItem('access_token');
+      sessionStorage.removeItem('access_token');
       dispatch({ type: 'LOGOUT_SUCCESS' });
-    }
-  };
-
-  const refreshUser = async () => {
-    try {
-      dispatch({ type: 'SET_LOADING', payload: true });
-      const response = await getCurrentUser();
-      if (response.success && response.user) {
-        dispatch({ type: 'LOGIN_SUCCESS', payload: response.user });
-      } else {
-        await logout();
-      }
-    } catch (error) {
-      await logout();
     }
   };
 
@@ -110,7 +128,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     login, 
     register,
     logout, 
-    refreshUser,
     setError, 
   };
 

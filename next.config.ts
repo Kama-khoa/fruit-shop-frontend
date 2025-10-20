@@ -18,6 +18,12 @@ const nextConfig = {
         port: '',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com', // Thêm hostname của Cloudinary
+        port: '',
+        pathname: '/**', // Cho phép tất cả các đường dẫn con
+      },
     ],
   },
   env: {

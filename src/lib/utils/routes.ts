@@ -120,7 +120,6 @@ export const API_ROUTES = {
   CATEGORIES: {
     LIST: '/api/v1/categories',
     DETAIL: (id: string) => `/api/v1/categories/${id}`,
-    PRODUCTS: (id: string) => `/api/v1/categories/${id}/products`,
   },
   
   // Cart API (app/api/v1/cart/)
@@ -128,6 +127,11 @@ export const API_ROUTES = {
     BASE: '/api/v1/cart',
     ITEM: (id: string) => `/api/v1/cart/${id}`,
     CLEAR: '/api/v1/cart/clear',
+  },
+
+  COUPONS: {
+    LIST: '/api/v1/coupons',
+    ITEM: (id: string) => `/api/v1/cart/${id}`,
   },
   
   // Orders API (app/api/v1/orders/)
@@ -145,6 +149,11 @@ export const API_ROUTES = {
     ADDRESS: (id: string) => `/api/v1/users/addresses/${id}`,
     WISHLIST: '/api/v1/users/wishlist',
     WISHLIST_ITEM: (productId: string) => `/api/v1/users/wishlist/${productId}`,
+  },
+
+  CUSTOMERS: {
+    ADDRESSES: (customerId: number | string) => `/api/v1/customers/${customerId}/addresses`,
+    ADDRESS_DETAIL: (customerId: number | string, addressId: number | string) => `/api/v1/customers/${customerId}/addresses/${addressId}`,
   },
   
   // Reviews API (app/api/v1/reviews/)
