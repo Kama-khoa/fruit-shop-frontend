@@ -11,7 +11,7 @@ interface AddressItemProps {
 }
 
 const AddressItem: React.FC<AddressItemProps> = ({ address, isSelected, onSelect, onEdit }) => {
-  const fullAddress = `${address.address}, ${address.ward_code}, ${address.district_code}, ${address.province_code}`;
+  const fullAddress = `${address.address}, ${address.ward_name}, ${address.district_name}, ${address.province_name}`;
 
   const handleEditClick = (e: React.MouseEvent) => {
     e.stopPropagation(); // Ngăn không cho sự kiện click lan ra ngoài và kích hoạt onSelect
@@ -40,7 +40,11 @@ const AddressItem: React.FC<AddressItemProps> = ({ address, isSelected, onSelect
       
       {/* Address Info */}
       <div className="flex-1">
-        <p className="font-semibold text-gray-900">{address.name}</p>
+        <div className="flex items-baseline gap-2">
+          <p className="font-semibold text-gray-900">{address.name}</p>
+          <span className="text-gray-300">-</span>
+          <p className="text-sm text-gray-600">{address.phone}</p>
+        </div>
         <p className="text-sm text-gray-600">{fullAddress}</p>
       </div>
 

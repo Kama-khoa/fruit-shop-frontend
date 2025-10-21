@@ -23,7 +23,7 @@ export default function CartPage() {
     const refetchAddresses = useCallback(async () => {
         if (user && user.customer_id) {
             try {
-                const addressData = await getUserAddresses(user.customer_id);
+                const addressData = await getUserAddresses();
                 setAddresses(addressData || []);
             } catch (error) {
                 console.error("Lỗi khi tải lại địa chỉ:", error);
@@ -38,7 +38,7 @@ export default function CartPage() {
                 try {
                     const [cartData, addressData, couponData] = await Promise.all([
                         getCart(),
-                        user.customer_id ? getUserAddresses(user.customer_id) : Promise.resolve([]),
+                        getUserAddresses(),
                         getAllCoupons()
                     ]);
 

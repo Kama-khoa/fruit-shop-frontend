@@ -14,14 +14,14 @@ export type AddressPayload = Omit<CustomerAddress, 'id' | 'customer_id' | 'creat
  * @param customerId - ID của khách hàng.
  * @returns Một mảng các đối tượng CustomerAddress.
  */
-export const getUserAddresses = async (customerId: number | string): Promise<CustomerAddress[]> => {
+export const getUserAddresses = async (): Promise<CustomerAddress[]> => {
     try {
         const response = await apiClient.get<CustomerAddress[]>(
-            API_ROUTES.CUSTOMERS.ADDRESSES(customerId)
+            API_ROUTES.CUSTOMERS.ADDRESSES
         );
         return response.data || [];
     } catch (error) {
-        console.error(`Lỗi khi lấy danh sách địa chỉ cho khách hàng ${customerId}:`, error);
+        console.error(`Lỗi khi lấy danh sách địa chỉ cho khách hàng :`, error);
         throw error;
     }
 };
@@ -32,15 +32,15 @@ export const getUserAddresses = async (customerId: number | string): Promise<Cus
  * @param addressData - Dữ liệu của địa chỉ mới.
  * @returns Đối tượng CustomerAddress vừa được tạo.
  */
-export const addUserAddress = async (customerId: number | string, addressData: AddressPayload): Promise<CustomerAddress> => {
+export const addUserAddress = async ( addressData: AddressPayload): Promise<CustomerAddress> => {
     try {
         const response = await apiClient.post<CustomerAddress>(
-            API_ROUTES.CUSTOMERS.ADDRESSES(customerId), 
+            API_ROUTES.CUSTOMERS.ADDRESSES, 
             addressData
         );
         return response.data;
     } catch (error) {
-        console.error(`Lỗi khi thêm địa chỉ cho khách hàng ${customerId}:`, error);
+        console.error(`Lỗi khi thêm địa chỉ cho khách hàng`, error);
         throw error;
     }
 };
@@ -52,10 +52,10 @@ export const addUserAddress = async (customerId: number | string, addressData: A
  * @param addressData - Dữ liệu cần cập nhật (có thể chỉ là một phần).
  * @returns Đối tượng CustomerAddress đã được cập nhật.
  */
-export const updateUserAddress = async (customerId: number | string, addressId: number | string, addressData: Partial<AddressPayload>): Promise<CustomerAddress> => {
+export const updateUserAddress = async ( addressId: number | string, addressData: Partial<AddressPayload>): Promise<CustomerAddress> => {
     try {
         const response = await apiClient.patch<CustomerAddress>(
-            API_ROUTES.CUSTOMERS.ADDRESS_DETAIL(customerId, addressId),
+            API_ROUTES.CUSTOMERS.ADDRESS_DETAIL(addressId),
             addressData
         );
         return response.data;
@@ -71,9 +71,9 @@ export const updateUserAddress = async (customerId: number | string, addressId: 
  * @param addressId - ID của địa chỉ cần xóa.
  * @returns Một thông báo xác nhận từ API.
  */
-export const deleteUserAddress = async (customerId: number | string, addressId: number | string): Promise<{ message: string }> => {
+export const deleteUserAddress = async ( addressId: number | string): Promise<{ message: string }> => {
     try {
-        const response = await apiClient.delete(API_ROUTES.CUSTOMERS.ADDRESS_DETAIL(customerId, addressId));
+        const response = await apiClient.delete(API_ROUTES.CUSTOMERS.ADDRESS_DETAIL(addressId));
         return response.data;
     } catch (error) {
         console.error(`Lỗi khi xóa địa chỉ ${addressId}:`, error);

@@ -1,6 +1,6 @@
 'use client';
 
-import { PlusIcon, MinusIcon, TrashIcon } from '@/components/ui/Icons';
+import { PlusIcon, MinusIcon, TrashIcon, PlusIconWhite } from '@/components/ui/Icons';
 
 interface QuantitySelectorProps {
   quantity: number;
@@ -28,7 +28,7 @@ const QuantitySelector: React.FC<QuantitySelectorProps> = ({ quantity, onIncreas
         disabled={disabled}
         className="w-7 h-7 flex items-center justify-center bg-green-600 rounded-full hover:bg-green-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        <PlusIcon className="w-4 h-4 text-white" />
+        <PlusIconWhite className="w-4 h-4 text-white" />
       </button>
     </div>
   );

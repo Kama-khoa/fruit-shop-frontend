@@ -162,8 +162,8 @@ export const API_ROUTES = {
   },
 
   CUSTOMERS: {
-    ADDRESSES: (customerId: number | string) => `/api/v1/customers/${customerId}/addresses`,
-    ADDRESS_DETAIL: (customerId: number | string, addressId: number | string) => `/api/v1/customers/${customerId}/addresses/${addressId}`,
+    ADDRESSES: `/api/v1/customers/addresses`,
+    ADDRESS_DETAIL: (addressId: number | string) => `/api/v1/customers/addresses/${addressId}`,
   },
   
   // Reviews API (app/api/v1/reviews/)

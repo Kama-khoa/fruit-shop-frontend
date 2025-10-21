@@ -11,8 +11,8 @@ interface AddressModalProps {
   onClose: () => void;
   addresses: CustomerAddress[];
   selectedAddressId: number | null;
-  onSelectAddress: (addressId: number | string ) => void;
-  // onAddressUpdate: () => void; 
+  onSelectAddress: (addressId: number) => void;
+  onAddressUpdate: () => void; // Thêm prop mới để trigger refetch
 }
 
 const AddressModal: React.FC<AddressModalProps> = ({ 
@@ -21,7 +21,7 @@ const AddressModal: React.FC<AddressModalProps> = ({
     addresses, 
     selectedAddressId, 
     onSelectAddress, 
-    // onAddressUpdate
+    onAddressUpdate
 }) => {
   const [view, setView] = useState<'list' | 'form'>('list');
   const [editingAddress, setEditingAddress] = useState<CustomerAddress | null>(null);
@@ -36,7 +36,7 @@ const AddressModal: React.FC<AddressModalProps> = ({
   const handleBackToList = () => {
     setView('list');
     setEditingAddress(null);
-    // onAddressUpdate();
+    onAddressUpdate();
   };
   
   // Thay đổi kích thước dialog dựa trên view

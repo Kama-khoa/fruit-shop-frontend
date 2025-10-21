@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { CustomerAddress } from '@/types/customers';
 import { TruckIcon, MapPinIcon, CalendarIcon, ChevronRightIcon } from '@/components/ui/Icons';
 import AddressModal from './AddressModal';
@@ -13,11 +13,28 @@ interface DeliveryDetailsProps {
 const DeliveryDetails: React.FC<DeliveryDetailsProps> = ({ addresses, onAddressUpdate }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const defaultAddress = addresses.find(addr => addr.is_default) || addresses[0];
-    const [selectedAddress, setSelectedAddress] = useState<CustomerAddress | undefined>(defaultAddress);
+    const findDefaultAddress = (addrs: CustomerAddress[]) => addrs.find(addr => addr.is_default) || addrs[0];
+    const [selectedAddress, setSelectedAddress] = useState<CustomerAddress | undefined>(findDefaultAddress(addresses));
+    
 
-    const handleSelectAddress = (address: CustomerAddress) => {
-        setSelectedAddress(address);
-        setIsModalOpen(false);
+    useEffect(() => {
+        // If an address was previously selected, find its updated version in the new array.
+        if (selectedAddress) {
+            const updatedSelectedAddress = addresses.find(addr => addr.id === selectedAddress.id);
+            setSelectedAddress(updatedSelectedAddress || findDefaultAddress(addresses));
+        } else {
+            // If no address was selected, set a new default.
+            setSelectedAddress(findDefaultAddress(addresses));
+        }
+    }, [addresses]);
+
+    const handleSelectAddress = (addressId: number) => {
+        const newSelectedAddress = addresses.find(addr => addr.id === addressId);
+        if (newSelectedAddress) {
+            setSelectedAddress(newSelectedAddress);
+        }
+        // Có thể đóng modal sau khi chọn, tùy vào UX bạn muốn
+        setIsModalOpen(false); 
     };
 
     return (
@@ -31,7 +48,7 @@ const DeliveryDetails: React.FC<DeliveryDetailsProps> = ({ addresses, onAddressU
                     <button onClick={() => setIsModalOpen(true)} className="flex items-center gap-2 text-left">
                         <MapPinIcon className="w-4 h-4" />
                         <span className="text-green-600 text-base font-medium font-['IBM_Plex_Serif']">
-                            {selectedAddress ? `${selectedAddress.address}, ${selectedAddress.ward_code}, ${selectedAddress.district_code}, ${selectedAddress.province_code}` : 'Vui lòng chọn địa chỉ'}
+                            {selectedAddress ? `${selectedAddress.name} - ${selectedAddress.phone} | ${selectedAddress.address}, ${selectedAddress.ward_name}, ${selectedAddress.district_name}, ${selectedAddress.province_name}` : 'Vui lòng chọn địa chỉ'}
                         </span>
                         <ChevronRightIcon className="w-4 h-4 text-green-600" />
                     </button>
@@ -44,6 +61,7 @@ const DeliveryDetails: React.FC<DeliveryDetailsProps> = ({ addresses, onAddressU
                 addresses={addresses}
                 selectedAddressId={selectedAddress?.id || null}
                 onSelectAddress={handleSelectAddress}
+                onAddressUpdate={onAddressUpdate}
             />
         </>
     );
