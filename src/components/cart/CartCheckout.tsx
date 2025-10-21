@@ -1,34 +1,77 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Coupon } from '@/types/index';
 import { CartItem } from '@/types/cart';
 import { CheckoutIcon, PlusIcon } from '@/components/ui/Icons';
 import CouponModal from '@/components/promotions/CouponModal';
+import { CustomerAddress } from '@/types/customers';
+import { ShippingItem } from '@/types/shipping';
+import { calculateShippingFee } from '@/lib/api/shipping';
 
 interface CartCheckoutProps {
   items: CartItem[];
   coupons: Coupon[];
+  selectedAddress: CustomerAddress | undefined;
 }
 
-const formatCurrency = (amount: number) => {
+const formatCurrency = (amount: number | null) => {
+    if (amount === null) return '...';
     return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
 };
 
-const CartCheckout: React.FC<CartCheckoutProps> = ({ items, coupons }) => {
+const CartCheckout: React.FC<CartCheckoutProps> = ({ items, coupons, selectedAddress }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [appliedCoupon, setAppliedCoupon] = useState<Coupon | null>(null);
+    const [shippingFee, setShippingFee] = useState<number | null>(null);
+    const [isCalculatingFee, setIsCalculatingFee] = useState(false);
+
+    useEffect(() => {
+        if (selectedAddress && items.length > 0) {
+            const calculateFee = async () => {
+                setIsCalculatingFee(true);
+                setShippingFee(null); // Reset
+                try {
+                    const shippingItems: ShippingItem[] = items.map(item => ({
+                        variant_id: item.variant.id,
+                        quantity: item.quantity,
+                        price: item.variant.price,
+                        // weight: item.variant.weight,
+                        weight: 200,
+                    }));
+
+                    const payload = {
+                        carrierCode: 'ghn',
+                        to_district_id: selectedAddress.district_code,
+                        to_ward_code: selectedAddress.ward_code,
+                        items: shippingItems,
+                    };
+                    
+                    const response = await calculateShippingFee(payload);
+                    if (response) {
+                        setShippingFee(response[0].fee);
+                    } else {
+                        setShippingFee(0);
+                    }
+
+                } catch (error) {
+                    console.error("Lỗi khi tính phí vận chuyển:", error);
+                    setShippingFee(0);
+                } finally {
+                    setIsCalculatingFee(false);
+                }
+            };
+            calculateFee();
+        }
+    }, [items, selectedAddress]);
 
     const subtotal = useMemo(() => 
         items
             .filter(item => item.variant) // Filter out items with undefined products
             .reduce((total, item) => 
-                total + ((item.variant?.price || 0) * item.quantity)
+                total + ((item.variant?.price) * item.quantity)
             , 0),
     [items]);
-    
-    // Giả sử phí vận chuyển là cố định
-    const shippingFee = 30000;
 
     const discountAmount = useMemo(() => {
         if (!appliedCoupon) return 0;
@@ -38,7 +81,7 @@ const CartCheckout: React.FC<CartCheckoutProps> = ({ items, coupons }) => {
         return appliedCoupon.value;
     }, [appliedCoupon, subtotal]);
 
-    const total = subtotal + shippingFee - discountAmount;
+    const total = shippingFee !== null ? subtotal + shippingFee - discountAmount : subtotal - discountAmount;
 
   return (
     <>
@@ -53,7 +96,7 @@ const CartCheckout: React.FC<CartCheckoutProps> = ({ items, coupons }) => {
                     </div>
                     <div className="flex justify-between">
                         <span className="text-gray-700">Phí vận chuyển</span>
-                        <span>{formatCurrency(shippingFee)}</span>
+                        <span>{isCalculatingFee ? 'Đang tính...' : formatCurrency(shippingFee)}</span>
                     </div>
                      {appliedCoupon && (
                         <div className="flex justify-between text-green-600">

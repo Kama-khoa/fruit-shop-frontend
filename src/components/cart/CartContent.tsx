@@ -1,36 +1,28 @@
 'use client';
 
-import { useState } from 'react';
 import { CustomerAddress } from '@/types/customers';
 import { CartItem as CartItemType } from '@/types/cart';
 import CartItem from './CartItem';
 import DeliveryDetails from '@/components/address/DeliveryDetails';
-import { updateCartItemQuantity, removeCartItem } from '@/lib/api/cart';
-
 interface CartContentProps {
-  initialItems: CartItemType[];
+  items: CartItemType[];
   addresses: CustomerAddress[];
+  selectedAddress: CustomerAddress | undefined;
+  onSelectAddress: (address: CustomerAddress) => void;
+  onUpdateQuantity: (itemId: number, newQuantity: number) => Promise<void>;
+  onRemoveItem: (itemId: number) => Promise<void>;
   onAddressUpdate: () => void;
 }
 
-const CartContent: React.FC<CartContentProps> = ({ initialItems, addresses, onAddressUpdate }) => {
-  const [items, setItems] = useState(initialItems);
-
-  const handleUpdateQuantity = async (itemId: number, newQuantity: number) => {
-    await updateCartItemQuantity(itemId, newQuantity);
-    setItems(prevItems => 
-      prevItems.map(item => parseFloat(item.id) === itemId ? { ...item, quantity: newQuantity } : item)
-    );
-  };
-
-  const handleRemoveItem = async (itemId: number) => {
-    await removeCartItem(itemId);
-    setItems(prevItems => prevItems.filter(item => parseFloat(item.id) !== itemId));
-  };
-
+const CartContent: React.FC<CartContentProps> = ({ items, addresses, selectedAddress, onSelectAddress, onUpdateQuantity, onRemoveItem, onAddressUpdate }) => {
   return (
     <div className="w-full flex flex-col gap-6">
-      <DeliveryDetails addresses={addresses} onAddressUpdate={onAddressUpdate} />
+      <DeliveryDetails 
+        addresses={addresses} 
+        selectedAddress={selectedAddress}
+        onSelectAddress={onSelectAddress}
+        onAddressUpdate={onAddressUpdate} 
+      />
 
       <div className="w-full p-6 bg-white rounded-2xl border border-gray-100">
         <h3 className="text-sm font-semibold font-['IBM_Plex_Serif'] text-gray-500 mb-2">Sản phẩm trong giỏ hàng ({items.length})</h3>
@@ -39,8 +31,8 @@ const CartContent: React.FC<CartContentProps> = ({ initialItems, addresses, onAd
             <CartItem 
               key={item.id}
               item={item}
-              onUpdateQuantity={handleUpdateQuantity}
-              onRemoveItem={handleRemoveItem}
+              onUpdateQuantity={onUpdateQuantity}
+              onRemoveItem={onRemoveItem}
             />
           ))
         ) : (

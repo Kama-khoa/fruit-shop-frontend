@@ -137,10 +137,12 @@ export const TrashIcon = ({ className }: { className?: string }) => (
 
 export const TruckIcon = ({ className }: { className?: string }) => (
     <svg className={className} width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M2.47339 2.47363H4.62528C5.96093 2.47363 7.01214 3.62378 6.90083 4.94706L5.87436 17.2647C5.70122 19.2806 7.29657 21.012 9.32478 21.012H22.4958C24.2767 21.012 25.8349 19.5527 25.971 17.7842L26.6388 8.50881C26.7872 6.45586 25.2289 4.78628 23.1636 4.78628H7.19765" stroke="#66BF84" stroke-width="1.85507" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-      <path d="M20.0967 27.2075C20.9504 27.2075 21.6426 26.5154 21.6426 25.6616C21.6426 24.8078 20.9504 24.1157 20.0967 24.1157C19.2429 24.1157 18.5508 24.8078 18.5508 25.6616C18.5508 26.5154 19.2429 27.2075 20.0967 27.2075Z" stroke="#66BF84" stroke-width="1.85507" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-      <path d="M10.2029 27.2075C11.0566 27.2075 11.7488 26.5154 11.7488 25.6616C11.7488 24.8078 11.0566 24.1157 10.2029 24.1157C9.3491 24.1157 8.65698 24.8078 8.65698 25.6616C8.65698 26.5154 9.3491 27.2075 10.2029 27.2075Z" stroke="#66BF84" stroke-width="1.85507" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-      <path d="M11.1305 9.89355H25.9711" stroke="#66BF84" stroke-width="1.85507" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M25.625 10.3125H21.25V5C21.25 4.60478 21.092 4.22597 20.8107 3.94467C20.5294 3.66337 20.1506 3.5 19.75 3.5H5C4.60478 3.5 4.22597 3.66337 3.94467 3.94467C3.66337 4.22597 3.5 4.60478 3.5 5V21.25C3.5 21.6452 3.66337 22.024 3.94467 22.3053C4.22597 22.5866 4.60478 22.75 5 22.75H7.1875" stroke="#16A34A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M10.3125 26.25C12.1528 26.25 13.6562 24.7466 13.6562 22.9062C13.6562 21.0659 12.1528 19.5625 10.3125 19.5625C8.47217 19.5625 6.96875 21.0659 6.96875 22.9062C6.96875 24.7466 8.47217 26.25 10.3125 26.25Z" stroke="#16A34A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M22.9062 26.25C24.7466 26.25 26.25 24.7466 26.25 22.9062C26.25 21.0659 24.7466 19.5625 22.9062 19.5625C21.0659 19.5625 19.5625 21.0659 19.5625 22.9062C19.5625 24.7466 21.0659 26.25 22.9062 26.25Z" stroke="#16A34A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M13.6562 22.9062H19.5625" stroke="#16A34A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M21.25 10.3125H10.3125" stroke="#16A34A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M21.25 10.3125L26.25 16.25H21.25V10.3125Z" stroke="#16A34A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
     </svg>
 );
 

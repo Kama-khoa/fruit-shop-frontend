@@ -39,8 +39,8 @@ export const getCart = async (): Promise<Cart> => {
  */
 export const addToCart = async (payload: AddToCartPayload): Promise<CartItem> => {
   try {
-    const response = await apiClient.post<ApiResponse<CartItem>>(API_ROUTES.CART.BASE, payload);
-    return response.data.data;
+    const response = await apiClient.post<CartItem>(API_ROUTES.CART.BASE, payload);
+    return response.data;
   } catch (error) {
     console.error('Lỗi khi thêm sản phẩm vào giỏ hàng:', error);
     throw error;
@@ -55,8 +55,8 @@ export const addToCart = async (payload: AddToCartPayload): Promise<CartItem> =>
  */
 export const updateCartItemQuantity = async (itemId: number, quantity: number): Promise<CartItem> => {
   try {
-    const response = await apiClient.patch<ApiResponse<CartItem>>(API_ROUTES.CART.ITEM(itemId.toString()), { quantity });
-    return response.data.data;
+    const response = await apiClient.patch<CartItem>(API_ROUTES.CART.ITEM(itemId.toString()), { quantity });
+    return response.data;
   } catch (error) {
     console.error(`Lỗi khi cập nhật số lượng cho sản phẩm ${itemId}:`, error);
     throw error;

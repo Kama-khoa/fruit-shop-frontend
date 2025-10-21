@@ -28,7 +28,7 @@ export const getUserAddresses = async (): Promise<CustomerAddress[]> => {
         const response = await apiClient.get<CustomerAddress[]>(
             API_ROUTES.CUSTOMERS.ADDRESSES
         );
-        return response.data || [];
+        return response.data;
     } catch (error) {
         console.error(`Lỗi khi lấy danh sách địa chỉ cho khách hàng :`, error);
         throw error;

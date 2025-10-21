@@ -25,10 +25,13 @@ const AddressEditor: React.FC<AddressEditorProps> = ({ initialData, onSuccess, o
   const [formData, setFormData] = useState({
     name: initialData?.name || '',
     phone: initialData?.phone || '',
-    province_code: initialData?.province_code || '',
-    district_code: initialData?.district_code || '',
-    ward_code: initialData?.ward_code || '',
-    address: initialData?.address || '',
+    province_code: initialData?.province_code,
+    province_name: initialData?.province_name,
+    district_code: initialData?.district_code,
+    district_name: initialData?.district_name,
+    ward_code: initialData?.ward_code,
+    ward_name: initialData?.ward_name,
+    address: initialData?.address,
     is_default: initialData?.is_default || false,
   });
   
@@ -37,6 +40,18 @@ const AddressEditor: React.FC<AddressEditorProps> = ({ initialData, onSuccess, o
   const [wards, setWards] = useState<Ward[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+  const addressPayload = {
+      name: formData.name,
+      phone: formData.phone,
+      province_code: formData.province_code || '',
+      province_name: formData.province_name || '',
+      district_code: formData.district_code || '',
+      district_name: formData.district_name || '',
+      ward_code: formData.ward_code || '',
+      ward_name: formData.ward_name || '',
+      address: formData.address || '',
+      is_default: formData.is_default
+  };
 
   useEffect(() => {
     const loadInitialData = async () => {
@@ -89,13 +104,14 @@ const AddressEditor: React.FC<AddressEditorProps> = ({ initialData, onSuccess, o
 
     setIsLoading(true);
     try {
+
         if (isEditing && initialData) {
-          console.log('Updating address with data:', formData);
-            await updateUserAddress(initialData.id, formData);
+          console.log('Updating address with data:', addressPayload);
+            await updateUserAddress(initialData.id, addressPayload);
             toast.success("Cập nhật địa chỉ thành công!");
         } else {
-          console.log('Updating address with data:', formData);
-            await addUserAddress(formData);
+          console.log('Updating address with data:', addressPayload);
+            await addUserAddress(addressPayload);
             toast.success("Thêm địa chỉ mới thành công!");
         }
         onSuccess();
@@ -162,7 +178,7 @@ const AddressEditor: React.FC<AddressEditorProps> = ({ initialData, onSuccess, o
                         <label className="text-black text-sm font-semibold font-['Inter'] leading-tight">Thành phố</label>
                         <CustomSelect
                             options={provinces.map(p => ({ value: p.code, label: p.name }))}
-                            value={formData.province_code}
+                            value={addressPayload.province_code}
                             onChange={(value) => handleSelectChange('province_code', value)}
                             placeholder="Chọn thành phố"
                         />
@@ -171,7 +187,7 @@ const AddressEditor: React.FC<AddressEditorProps> = ({ initialData, onSuccess, o
                         <label className="text-black text-sm font-semibold font-['Inter'] leading-tight">Quận/Huyện</label>
                         <CustomSelect
                             options={districts.map(d => ({ value: d.code, label: d.name }))}
-                            value={formData.district_code}
+                            value={addressPayload.district_code}
                             onChange={(value) => handleSelectChange('district_code', value)}
                             placeholder="Chọn quận/huyện"
                             disabled={!formData.province_code}
@@ -181,7 +197,7 @@ const AddressEditor: React.FC<AddressEditorProps> = ({ initialData, onSuccess, o
                         <label className="text-black text-sm font-semibold font-['Inter'] leading-tight">Phường/Xã</label>
                         <CustomSelect
                             options={wards.map(w => ({ value: w.code, label: w.name }))}
-                            value={formData.ward_code}
+                            value={addressPayload.ward_code}
                             onChange={(value) => handleSelectChange('ward_code', value)}
                             placeholder="Chọn phường/xã"
                             disabled={!formData.district_code}

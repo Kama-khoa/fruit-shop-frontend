@@ -7,31 +7,20 @@ import AddressModal from './AddressModal';
 
 interface DeliveryDetailsProps {
     addresses: CustomerAddress[];
+    selectedAddress: CustomerAddress | undefined;
+    onSelectAddress: (address: CustomerAddress) => void;
     onAddressUpdate: () => void;
 }
 
-const DeliveryDetails: React.FC<DeliveryDetailsProps> = ({ addresses, onAddressUpdate }) => {
+const DeliveryDetails: React.FC<DeliveryDetailsProps> = ({ addresses, selectedAddress, onSelectAddress, onAddressUpdate }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const defaultAddress = addresses.find(addr => addr.is_default) || addresses[0];
     const findDefaultAddress = (addrs: CustomerAddress[]) => addrs.find(addr => addr.is_default) || addrs[0];
-    const [selectedAddress, setSelectedAddress] = useState<CustomerAddress | undefined>(findDefaultAddress(addresses));
-    
 
-    useEffect(() => {
-        // If an address was previously selected, find its updated version in the new array.
-        if (selectedAddress) {
-            const updatedSelectedAddress = addresses.find(addr => addr.id === selectedAddress.id);
-            setSelectedAddress(updatedSelectedAddress || findDefaultAddress(addresses));
-        } else {
-            // If no address was selected, set a new default.
-            setSelectedAddress(findDefaultAddress(addresses));
-        }
-    }, [addresses]);
-
-    const handleSelectAddress = (addressId: number) => {
+    const handleSelectAndClose = (addressId: number) => {
         const newSelectedAddress = addresses.find(addr => addr.id === addressId);
         if (newSelectedAddress) {
-            setSelectedAddress(newSelectedAddress);
+            onSelectAddress(newSelectedAddress);
         }
         // Có thể đóng modal sau khi chọn, tùy vào UX bạn muốn
         setIsModalOpen(false); 
@@ -60,7 +49,7 @@ const DeliveryDetails: React.FC<DeliveryDetailsProps> = ({ addresses, onAddressU
                 onClose={() => setIsModalOpen(false)}
                 addresses={addresses}
                 selectedAddressId={selectedAddress?.id || null}
-                onSelectAddress={handleSelectAddress}
+                onSelectAddress={handleSelectAndClose}
                 onAddressUpdate={onAddressUpdate}
             />
         </>
