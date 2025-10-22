@@ -6,6 +6,7 @@ import { resetPassword } from '@/lib/api/auth';
 import { ROUTES } from '@/lib/utils/routes';
 import { EyeIcon, EyeOffIcon } from '@/components/ui/Icons';
 import toast from 'react-hot-toast';
+import axios from 'axios';
 
 function ResetPasswordFormComponent() {
     const router = useRouter();
@@ -41,8 +42,10 @@ function ResetPasswordFormComponent() {
             const response = await resetPassword({ token, password });
             toast.success(response.message || "Mật khẩu đã được cập nhật thành công!");
             router.push(ROUTES.AUTH.LOGIN);
-        } catch (error: any) {
-            toast.error(error.response?.data?.message || "Đã xảy ra lỗi. Vui lòng thử lại.");
+        } catch (error: unknown) {
+            if (axios.isAxiosError(error)) {
+                toast.error(error.response?.data?.message || "Đã xảy ra lỗi. Vui lòng thử lại.");
+            }
         } finally {
             setIsLoading(false);
         }

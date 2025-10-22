@@ -4,7 +4,6 @@ import React, {
   createContext,
   useReducer,
   useEffect,
-  useContext,
   ReactNode,
 } from "react";
 import { jwtDecode } from "jwt-decode";
@@ -17,6 +16,7 @@ import {
   AuthResponse,
 } from "@/types/auth";
 import { authReducer, initialState } from "@/store/auth/reducer";
+import axios from "axios";
 
 interface AuthContextType extends AuthState {
   login: (
@@ -99,11 +99,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         throw new Error(response.message);
       }
       return response;
-    } catch (error: any) {
-      dispatch({
-        type: "SET_ERROR",
-        payload: error.message || "Lỗi đăng nhập",
-      });
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        dispatch({
+          type: "SET_ERROR",
+          payload: error.message || "Lỗi đăng nhập",
+        });
+      }
       throw error;
     }
   };
@@ -118,8 +120,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       }
       dispatch({ type: "SET_LOADING", payload: false });
       return response;
-    } catch (error: any) {
-      dispatch({ type: "SET_ERROR", payload: error.message || "Lỗi đăng ký" });
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        dispatch({ type: "SET_ERROR", payload: error.message || "Lỗi đăng ký" });
+      }
       throw error;
     }
   };

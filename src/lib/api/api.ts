@@ -21,7 +21,6 @@ class ApiClient {
     // Request interceptor
     this.client.interceptors.request.use(
       (config) => {
-        // Thêm token vào header nếu có
         if (typeof window !== 'undefined') {
           const token = localStorage.getItem('auth_token');
           if (token) {
@@ -38,11 +37,10 @@ class ApiClient {
       (response: AxiosResponse) => response,
       (error) => {
         const { response } = error;
-        
+
         if (response) {
           switch (response.status) {
             case 401:
-              // Token hết hạn, redirect về login
               if (typeof window !== 'undefined') {
                 localStorage.removeItem('auth_token');
                 window.location.href = '/login';
@@ -64,7 +62,7 @@ class ApiClient {
         } else {
           toast.error('Không thể kết nối đến server. Vui lòng kiểm tra kết nối mạng.');
         }
-        
+
         return Promise.reject(error);
       }
     );
@@ -76,17 +74,17 @@ class ApiClient {
     return response.data;
   }
 
-  async post<T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T> {
+  async post<T, D = unknown>(url: string, data?: D, config?: AxiosRequestConfig): Promise<T> {
     const response = await this.client.post<T>(url, data, config);
     return response.data;
   }
 
-  async put<T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T> {
+  async put<T, D = unknown>(url: string, data?: D, config?: AxiosRequestConfig): Promise<T> {
     const response = await this.client.put<T>(url, data, config);
     return response.data;
   }
 
-  async patch<T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T> {
+  async patch<T, D = unknown>(url: string, data?: D, config?: AxiosRequestConfig): Promise<T> {
     const response = await this.client.patch<T>(url, data, config);
     return response.data;
   }
@@ -97,12 +95,11 @@ class ApiClient {
   }
 }
 
-// Khởi tạo các API clients cho từng microservice
+// Khởi tạo các API clients
 export const mainApi = new ApiClient(process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api');
 export const userApi = new ApiClient(process.env.NEXT_PUBLIC_USER_SERVICE_URL || 'http://localhost:8001/api');
 export const productApi = new ApiClient(process.env.NEXT_PUBLIC_PRODUCT_SERVICE_URL || 'http://localhost:8002/api');
 export const orderApi = new ApiClient(process.env.NEXT_PUBLIC_ORDER_SERVICE_URL || 'http://localhost:8003/api');
 export const paymentApi = new ApiClient(process.env.NEXT_PUBLIC_PAYMENT_SERVICE_URL || 'http://localhost:8004/api');
 
-// Export default API client
 export default mainApi;

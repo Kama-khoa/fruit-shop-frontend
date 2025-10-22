@@ -1,5 +1,6 @@
 import { apiClient } from './client';
 import { API_ROUTES } from '../utils/routes';
+import { Order } from '@/types';
 
 export const ordersApi = {
   // Get all orders
@@ -17,7 +18,7 @@ export const ordersApi = {
   },
 
   // Create order
-  createOrder: async (orderData: any) => {
+  createOrder: async (orderData: Order) => {
     const response = await apiClient.post(API_ROUTES.ORDERS.BASE, orderData);
     return response.data;
   },

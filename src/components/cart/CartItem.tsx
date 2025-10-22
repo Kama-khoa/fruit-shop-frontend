@@ -23,16 +23,11 @@ const formatCurrency = (amount: string | number) => {
 };
 
 const CartItem: React.FC<CartItemProps> = ({ item, onUpdateQuantity, onRemoveItem }) => {
-  if (!item.product || !item.variant) {
-    return null; 
-  }
-
   const [quantity, setQuantity] = useState(item.quantity);
   const [isUpdating, setIsUpdating] = useState(false);
   const debouncedQuantity = useDebounce(quantity, 500);
-
   const [imageSrc, setImageSrc] = useState(item.variant.image || '/images/default.png');
-  
+
   useEffect(() => {
     if (debouncedQuantity !== item.quantity) {
       setIsUpdating(true);
@@ -46,6 +41,9 @@ const CartItem: React.FC<CartItemProps> = ({ item, onUpdateQuantity, onRemoveIte
     }
   }, [debouncedQuantity, item.id, item.quantity, onUpdateQuantity]);
 
+  if (!item.product || !item.variant) {
+    return null; 
+  }
   const handleIncrease = () => setQuantity(q => q + 1);
   const handleDecrease = () => setQuantity(q => q - 1);
   const handleRemove = async () => {

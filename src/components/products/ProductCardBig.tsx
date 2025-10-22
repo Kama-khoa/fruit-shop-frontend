@@ -10,6 +10,7 @@ import { addToCart } from '@/lib/api/cart';
 import { Heart, ShoppingCart } from 'lucide-react';
 import ProductRating from './ProductRating';
 import ProductPrice from './ProductPrice';
+import axios from 'axios';
 
 interface ProductCardProps {
   product: Product;
@@ -36,13 +37,15 @@ const ProductCardBig: React.FC<ProductCardProps> = ({ product }) => {
     e.preventDefault();
     setIsAdding(true);
     try {
-        await addToCart({ productId: parseInt(id, 10), quantity: 1 });
+        await addToCart({ variantId: parseFloat(id), quantity: 1 });
         toast.success(`Đã thêm "${name}" vào giỏ hàng!`);
-    } catch (error: any) {
-        if (error.response?.status === 401) {
-            toast.error('Vui lòng đăng nhập để thêm sản phẩm.');
-        } else {
-            toast.error('Không thể thêm sản phẩm. Vui lòng thử lại.');
+    } catch (error: unknown) {
+        if (axios.isAxiosError(error)) {
+            if (error.response?.status === 401) {
+                toast.error('Vui lòng đăng nhập để thêm sản phẩm.');
+            } else {
+                toast.error('Không thể thêm sản phẩm. Vui lòng thử lại.');
+            }
         }
     } finally {
         setIsAdding(false);
@@ -89,7 +92,7 @@ const ProductCardBig: React.FC<ProductCardProps> = ({ product }) => {
         
         <div className="mt-auto">
           {/* SỬ DỤNG PROP ISBIG */}
-          <ProductPrice price={price} compare_price={compare_price} isBig={true} />
+          <ProductPrice price={price} compare_price={compare_price ?? undefined} />
           
           <div className="flex items-center justify-center mt-6">
             {stock_quantity > 0 ? (

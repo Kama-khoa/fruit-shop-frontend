@@ -119,7 +119,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
           <div className="mt-auto">
             <div className="mb-4">
-              <ProductPrice price={price} compare_price={compare_price} />
+              <ProductPrice price={price} compare_price={compare_price ?? undefined} />
             </div>
 
             <div className="flex items-center justify-between">

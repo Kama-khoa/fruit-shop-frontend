@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from '@/lib/hooks/useAuth';
 import { getAllCoupons, getCart, removeCartItem, updateCartItemQuantity } from "@/lib/api/cart";
 import { getUserAddresses } from "@/lib/api/users";
@@ -9,7 +9,7 @@ import CartCheckout from "@/components/cart/CartCheckout";
 import Breadcrumb from "@/components/common/Breadcrumb";
 import { Coupon } from '@/types/index';
 import { CustomerAddress } from '@/types/customers';
-import { Cart, CartItem } from '@/types/cart';
+import { CartItem } from '@/types/cart';
 import toast from 'react-hot-toast';
 import { ROUTES } from '@/lib/utils/routes';
 import Link from 'next/link';

@@ -5,6 +5,7 @@ import Header from '@/components/layout/Header/Header';
 import Footer from '@/components/layout/Footer/Footer';
 import { AuthProvider } from '@/lib/contexts/AuthContext';
 import type { Metadata } from 'next';
+import { Suspense } from 'react';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -49,7 +50,9 @@ export const metadata: Metadata = {
     },
   },
 };
-
+const HeaderLoading = () => {
+    return <header className="w-full h-[140px] bg-gray-100 animate-pulse"></header>
+}
 export default function RootLayout({
   children,
 }: {
@@ -59,7 +62,10 @@ export default function RootLayout({
     <html lang="vi" suppressHydrationWarning={true}>
       <body className={`${inter.className} antialiased flex flex-col min-h-screen`}>
         <AuthProvider>
+          <Suspense fallback={<HeaderLoading />}>
           <Header />
+          </Suspense>
+          
           <div className="flex-grow overflow-y-auto">
             <main className="flex-grow ">
               {children}

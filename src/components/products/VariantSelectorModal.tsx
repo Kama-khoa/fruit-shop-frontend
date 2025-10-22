@@ -102,6 +102,7 @@ const VariantSelectorModal: React.FC<VariantSelectorModalProps> = ({ product, is
                 quantity={quantity}
                 onIncrease={() => setQuantity(q => q + 1)}
                 onDecrease={() => setQuantity(q => (q > 1 ? q - 1 : 1))}
+                onSetQuantity={(value) => setQuantity(value)}
             />
             <button
               onClick={handleAddToCart}

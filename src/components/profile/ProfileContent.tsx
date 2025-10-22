@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { useAuth } from '@/lib/hooks/useAuth';
-import { User, Mail, Phone, Calendar, Shield } from 'lucide-react';
+import { User, Mail, Shield } from 'lucide-react';
 import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
 
 export const ProfileContent = () => {
@@ -66,26 +66,6 @@ export const ProfileContent = () => {
                   <div>
                     <p className="text-sm text-gray-600">Email</p>
                     <p className="font-medium">{user.email}</p>
-                  </div>
-                </div>
-
-                {user.phone && (
-                  <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
-                    <Phone className="text-gray-500" size={20} />
-                    <div>
-                      <p className="text-sm text-gray-600">Số điện thoại</p>
-                      <p className="font-medium">{user.phone}</p>
-                    </div>
-                  </div>
-                )}
-
-                <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
-                  <Calendar className="text-gray-500" size={20} />
-                  <div>
-                    <p className="text-sm text-gray-600">Ngày tham gia</p>
-                    <p className="font-medium">
-                      {new Date(user.created_at).toLocaleDateString('vi-VN')}
-                    </p>
                   </div>
                 </div>
 

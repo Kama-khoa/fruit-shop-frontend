@@ -33,7 +33,7 @@ export default function ProductSection({ products, title = 'Sản phẩm' }: Pro
         {tabs.map((tab) => (
           <button
             key={tab.id}
-            onClick={() => setActiveTab(tab.id as any)}
+            onClick={() => setActiveTab(tab.id as 'featured' | 'new' | 'promotion')}
             className={`text-2xl font-normal ${
               activeTab === tab.id ? 'text-green-600' : 'text-black'
             }`}

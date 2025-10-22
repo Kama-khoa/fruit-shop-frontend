@@ -6,7 +6,6 @@ import { useSearchParams } from 'next/navigation';
 import { MailCheck } from 'lucide-react';
 import { ROUTES } from '@/lib/utils/routes';
 
-// Component con để xử lý logic, vì useSearchParams cần Suspense
 function NotificationContent() {
     const searchParams = useSearchParams();
     const type = searchParams.get('type'); // Lấy type từ URL (e.g., 'register' or 'forgot-password')

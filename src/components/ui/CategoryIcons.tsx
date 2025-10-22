@@ -8,12 +8,12 @@ const iconProps = {
     xmlns: "http://www.w3.org/2000/svg",
     stroke: "currentColor",
     strokeWidth: "1.5",
-    strokeLinecap: "round" as "round",
-    strokeLinejoin: "round" as "round",
+    strokeLinecap: "round" as const,
+    strokeLinejoin: "round" as const,
 };
 
-export const AppleIcon = () => (
-    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+export const AppleIcon = ({ className }: { className?: string }) => (
+    <svg className={className} width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g clip-path="url(#clip0_60_2657)">
         <g clip-path="url(#clip1_60_2657)">
         <g clip-path="url(#clip2_60_2657)">
@@ -35,21 +35,21 @@ export const AppleIcon = () => (
     </svg>
 );
 
-export const FishIcon = () => (
+export const FishIcon = ({ className }: { className?: string }) => (
     <svg {...iconProps}>
         <path d="M18.5 11C18.5 12.03 18.25 12.97 17.76 13.75L10 17.5L2.24 13.75C1.75 12.97 1.5 12.03 1.5 11C1.5 7.13 5.13 4 10 4C14.87 4 18.5 7.13 18.5 11Z"/>
         <path d="M10 8C10.5523 8 11 7.55228 11 7C11 6.44772 10.5523 6 10 6C9.44772 6 9 6.44772 9 7C9 7.55228 9.44772 8 10 8Z"/>
     </svg>
 );
 
-export const MilkIcon = () => (
+export const MilkIcon = ({ className }: { className?: string }) => (
     <svg {...iconProps}>
         <path d="M15 8.5H5V17.5H15V8.5Z"/>
         <path d="M5 8.5L6.5 2.5H13.5L15 8.5"/>
     </svg>
 );
 
-export const SnowflakeIcon = () => (
+export const SnowflakeIcon = ({ className }: { className?: string }) => (
     <svg {...iconProps}>
         <path d="M10 2.5V17.5"/>
         <path d="M3.125 6.875L16.875 13.125"/>
@@ -60,7 +60,7 @@ export const SnowflakeIcon = () => (
     </svg>
 );
 
-export const ShoppingBasketIcon = () => (
+export const ShoppingBasketIcon = ({ className }: { className?: string }) => (
      <svg {...iconProps}>
         <path d="M3.5 4.5H16.5L14.5 11.5H5.5L3.5 4.5Z"/>
         <path d="M3.5 4.5L2.5 2.5"/>

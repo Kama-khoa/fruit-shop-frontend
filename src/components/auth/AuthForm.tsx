@@ -8,6 +8,7 @@ import { useAuth, useRegister } from '@/lib/hooks/useAuth';
 import { EyeIcon, EyeOffIcon } from '../ui/Icons';
 import AlertDialog from '@/components/common/AlertDialog';
 import toast from 'react-hot-toast';
+import axios from 'axios';
 
 type AuthFormProps = {
   type: 'login' | 'register';
@@ -48,23 +49,25 @@ export default function AuthForm({ type }: AuthFormProps) {
         await login({ email, password }, rememberMe);
         toast.success('Đăng nhập thành công!');
         navigateTo(ROUTES.MAIN.HOME);
-      } catch (err: any) {
-        console.error('❌ Lỗi đăng nhập:', err.message);
-        if (err.response?.status === 403) {
-          setErrorDialog({
-            isOpen: true,
-            title: 'Tài khoản chưa được xác thực',
-            message: 'Tài khoản của bạn chưa được xác thực qua email. Vui lòng kiểm tra hộp thư!',
-            buttonText: 'Đã hiểu',
-          });
-        } else {
-             setErrorDialog({
-                isOpen: true,
-                title: 'Đăng nhập thất bại',
-                message: 'Sai email hoặc mật khẩu. Vui lòng thử lại.',
-                buttonText: 'Đã hiểu'
-            });
-        }
+      } catch (err: unknown) {
+        if (axios.isAxiosError(err)) {
+          console.error('❌ Lỗi đăng nhập:', err.message);
+          if (err.response?.status === 403) {
+            setErrorDialog({
+              isOpen: true,
+              title: 'Tài khoản chưa được xác thực',
+              message: 'Tài khoản của bạn chưa được xác thực qua email. Vui lòng kiểm tra hộp thư!',
+              buttonText: 'Đã hiểu',
+            });
+          } else {
+               setErrorDialog({
+                  isOpen: true,
+                  title: 'Đăng nhập thất bại',
+                  message: 'Sai email hoặc mật khẩu. Vui lòng thử lại.',
+                  buttonText: 'Đã hiểu'
+              });
+          }
+        }
       }
     } else {
       if (password !== confirmPassword) {
@@ -79,24 +82,26 @@ export default function AuthForm({ type }: AuthFormProps) {
       try {
         await register({ name, email, password });
         navigateTo(ROUTES.AUTH.NOTIFICATION);
-      } catch (err: any) {
+      } catch (err: unknown) {
+        if (axios.isAxiosError(err)) {
         console.error('❌ Lỗi đăng ký:', err.message);
-        if (err.response?.status === 409) {
-          setErrorDialog({
-            isOpen: true,
-            title: 'Email đã tồn tại',
-            message: 'Email này đã được liên kết với một tài khoản khác.',
-            buttonText: 'Quên mật khẩu?',
-            onButtonClick: () => navigateTo(ROUTES.AUTH.FORGOT_PASSWORD),
-          });
-        } else {
-          setErrorDialog({
-            isOpen: true,
-            title: 'Đăng ký thất bại',
-            message: 'Đã xảy ra lỗi không mong muốn. Vui lòng thử lại sau.',
-            buttonText: 'Đã hiểu'
-          });
-        }
+          if (err.response?.status === 409) {
+            setErrorDialog({
+              isOpen: true,
+              title: 'Email đã tồn tại',
+              message: 'Email này đã được liên kết với một tài khoản khác.',
+              buttonText: 'Quên mật khẩu?',
+              onButtonClick: () => navigateTo(ROUTES.AUTH.FORGOT_PASSWORD),
+            });
+          } else {
+            setErrorDialog({
+              isOpen: true,
+              title: 'Đăng ký thất bại',
+              message: 'Đã xảy ra lỗi không mong muốn. Vui lòng thử lại sau.',
+              buttonText: 'Đã hiểu'
+            });
+          }
+        }
       }
     }
   };

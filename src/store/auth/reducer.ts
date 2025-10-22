@@ -1,22 +1,22 @@
 import { User, AuthState } from "@/types/auth";
 
 export const initialState: AuthState = {
-    user: null,
-    isAuthenticated: false,
-    isLoading: true, 
-    error: null,
+  user: null,
+  isAuthenticated: false,
+  isLoading: true,
+  error: null,
 };
 
 export type AuthAction =
-    | { type: 'INITIALIZE'; payload: { isAuthenticated: boolean; user: User | null } }
-    | { type: 'LOGIN_SUCCESS'; payload: User }
-    | { type: 'LOGOUT_SUCCESS' }
-    | { type: 'SET_ERROR'; payload: string | null }
-    | { type: 'SET_LOADING'; payload: boolean };
+  | { type: 'INITIALIZE'; payload: { isAuthenticated: boolean; user: User | null } }
+  | { type: 'LOGIN_SUCCESS'; payload: User }
+  | { type: 'LOGOUT_SUCCESS' }
+  | { type: 'SET_ERROR'; payload: string | null }
+  | { type: 'SET_LOADING'; payload: boolean };
 
 // --- REDUCER FUNCTION ---
 export const authReducer = (state: AuthState, action: AuthAction): AuthState => {
-   switch (action.type) {
+  switch (action.type) {
     case 'SET_LOADING':
       return { ...state, isLoading: action.payload };
     case 'INITIALIZE':
@@ -47,5 +47,5 @@ export const authReducer = (state: AuthState, action: AuthAction): AuthState => 
       };
     default:
       return state;
-    }
+  }
 };
