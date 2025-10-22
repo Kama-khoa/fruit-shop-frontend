@@ -2,12 +2,14 @@ export const ROUTES = {
   // Root & Main
   ROOT: '/',
   HOME: '/',
+  RESET_PASSWORD: '/reset-password',
   
   // Auth routes (app/auth/)
   AUTH: {
     LOGIN: '/auth/login',
     REGISTER: '/auth/register',
     FORGOT_PASSWORD: '/auth/forget_pass',
+    FORGOT_PASSWORD_SUCCESS: '/auth/forgot-password-success',
     VERIFY_EMAIL: '/auth/verify-email',
   },
   
@@ -99,6 +101,8 @@ export const API_ROUTES = {
     LOGIN: '/api/v1/auth/login',
     REGISTER: '/api/v1/auth/register',
     LOGOUT: '/api/v1/auth/logout',
+    FORGOT_PASSWORD: '/api/v1/auth/forgot-password',
+    RESET_PASSWORD: '/api/v1/auth/reset-password',
     REFRESH: '/api/v1/auth/refresh',
   },
 

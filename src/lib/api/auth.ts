@@ -1,6 +1,6 @@
 import { apiClient } from './client';
 import { API_ROUTES } from '../utils/routes';
-import { LoginCredentials, RegisterCredentials, AuthResponse } from '@/types/auth';
+import { LoginCredentials, RegisterCredentials, AuthResponse, ResetPasswordCredentials } from '@/types/auth';
 
 export const loginUser = async (credentials: LoginCredentials): Promise<AuthResponse> => {
   const { email, password } = credentials;
@@ -25,4 +25,29 @@ export const registerUser = async (credentials: RegisterCredentials): Promise<Au
 export const logoutUser = async (): Promise<AuthResponse> => {
   const response = await apiClient.post<AuthResponse>(API_ROUTES.AUTH.LOGOUT);
   return response.data;
+};
+
+export const forgotPassword = async (email: string): Promise<{ message: string }> => {
+    try {
+        const response = await apiClient.post(API_ROUTES.AUTH.FORGOT_PASSWORD, { email });
+        return response.data;
+    } catch (error) {
+        console.error('Lỗi khi gửi yêu cầu quên mật khẩu:', error);
+        throw error;
+    }
+};
+
+/**
+ * Gửi mật khẩu mới và token để đặt lại mật khẩu.
+ * @param credentials - Gồm token và mật khẩu mới.
+ */
+export const resetPassword = async (credentials: ResetPasswordCredentials): Promise<{ message: string }> => {
+    try {
+      console.log('Reset Password Credentials:', credentials);
+        const response = await apiClient.post(API_ROUTES.AUTH.RESET_PASSWORD, credentials);
+        return response.data;
+    } catch (error) {
+        console.error('Lỗi khi đặt lại mật khẩu:', error);
+        throw error;
+    }
 };
