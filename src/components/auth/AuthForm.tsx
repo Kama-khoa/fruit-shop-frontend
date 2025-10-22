@@ -166,13 +166,14 @@ export default function AuthForm({ type }: AuthFormProps) {
 
           {/* LOGIN-ONLY: REMEMBER & FORGOT */}
           {isLogin && (
-            <div className="flex items-center justify-between">
-              <div className="flex items-center">
-                <input id="remember-me" name="remember-me" type="checkbox" checked={rememberMe} onChange={(e) => setRememberMe(e.target.checked)} className="h-4 w-4 rounded border-gray-300 text-green-600 focus:ring-green-500" />
-                <label htmlFor="remember-me" className="ml-2 block text-gray-950 text-xs font-['Inter']">Lưu tài khoản</label>
-              </div>
+            <div className="flex items-center justify-end">
               <div className="text-xs flex items-center justify-left">
-                <Link href={ROUTES.AUTH.FORGOT_PASSWORD} className="font-medium text-blue-700 hover:text-blue-600 font-['Inter']">Quên mật khẩu?</Link>
+                <Link
+                  href={ROUTES.AUTH.FORGOT_PASSWORD}
+                  className="font-medium text-blue-700 hover:text-blue-600 font-['Inter']"
+                >
+                  Quên mật khẩu?
+                </Link>
               </div>
             </div>
           )}
