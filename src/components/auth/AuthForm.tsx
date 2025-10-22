@@ -171,7 +171,7 @@ export default function AuthForm({ type }: AuthFormProps) {
                 <input id="remember-me" name="remember-me" type="checkbox" checked={rememberMe} onChange={(e) => setRememberMe(e.target.checked)} className="h-4 w-4 rounded border-gray-300 text-green-600 focus:ring-green-500" />
                 <label htmlFor="remember-me" className="ml-2 block text-gray-950 text-xs font-['Inter']">Lưu tài khoản</label>
               </div>
-              <div className="text-xs">
+              <div className="text-xs flex items-center justify-left">
                 <Link href={ROUTES.AUTH.FORGOT_PASSWORD} className="font-medium text-blue-700 hover:text-blue-600 font-['Inter']">Quên mật khẩu?</Link>
               </div>
             </div>

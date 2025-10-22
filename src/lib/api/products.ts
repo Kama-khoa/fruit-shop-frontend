@@ -1,7 +1,6 @@
 import { apiClient } from './client';
 import { API_ROUTES } from '../utils/routes';
-import { Product, Product, ProductFilter } from '@/types/product';
-import { ApiResponse } from '@/types';
+import { Product, ProductDetail, ProductFilter } from '@/types/product';
 import { ProductListResponse } from '@/types/index';
 
 export const getProducts = async (filters: ProductFilter): Promise<ProductListResponse<Product>> => {
@@ -29,10 +28,10 @@ export const getProducts = async (filters: ProductFilter): Promise<ProductListRe
  * @param id - ID của sản phẩm.
  * @returns Một đối tượng sản phẩm hoặc null.
  */
-export const getProductById = async (id: number): Promise<Product | null> => {
+export const getProductById = async (id: number): Promise<ProductDetail | null> => {
     try {
-        const response = await apiClient.get<ApiResponse<Product>>(API_ROUTES.PRODUCTS.DETAIL(id));
-        return response.data.data || null;
+        const response = await apiClient.get<ProductDetail>(API_ROUTES.PRODUCTS.DETAIL(id));
+        return response.data || null;
     } catch (error) {
         console.error(`Không thể lấy sản phẩm với ID ${id}:`, error);
         return null;
