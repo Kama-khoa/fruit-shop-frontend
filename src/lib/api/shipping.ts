@@ -17,7 +17,6 @@ export const calculateShippingFee = async (payload: ShippingFeePayload): Promise
     return response.data;
   } catch (error) {
     console.error('Lỗi khi tính toán phí vận chuyển:', error);
-    // Ném lỗi ra ngoài để component có thể bắt và xử lý
     throw error;
   }
 };

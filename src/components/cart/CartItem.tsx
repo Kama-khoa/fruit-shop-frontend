@@ -31,7 +31,7 @@ const CartItem: React.FC<CartItemProps> = ({ item, onUpdateQuantity, onRemoveIte
   const [isUpdating, setIsUpdating] = useState(false);
   const debouncedQuantity = useDebounce(quantity, 500);
 
-  const [imageSrc, setImageSrc] = useState(item.product.images?.[0] || '/images/default.png');
+  const [imageSrc, setImageSrc] = useState(item.variant.image || '/images/default.png');
   
   useEffect(() => {
     if (debouncedQuantity !== item.quantity) {
@@ -96,7 +96,8 @@ const CartItem: React.FC<CartItemProps> = ({ item, onUpdateQuantity, onRemoveIte
           quantity={quantity}
           onIncrease={handleIncrease}
           onDecrease={handleDecrease}
-          onRemove={handleRemove} // Truyền hàm xóa vào đây
+          onRemove={handleRemove}
+          onSetQuantity={setQuantity}
           disabled={isUpdating}
         />
       </div>
