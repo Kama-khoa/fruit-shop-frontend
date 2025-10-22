@@ -1,10 +1,7 @@
 'use client';
 
-import { useState, useContext } from 'react';
-import { loginUser, registerUser } from '@/lib/api/auth'; // Sửa ở đây: import các hàm cụ thể
-import { LoginCredentials, RegisterCredentials } from '@/types/auth';
+import { useContext } from 'react';
 import { AuthContext } from '@/lib/contexts/AuthContext';
-import toast from 'react-hot-toast';
 
 /**
  * Hook chính để truy cập trạng thái và các hàm của AuthContext.

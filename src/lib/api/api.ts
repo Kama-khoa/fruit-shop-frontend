@@ -94,12 +94,3 @@ class ApiClient {
     return response.data;
   }
 }
-
-// Khởi tạo các API clients
-export const mainApi = new ApiClient(process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api');
-export const userApi = new ApiClient(process.env.NEXT_PUBLIC_USER_SERVICE_URL || 'http://localhost:8001/api');
-export const productApi = new ApiClient(process.env.NEXT_PUBLIC_PRODUCT_SERVICE_URL || 'http://localhost:8002/api');
-export const orderApi = new ApiClient(process.env.NEXT_PUBLIC_ORDER_SERVICE_URL || 'http://localhost:8003/api');
-export const paymentApi = new ApiClient(process.env.NEXT_PUBLIC_PAYMENT_SERVICE_URL || 'http://localhost:8004/api');
-
-export default mainApi;

@@ -48,7 +48,6 @@ node_modules
 cache
 server
 static
-types
 trace
 app-build-manifest.json
 build-manifest.json
