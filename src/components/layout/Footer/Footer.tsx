@@ -18,6 +18,11 @@ const Footer: React.FC = () => {
           <AppDownload />
         </div>
       </div>
+      <div className="text-center py-4 border-t border-gray-200 mt-8">
+        <p className="text-xs text-gray-500">
+          © {new Date().getFullYear()} Fruity Fruit. All Rights Reserved.
+        </p>
+      </div>
     </footer>
   );
 };

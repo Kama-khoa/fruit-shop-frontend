@@ -9,13 +9,12 @@ import PromotionBanners from '@/components/home/PromotionBanners';
 import NewsSection from '@/components/home/NewsSection';
 
 export default async function HomePage() {
-  // Fetch data for the carousels on the server
   const featuredProducts = await getFeaturedProducts();
   const bestsellerProducts = await getBestsellerProducts();
 
   return (
     <div className="bg-neutral-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-max mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           
           {/* Left Sidebar */}

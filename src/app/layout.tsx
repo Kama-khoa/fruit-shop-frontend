@@ -56,11 +56,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="vi">
-      <body className={inter.className}>
+    <html lang="vi" suppressHydrationWarning={true}>
+      <body className={'${inter.className} min-h-screen flex flex-col'}>
         <AuthProvider>
           <Header />
-          <main className="min-h-screen">
+          <main className="flex-grow">
             {children}
           </main>
           <Footer />

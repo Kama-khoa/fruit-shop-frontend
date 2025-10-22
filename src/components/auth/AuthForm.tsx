@@ -6,13 +6,21 @@ import { useNavigation } from '@/lib/utils/navigation';
 import { ROUTES } from '@/lib/utils/routes';
 import { useAuth, useRegister } from '@/lib/hooks/useAuth';
 import { EyeIcon, EyeOffIcon } from '../ui/Icons';
+import AlertDialog from '@/components/common/AlertDialog';
+import toast from 'react-hot-toast';
 
 type AuthFormProps = {
   type: 'login' | 'register';
 };
+interface ErrorDialogState {
+    isOpen: boolean;
+    title: string;
+    message: React.ReactNode;
+    buttonText?: string;
+    onButtonClick?: () => void;
+}
 
 export default function AuthForm({ type }: AuthFormProps) {
-
   const { navigateTo, goToLogin } = useNavigation();
   const { login, isLoading: isLoggingIn, error: loginError } = useAuth();
   const { register, isLoading: isRegistering, error: registerError } = useRegister();
@@ -25,6 +33,11 @@ export default function AuthForm({ type }: AuthFormProps) {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+  const [errorDialog, setErrorDialog] = useState<ErrorDialogState>({
+    isOpen: false,
+    title: '',
+    message: '',
+  });
   const isLogin = type === 'login';
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -33,32 +46,68 @@ export default function AuthForm({ type }: AuthFormProps) {
     if (isLogin) {
       try {
         await login({ email, password }, rememberMe);
-        console.log('✅ Đăng nhập thành công!');
+        toast.success('Đăng nhập thành công!');
         navigateTo(ROUTES.MAIN.HOME);
       } catch (err: any) {
         console.error('❌ Lỗi đăng nhập:', err.message);
+        if (err.response?.status === 403) {
+          setErrorDialog({
+            isOpen: true,
+            title: 'Tài khoản chưa được xác thực',
+            message: 'Tài khoản của bạn chưa được xác thực qua email. Vui lòng kiểm tra hộp thư!',
+            buttonText: 'Đã hiểu',
+          });
+        } else {
+             setErrorDialog({
+                isOpen: true,
+                title: 'Đăng nhập thất bại',
+                message: 'Sai email hoặc mật khẩu. Vui lòng thử lại.',
+                buttonText: 'Đã hiểu'
+            });
+        }
       }
     } else {
       if (password !== confirmPassword) {
-        alert('Mật khẩu xác nhận không khớp!');
-        return;
-      }
+            setErrorDialog({
+                isOpen: true,
+                title: 'Lỗi',
+                message: 'Mật khẩu xác nhận không khớp. Vui lòng kiểm tra lại.',
+                buttonText: 'Đã hiểu'
+            });
+        return;
+      }
       try {
         await register({ name, email, password });
         console.log('✅ Đăng ký thành công! Vui lòng đăng nhập.');
         navigateTo(ROUTES.AUTH.VERIFY_EMAIL);
       } catch (err: any) {
         console.error('❌ Lỗi đăng ký:', err.message);
+        if (err.response?.status === 409) {
+          setErrorDialog({
+            isOpen: true,
+            title: 'Email đã tồn tại',
+            message: 'Email này đã được liên kết với một tài khoản khác.',
+            buttonText: 'Quên mật khẩu?',
+            onButtonClick: () => navigateTo(ROUTES.AUTH.FORGOT_PASSWORD),
+          });
+        } else {
+          setErrorDialog({
+            isOpen: true,
+            title: 'Đăng ký thất bại',
+            message: 'Đã xảy ra lỗi không mong muốn. Vui lòng thử lại sau.',
+            buttonText: 'Đã hiểu'
+          });
+        }
       }
     }
   };
 
   const isLoading = isLoggingIn || isRegistering;
-  const error = isLogin ? loginError : registerError;
   const commonInputClasses = "w-full px-3.5 py-2.5 bg-white rounded-lg shadow-sm outline outline-1 outline-gray-300 focus:outline-green-500 font-['Open_Sans'] text-base placeholder:text-slate-400";
   const commonLabelClasses = "block text-gray-950 text-xs font-['Inter'] leading-tight mb-2";
 
   return (
+    <>
     <div className="flex items-center justify-center min-h-[calc(100vh-200px)] bg-gray-50 py-12">
       <div className="w-full max-w-[540px] bg-white rounded-lg shadow-[0px_4px_4px_0px_rgba(12,143,3,0.25)] p-8">
         <div className="flex items-center justify-center mb-4 border-b pb-4">
@@ -77,32 +126,7 @@ export default function AuthForm({ type }: AuthFormProps) {
           }
         </p>
 
-        <form onSubmit={handleSubmit} className="space-y-5">
-          {/* --- VÙNG HIỂN THỊ LỖI ĐÃ CẬP NHẬT --- */}
-          {error && (
-            <div className="p-3 my-2 text-sm text-red-800 rounded-lg bg-red-100" role="alert">
-              <span className="font-medium">
-                {isLogin
-                  ? (error.toLowerCase().includes('not found') || error.toLowerCase().includes('không tìm thấy'))
-                    ? "Tài khoản chưa được đăng ký. "
-                    : `Lỗi: ${error}`
-                  : (error.toLowerCase().includes('conflict') || error.toLowerCase().includes('exists') || error.toLowerCase().includes('đã tồn tại'))
-                    ? "Email này đã có tài khoản liên kết."
-                    : `Lỗi: ${error}`
-                }
-              </span>
-              {isLogin && (error.toLowerCase().includes('not found') || error.toLowerCase().includes('không tìm thấy')) && (
-                <Link href={ROUTES.AUTH.REGISTER} className="font-semibold underline ml-1">Hãy đăng ký</Link>
-              )}
-              {!isLogin && (error.toLowerCase().includes('conflict') || error.toLowerCase().includes('exists') || error.toLowerCase().includes('đã tồn tại')) && (
-                <div className="mt-1">
-                  <span>Bạn quên mật khẩu? </span>
-                  <Link href={ROUTES.AUTH.FORGOT_PASSWORD} className="font-semibold underline">Lấy lại mật khẩu</Link>
-                </div>
-              )}
-            </div>
-          )}
-          
+        <form onSubmit={handleSubmit} className="space-y-5">        
           {/* REGISTER-ONLY FIELDS */}
           {!isLogin && (
             <div>
@@ -165,5 +189,15 @@ export default function AuthForm({ type }: AuthFormProps) {
         </form>
       </div>
     </div>
+    {/* Render Dialog ở đây */}
+      <AlertDialog 
+        isOpen={errorDialog.isOpen}
+        onClose={() => setErrorDialog({ ...errorDialog, isOpen: false })}
+        title={errorDialog.title}
+        message={errorDialog.message}
+        buttonText={errorDialog.buttonText}
+        onButtonClick={errorDialog.onButtonClick}
+      />
+    </>
   );
 }
