@@ -16,7 +16,7 @@ export default function ForgotPasswordPage() {
     setIsLoading(true);
     try {
       const response = await forgotPassword(email);
-      router.push(ROUTES.AUTH.FORGOT_PASSWORD_SUCCESS);
+      router.push(`${ROUTES.AUTH.NOTIFICATION}?type=forgot-password`);
     } catch (error) {
       toast.error('Đã xảy ra lỗi. Vui lòng thử lại sau.');
     } finally {

@@ -78,8 +78,7 @@ export default function AuthForm({ type }: AuthFormProps) {
       }
       try {
         await register({ name, email, password });
-        console.log('✅ Đăng ký thành công! Vui lòng đăng nhập.');
-        navigateTo(ROUTES.AUTH.VERIFY_EMAIL);
+        navigateTo(ROUTES.AUTH.NOTIFICATION);
       } catch (err: any) {
         console.error('❌ Lỗi đăng ký:', err.message);
         if (err.response?.status === 409) {

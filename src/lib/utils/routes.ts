@@ -9,8 +9,7 @@ export const ROUTES = {
     LOGIN: '/auth/login',
     REGISTER: '/auth/register',
     FORGOT_PASSWORD: '/auth/forget_pass',
-    FORGOT_PASSWORD_SUCCESS: '/auth/forgot-password-success',
-    VERIFY_EMAIL: '/auth/verify-email',
+    NOTIFICATION: '/auth/notification', 
   },
   
   // Main app routes (app/main/)
