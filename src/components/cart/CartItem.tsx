@@ -23,7 +23,7 @@ const formatCurrency = (amount: string | number) => {
 };
 
 const CartItem: React.FC<CartItemProps> = ({ item, onUpdateQuantity, onRemoveItem }) => {
-  if (!item.product) {
+  if (!item.product || !item.variant) {
     return null; 
   }
 
@@ -57,7 +57,6 @@ const CartItem: React.FC<CartItemProps> = ({ item, onUpdateQuantity, onRemoveIte
         toast.error('Xóa thất bại');
         setIsUpdating(false);
     }
-    // Không cần setIsUpdating(false) ở finally vì component sẽ unmount
   };
   
   const handleImageError = () => setImageSrc('/images/default.png');
@@ -79,9 +78,14 @@ const CartItem: React.FC<CartItemProps> = ({ item, onUpdateQuantity, onRemoveIte
           />
         </Link>
         <div className="flex flex-col gap-1">
-          <Link href={ROUTES.MAIN.PRODUCTS.DETAIL(item.product.slug)} className="text-sm font-medium text-gray-900 hover:text-green-600">
-            {item.product.name}
-          </Link>
+          <div className="flex items-center gap-2">
+            <Link href={ROUTES.MAIN.PRODUCTS.DETAIL(item.product.slug)} className="text-base font-semibold text-gray-900 hover:text-green-600">
+              {item.product.name}
+            </Link>
+            <span className="bg-gray-100 text-gray-600 text-xs font-medium px-2 py-0.5 rounded-full">
+                {item.variant.name}
+            </span>
+          </div>
           <div className="inline-flex items-center gap-2">
             <div className="text-green-600 text-sm font-semibold font-['IBM_Plex_Serif'] leading-tight">
               {formatCurrency(item.variant.price)}

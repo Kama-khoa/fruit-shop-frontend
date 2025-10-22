@@ -88,7 +88,7 @@ const CartCheckout: React.FC<CartCheckoutProps> = ({ items, coupons, selectedAdd
         <div className="w-full h-full p-8 bg-white rounded-2xl shadow-lg flex flex-col gap-6">
             {/* Order Summary */}
             <div className="flex flex-col gap-3">
-                <h3 className="text-xl font-semibold font-['IBM_Plex_Serif'] text-gray-900">Tóm tắt đơn hàng</h3>
+                <h3 className="text-2xl font-semibold font-['IBM_Plex_Serif'] text-gray-900">Đơn hàng</h3>
                 <div className="space-y-2 text-base font-['IBM_Plex_Serif']">
                     <div className="flex justify-between">
                         <span className="text-gray-700">Tạm tính</span>

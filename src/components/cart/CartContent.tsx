@@ -25,7 +25,7 @@ const CartContent: React.FC<CartContentProps> = ({ items, addresses, selectedAdd
       />
 
       <div className="w-full p-6 bg-white rounded-2xl border border-gray-100">
-        <h3 className="text-sm font-semibold font-['IBM_Plex_Serif'] text-gray-500 mb-2">Sản phẩm trong giỏ hàng ({items.length})</h3>
+        <h3 className="text-xl font-semibold font-['IBM_Plex_Serif'] text-gray-500 mb-2">Sản phẩm trong giỏ hàng: {items.length}</h3>
         {items.length > 0 ? (
           items.map(item => (
             <CartItem 

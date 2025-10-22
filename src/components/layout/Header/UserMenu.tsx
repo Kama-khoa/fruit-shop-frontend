@@ -98,7 +98,7 @@ const UserMenu: React.FC = () => {
   // --- Trạng thái Chưa Đăng Nhập ---
   return (
     <div className="w-52 h-14 bg-white rounded-3xl shadow-[0px_4px_4px_0px_rgba(218,218,218,0.25)] flex items-center justify-between px-4">
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-1 px-4">
         <Link
           href={ROUTES.AUTH.LOGIN}
           className="text-green-500 text-base font-medium font-['IBM_Plex_Serif'] hover:text-green-600 transition-colors"
