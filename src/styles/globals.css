@@ -75,13 +75,13 @@ html {
 }
 
 /* Focus styles */
-button:focus,
+/* button:focus,
 input:focus,
 textarea:focus,
 select:focus {
   outline: 2px solid #4ade80;
   outline-offset: 2px;
-}
+} */
 
 /* Animations */
 @keyframes fadeIn {
@@ -191,4 +191,28 @@ input[type=number]::-webkit-outer-spin-button {
 /* Dành cho Firefox */
 input[type=number] {
   -moz-appearance: textfield;
+}
+/* Đảm bảo body và html chiếm full height */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Cải thiện scrollbar cho toàn trang */
+body::-webkit-scrollbar {
+  width: 12px;
+}
+
+body::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+body::-webkit-scrollbar-thumb {
+  background: #4ade80;
+  border-radius: 6px;
+}
+
+body::-webkit-scrollbar-thumb:hover {
+  background: #22c55e;
 }

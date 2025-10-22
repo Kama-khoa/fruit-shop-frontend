@@ -57,13 +57,16 @@ export default function RootLayout({
 }) {
   return (
     <html lang="vi" suppressHydrationWarning={true}>
-      <body className={'${inter.className} min-h-screen flex flex-col'}>
+      <body className={`${inter.className} antialiased flex flex-col min-h-screen`}>
         <AuthProvider>
           <Header />
-          <main className="flex-grow">
-            {children}
-          </main>
-          <Footer />
+          <div className="flex-grow overflow-y-auto">
+            <main className="flex-grow ">
+              {children}
+            </main>
+            <Footer />
+          </div>
+            
           <Toaster 
             position="top-right"
             toastOptions={{

@@ -18,10 +18,11 @@ module.exports = {
     extend: {
       colors: {
         'Click-on': '#53A653', 
-        'Button-Auth': 'rgba(76, 159, 145, 1)',
+        'Button-Auth': '#4C9F91',
         'Button-Auth-hover': 'rgba(60, 143, 129, 1)',
         'Green-fruit': 'rgba(102, 191, 132, 1)',
-        "bg-Xanh-Nav": "#BAFD91",
+        "Xanh-Nav": "#BBFE91",
+
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -78,6 +79,7 @@ module.exports = {
         'inter': ['Inter', 'sans-serif'],
         'ibm-plex': ['IBM Plex Serif', 'serif'],
         'dharrochy': ['Dharrochy', 'cursive'],
+        'Gluten': ['Gluten', 'cursive'],
         sans: ['Inter', 'system-ui', 'sans-serif'],
         sans: ['Inter', 'sans-serif'],
       },

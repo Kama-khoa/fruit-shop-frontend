@@ -65,8 +65,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     initializeAuth();
   }, []);
 
-
-  // --- AUTH FUNCTIONS ---
   const login = async (credentials: LoginCredentials, rememberMe: boolean = false): Promise<AuthResponse> => {
     dispatch({ type: 'SET_LOADING', payload: true });
     try {

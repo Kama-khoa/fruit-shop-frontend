@@ -7,7 +7,6 @@ const SearchBar: React.FC = () => {
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle search logic here
     console.log('Searching for:', searchQuery);
   };
 
