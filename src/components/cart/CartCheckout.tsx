@@ -53,6 +53,7 @@ const CartCheckout: React.FC<CartCheckoutProps> = ({ items, coupons, selectedAdd
                     }));
 
                     const payload = {
+                        carrierCode: "ghn",
                         to_district_id: selectedAddress.district_code,
                         to_ward_code: selectedAddress.ward_code,
                         items: shippingItems,

@@ -3,17 +3,34 @@ import { API_ROUTES } from '../utils/routes';
 import { User } from '@/types/index';
 import { CustomerAddress } from '@/types/customers';
 import { ApiResponse } from '@/types/api';
+import { UpdateUserProfilePayload, UserProfile } from '@/types/user';
 
 type AddressPayload = Omit<CustomerAddress, 'id' | 'customer_id' | 'created_at' | 'updated_at'>;
 /**
- * Lấy thông tin hồ sơ của người dùng hiện tại.
+ * Lấy thông tin hồ sơ chi tiết của người dùng đang đăng nhập.
+ * @returns Đối tượng UserProfile.
  */
-export const getUserProfile = async (): Promise<User> => {
+export const getUserProfile = async (): Promise<UserProfile> => {
   try {
-    const response = await apiClient.get<User>(API_ROUTES.USERS.PROFILE);
+    const response = await apiClient.get<UserProfile>(API_ROUTES.USERS.PROFILE);
     return response.data;
   } catch (error) {
-    console.error('Lỗi khi lấy thông tin người dùng:', error);
+    console.error('Lỗi khi lấy thông tin hồ sơ người dùng:', error);
+    throw error;
+  }
+};
+
+/**
+ * Cập nhật thông tin hồ sơ của người dùng đang đăng nhập.
+ * @param payload - Dữ liệu cần cập nhật (name, phone, avatar).
+ * @returns Đối tượng UserProfile đã được cập nhật.
+ */
+export const updateUserProfile = async (payload: UpdateUserProfilePayload): Promise<UserProfile> => {
+  try {
+    const response = await apiClient.patch<UserProfile>(API_ROUTES.USERS.PROFILE, payload);
+    return response.data;
+  } catch (error) {
+    console.error('Lỗi khi cập nhật hồ sơ người dùng:', error);
     throw error;
   }
 };

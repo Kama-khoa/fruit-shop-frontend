@@ -6,9 +6,13 @@ import toast from 'react-hot-toast';
 import { ProductDetail, ProductVariant } from '@/types/product';
 import { addToCart } from '@/lib/api/cart';
 import QuantitySelector from '@/components/common/QuantitySelector';
-import { XIcon, Heart, Share2, GitCompare } from 'lucide-react';
+import { Share2, GitCompare } from 'lucide-react';
 import ProductRating from './ProductRating';
-import { HeartIcon } from '../ui/Icons';
+import { HeartIcon, XIcon } from '../ui/Icons';
+import { useNavigation } from '@/lib/utils/navigation'; // Sửa: Import useNavigation
+import { ROUTES } from '@/lib/utils/routes'; // Sửa: Import ROUTES
+import axios from 'axios';
+import AlertDialog from '@/components/common/AlertDialog';
 
 interface ProductDetailModalProps {
   product: ProductDetail;
@@ -24,32 +28,34 @@ const ProductDetailModal: React.FC<ProductDetailModalProps> = ({ product, isOpen
   const [selectedVariant, setSelectedVariant] = useState<ProductVariant | null>(product.variants?.[0] || null);
   const [quantity, setQuantity] = useState(1);
   const [isAdding, setIsAdding] = useState(false);
-  const [mainImage, setMainImage] = useState(product.images?.[0] || '/images/default.png');
+  const { navigateTo } = useNavigation(); 
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
+
   const allImages = useMemo(() => {
     let newImages: string[] = [];
     if (selectedVariant?.image) {
         try {
-            // Trường hợp 1: variant.image là một chuỗi JSON của mảng
             const variantImages = JSON.parse(selectedVariant.image);
             if (Array.isArray(variantImages) && variantImages.length > 0) {
-                newImages = [...variantImages, ...(product.images || [])];
+                newImages = [...variantImages, ...(Array.isArray(product.images?.gallery) ? product.images.gallery : [])];
             }
         } catch (e) {
-            // Trường hợp 2: variant.image là một URL string đơn
-            newImages = [selectedVariant.image, ...(product.images || [])];
+            newImages = [selectedVariant.image, ...(Array.isArray(product.images?.gallery) ? product.images.gallery : [])];
         }
     }
     
     if (newImages.length > 0) {
-        return newImages.filter(Boolean); // Lọc ra các giá trị null/undefined
+        return newImages.filter(Boolean);
     } else {
-        return Array.isArray(product.images) ? product.images : []; 
+        return Array.isArray(product.images?.gallery) ? product.images.gallery : []; 
     }
   }, [selectedVariant, product.images]);
 
+  const [mainImage, setMainImage] = useState(product.images?.thumbnail || allImages[0] || '/images/default.png');
+
   useEffect(() => {
-    setMainImage(allImages[0] || '/images/default.png');
-  }, [allImages]);
+    setMainImage(allImages[0] || product.images?.thumbnail || '/images/default.png');
+  }, [allImages, product.images]);
 
   // Tự động chuyển ảnh chính
   useEffect(() => {
@@ -77,20 +83,33 @@ const ProductDetailModal: React.FC<ProductDetailModalProps> = ({ product, isOpen
       toast.success(`Đã thêm "${product.name} - ${selectedVariant.name}" vào giỏ hàng!`);
       onClose();
     } catch (error) {
-      toast.error('Không thể thêm sản phẩm. Vui lòng thử lại.');
+      if(axios.isAxiosError(error)) {
+        if (error.response?.status === 401) {
+          setIsAlertOpen(true);
+        } else {
+          toast.error('Không thể thêm sản phẩm. Vui lòng thử lại.');
+        }
+      }
     } finally {
       setIsAdding(false);
     }
+  };
+
+  const handleLoginRedirect = () => {
+    setIsAlertOpen(false); // Đóng AlertDialog
+    onClose(); // Đóng ProductDetailModal
+    navigateTo(ROUTES.AUTH.LOGIN); // Chuyển đến trang đăng nhập
   };
 
   const currentPrice = selectedVariant ? selectedVariant.price : parseFloat(product.price);
   const stockQuantity = selectedVariant ? selectedVariant.stock_quantity : product.stock_quantity;
 
   return (
+    <>
     <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4" onClick={onClose}>
       <div className="bg-white rounded-lg shadow-xl w-full max-w-4xl flex gap-8 p-8 relative" onClick={(e) => e.stopPropagation()}>
         <button onClick={onClose} className="absolute top-4 right-4 text-gray-400 hover:text-gray-800">
-            <XIcon size={24} />
+            <XIcon className='w-6 h-6' />
         </button>
 
         {/* Cột ảnh */}
@@ -198,6 +217,16 @@ const ProductDetailModal: React.FC<ProductDetailModalProps> = ({ product, isOpen
         </div>
       </div>
     </div>
+    {/* Sửa 5: Thêm AlertDialog vào cuối JSX */}
+      <AlertDialog 
+        isOpen={isAlertOpen}
+        onClose={() => setIsAlertOpen(false)}
+        title="Yêu cầu đăng nhập"
+        message="Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng."
+        buttonText="Đăng nhập ngay"
+        onButtonClick={handleLoginRedirect}
+      />
+    </>
   );
 };
 

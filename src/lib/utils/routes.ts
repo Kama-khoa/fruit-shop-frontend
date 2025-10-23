@@ -160,6 +160,7 @@ export const API_ROUTES = {
   // Users API (app/api/v1/users/)
   USERS: {
     PROFILE: '/api/v1/profile/me',
+    CHANGE_PASSWORD: '/api/v1/profile/me/change-password',
     ADDRESSES: '/api/v1/users/addresses',
     ADDRESS: (id: string) => `/api/v1/users/addresses/${id}`,
     WISHLIST: '/api/v1/users/wishlist',

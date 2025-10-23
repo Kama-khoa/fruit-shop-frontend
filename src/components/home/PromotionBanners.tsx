@@ -8,21 +8,21 @@ const promos = [
         title: 'We provide you the best quality products',
         subtitle: 'Only This Week',
         description: 'A family place for grocery',
-        img: '/images/promo/promo1.jpg',
+        img: '/images/promo/promo1.png',
         bgColor: 'bg-green-50'
     },
     {
         title: 'We make your grocery shopping more exciting',
         subtitle: 'Only This Week',
         description: 'Shine the morning...',
-        img: '/images/promo/promo2.jpg',
+        img: '/images/promo/promo2.png',
         bgColor: 'bg-blue-50'
     },
     {
         title: 'The one supermarket that saves your money',
         subtitle: 'Only This Week',
         description: 'Breakfast made better',
-        img: '/images/promo/promo3.jpg',
+        img: '/images/promo/promo3.png',
         bgColor: 'bg-orange-50'
     }
 ];

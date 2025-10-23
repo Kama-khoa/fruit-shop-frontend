@@ -10,10 +10,10 @@ const TopBar: React.FC = () => {
   return (
     <div className="w-full h-20 flex items-center justify-between pr-4 lg:pr-14">
       {/* Logo */}
-      <div className="flex items-center justify-start lg:flex bg-[#027635] ">
+      <div className="flex items-center justify-start lg:flex ">
         <Link href={ROUTES.ROOT} className="inline-block">
           <Image
-            src="/logo_ngang.png"
+            src="/tam_dat_ngang.jpg"
             alt="Tâm Đạt Logo"
             width={300} // Cung cấp chiều rộng gốc của ảnh (thay đổi nếu cần)
             height={100} // Cung cấp chiều cao gốc của ảnh (thay đổi nếu cần)

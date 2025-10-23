@@ -59,7 +59,7 @@ const VariantSelectorModal: React.FC<VariantSelectorModalProps> = ({ product, is
         <div className="w-1/3">
           <div className="relative aspect-square rounded-lg overflow-hidden bg-gray-100">
             <Image
-              src={product.images?.[0] || '/images/default.png'}
+              src={product.images?.gallery[0] || '/images/default.png'}
               alt={product.name}
               fill
               className="object-cover"

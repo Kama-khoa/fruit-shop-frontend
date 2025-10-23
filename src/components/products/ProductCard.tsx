@@ -2,15 +2,11 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
-import { ROUTES } from "@/lib/utils/routes";
 import { Product, ProductDetail } from "@/types/product";
-import { addToCart } from "@/lib/api/cart";
 import toast from "react-hot-toast";
 import { HeartIcon, ShoppingCartIcon } from "@/components/ui/Icons";
 import ProductRating from "./ProductRating";
 import ProductPrice from "./ProductPrice";
-import VariantSelectorModal from "./VariantSelectorModal";
 import { getProductById } from "@/lib/api/products";
 import ProductDetailModal from "./ProductDetailModal";
 
@@ -36,7 +32,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     null
   );
   const [isLoadingDetail, setIsLoadingDetail] = useState(false);
-  const initialImageUrl = images?.[0] || "/images/default.png";
+  const initialImageUrl = (images && images.thumbnail) 
+                          ? images.thumbnail 
+                          : '/images/default.png';
 
   const [imageSrc, setImageSrc] = useState(initialImageUrl);
   const handleImageError = () => {
@@ -92,6 +90,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             fill
             onError={handleImageError}
             className="object-contain p-4 transition-transform duration-300 group-hover:scale-105"
+            sizes="(max-width: 640px) 50vw, 208px" 
           />
 
           {salePercentage > 0 && (

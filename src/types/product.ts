@@ -37,7 +37,10 @@ export interface Product {
   category_id?: string;
   unit_id?: string;
   description?: string | null;
-  images: string[] | null; // Có thể là null nếu không có ảnh
+  images: {
+    gallery: string[] | null;
+    thumbnail: string | null;
+  };
   price: string;
   stock_quantity: number;
   is_active?: boolean;
