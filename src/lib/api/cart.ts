@@ -3,32 +3,19 @@ import { API_ROUTES } from '../utils/routes';
 import { Coupon } from '@/types/index';
 import { ApiResponse } from '@/types/api';
 import { AddToCartPayload, Cart, CartApiResponse, CartItem } from '@/types/cart';
+import { th } from 'zod/v4/locales';
 
 /**
  * READ: Lấy thông tin giỏ hàng hiện tại của người dùng.
  * @returns Toàn bộ đối tượng giỏ hàng.
  */
-export const getCart = async (): Promise<Cart> => {
+export const getCart = async (): Promise<CartItem[]> => {
   try {
     const response = await apiClient.get<CartItem[]>(API_ROUTES.CART.BASE);
-    const items = response.data || [];
-    const subtotal = items.reduce((total, item) => {
-        return total + ((item.variant.price) * item.quantity);
-    }, 0);
-    
-    const total_items = items.reduce((total, item) => total + item.quantity, 0);
-
-    // Trả về một đối tượng Cart hoàn chỉnh
-    return {
-        items: items,
-        total_items: total_items,
-        subtotal: subtotal,
-        total: subtotal, // Giả sử chưa có phí vận chuyển hoặc giảm giá ở đây
-    };
+    return response.data || [];
   } catch (error) {
     console.error('Lỗi khi lấy thông tin giỏ hàng:', error);
-    // Trả về giỏ hàng trống nếu có lỗi
-    return { items: [], total_items: 0, subtotal: 0, total: 0 };
+    throw error;
   }
 };
 

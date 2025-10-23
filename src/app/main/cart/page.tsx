@@ -32,7 +32,7 @@ export default function CartPage() {
                     // getAllCoupons()
                 ]);
 
-                setCartItems(cartData.items || []);
+                setCartItems(cartData || []);
                 setAddresses(addressData || []);
                 // setCoupons(couponData || []);
                 setSelectedAddress(addressData.find(a => a.is_default) || addressData[0]);

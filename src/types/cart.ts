@@ -1,5 +1,3 @@
-import { Product } from "./product";
-
 export interface AddToCartPayload {
   quantity: number;
   variantId: number;
