@@ -11,7 +11,6 @@ export const getProducts = async (filters: ProductFilters): Promise<ProductListR
     return response.data;
   } catch (error) {
     console.error('Không thể lấy danh sách sản phẩm:', error);
-    // Trả về một trạng thái rỗng mặc định để tránh crash app.
     return {
         data: [],
         pagination: {
@@ -95,12 +94,12 @@ export const searchProducts = async (query: string): Promise<ProductListResponse
     }
 };
 
-export const getBestsellerProducts = async (query: string): Promise<ProductListResponse<Product>> => {
+export const getBestsellerProducts = async (): Promise<ProductListResponse<Product>> => {
     try {
         const response = await apiClient.get<ProductListResponse<Product>>(API_ROUTES.PRODUCTS.BESTSELLER);
         return response.data;
     } catch (error) {
-        console.error(`Lỗi khi tìm kiếm sản phẩm với từ khóa "${query}":`, error);
+        console.error(`Lỗi khi lấy sản phẩm bán chạy:`, error);
         return { data: [], pagination: { totalItems: 0, currentPage: 1, totalPages: 1 } };
     }
 };

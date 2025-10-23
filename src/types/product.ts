@@ -78,7 +78,7 @@ export interface ProductFilters {
   search?: string;
   page?: number;
   limit?: number;
-  categoryId?: number;
+  categoryId: number | null;
   minPrice?: number;
   maxPrice?: number;
   rating?: number;
@@ -91,9 +91,5 @@ export interface ProductFilters {
 // Giữ nguyên cấu trúc generic
 export interface ProductListResponse<T> {
   data: T[];
-  pagination: {
-      currentPage: number;
-      totalPages: number;
-      totalItems: number;
-  };
+  pagination: PaginationMeta;
 }

@@ -29,8 +29,7 @@ export interface ApiError {
  * Siêu dữ liệu cho việc phân trang.
  */
 export interface PaginationMeta {
-  total: number;
-  page: number;
-  limit: number;
-  totalPages: number;
+  currentPage: number;
+  totalPages: number;
+  totalItems: number;
 }

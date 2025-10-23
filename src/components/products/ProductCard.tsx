@@ -80,10 +80,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     toast.success("Đã thêm vào danh sách yêu thích 💖");
   };
 
-  const handleCartClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    toast.success(`${name} đã được thêm vào giỏ hàng 🛒`);
-  };
 
   return (
     <>
@@ -139,7 +135,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             )}
 
             <button
-              onClick={handleCartClick}
+              onClick={handleOpenDetail}
               className="flex items-center gap-1 bg-emerald-500 hover:bg-emerald-600 text-white px-3 py-2 rounded-lg transition-all duration-200 text-sm font-semibold shadow hover:shadow-md"
             >
               <ShoppingCartIcon className="w-4 h-4" />

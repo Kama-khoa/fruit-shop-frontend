@@ -6,13 +6,13 @@ import FilterSidebar, { FilterState } from "@/components/products/FilterSidebar"
 import ProductsDisplay from "@/components/products/ProductsDisplay";
 import { getProducts } from "@/lib/api/products";
 import { getCategories } from "@/lib/api/categories";
-import { Product, ProductFilter } from '@/types/product';
+import { Product, ProductFilters } from '@/types/product';
 import { PaginationMeta } from '@/types/api';
 import { Category } from '@/types/category';
 import { useDebounce } from '@/lib/hooks/useDebounce';
 import { Loader2 } from 'lucide-react';
 
-type ProductSortKeys = 'created_at' | 'price' | 'rating' | 'popular';
+type ProductSortKeys = 'created_at' | 'price';
 
 export default function ProductsPage() {
   // --- STATE ---
@@ -23,13 +23,14 @@ export default function ProductsPage() {
   const isFirstRender = useRef(true);
 
   // --- FILTERS ---
-  const [filters, setFilters] = useState<ProductFilter>({
+  const [filters, setFilters] = useState<ProductFilters>({
     page: 1,
     limit: 20,
     sortBy: 'created_at',
     sortOrder: 'desc',
     minPrice: 0,
     maxPrice: 1000000,
+    categoryId: null,
   });
 
   const debouncedFilters = useDebounce(filters, 500);
@@ -43,9 +44,9 @@ export default function ProductsPage() {
           getProducts(filters),
           getCategories(),
         ]);
-
+        
         setProducts(productResponse.data);
-        setPagination(productResponse.meta);
+        setPagination(productResponse.pagination);
         setCategories(categoryData);
       } catch (error) {
         console.error("Lỗi khi tải dữ liệu ban đầu:", error);
@@ -66,7 +67,7 @@ export default function ProductsPage() {
       try {
         const productResponse = await getProducts(debouncedFilters);
         setProducts(productResponse.data);
-        setPagination(productResponse.meta);
+        setPagination(productResponse.pagination);
       } catch (error) {
         console.error("Lỗi khi tải dữ liệu sản phẩm:", error);
       } finally {
@@ -85,9 +86,16 @@ export default function ProductsPage() {
   }, [products]);
 
   // --- HANDLERS ---
-  const handleFilterChange = useCallback((newFilters: Partial<FilterState>) => {
-    setFilters((prev) => ({ ...prev, ...newFilters, page: 1 }));
-  }, []);
+  const handleFilterChange = (sidebarFilters: Partial<FilterState>) => {
+    setFilters((prev) => ({
+      ...prev,
+      // Cập nhật các giá trị từ sidebar, nếu chúng tồn tại
+      minPrice: sidebarFilters.minPrice ?? prev.minPrice,
+      maxPrice: sidebarFilters.maxPrice ?? prev.maxPrice,
+      categoryId: sidebarFilters.categoryId !== undefined ? sidebarFilters.categoryId : prev.categoryId,
+      page: 1, 
+    }));
+  };
 
   const handleSortChange = (sortBy: string, sortOrder: string) => {
     setFilters((prev) => ({

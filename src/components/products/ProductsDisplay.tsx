@@ -56,7 +56,7 @@ export default function ProductsDisplay({
           {isLoading && products.length === 0
             ? "Đang tải..."
             : `Hiển thị ${products.length} trên tổng ${
-                pagination?.total || 0
+                pagination?.totalItems || 0
               } sản phẩm`}
         </span>
 
@@ -112,7 +112,7 @@ export default function ProductsDisplay({
       {pagination && pagination.totalPages > 1 && (
         <div className="mt-10">
           <Pagination
-            currentPage={pagination.page}
+            currentPage={pagination.currentPage}
             totalPages={pagination.totalPages}
             onPageChange={onPageChange}
           />

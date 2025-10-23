@@ -4,7 +4,7 @@ import { Category } from '@/types/category';
 import { useState, useEffect } from 'react';
 
 export interface FilterState {
-  categories: number[];
+  categoryId: number | null;
   minPrice: number;
   maxPrice: number;
   status: ('inStock' | 'onSale')[];
@@ -18,19 +18,18 @@ interface Props {
 
 export default function FilterSidebar({ allCategories, initialMaxPrice, onFilterChange }: Props) {
   const [priceRange, setPriceRange] = useState({ min: 0, max: initialMaxPrice });
-  const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
 
   useEffect(() => {
     setPriceRange((prev) => ({ ...prev, max: initialMaxPrice }));
   }, [initialMaxPrice]);
 
   const handleCategoryChange = (categoryId: number) => {
-    const newSelection = selectedCategories.includes(categoryId)
-      ? selectedCategories.filter((id) => id !== categoryId)
-      : [...selectedCategories, categoryId];
-
-    setSelectedCategories(newSelection);
-    onFilterChange({ categories: newSelection });
+    const newSelection = selectedCategory === categoryId ? null : categoryId;
+    
+    setSelectedCategory(newSelection);
+    
+    onFilterChange({ categoryId: newSelection }); 
   };
 
   const handlePriceInputChange = (type: 'min' | 'max', value: string) => {
@@ -47,9 +46,9 @@ export default function FilterSidebar({ allCategories, initialMaxPrice, onFilter
 
   const resetFilters = () => {
     setPriceRange({ min: 0, max: initialMaxPrice });
-    setSelectedCategories([]);
+    setSelectedCategory(null);
     onFilterChange({
-      categories: [],
+      categoryId: null, 
       minPrice: 0,
       maxPrice: initialMaxPrice,
     });
@@ -99,19 +98,48 @@ export default function FilterSidebar({ allCategories, initialMaxPrice, onFilter
       <div className="mb-8">
         <h3 className="text-sm font-medium text-gray-700 mb-3">Danh mục</h3>
         <ul className="max-h-60 overflow-y-auto space-y-2 pr-1 custom-scrollbar">
+          {/* Thêm lựa chọn "Tất cả" để reset */}
+          <li className="flex items-center">
+            <input
+              type="radio" // <-- 7. THAY ĐỔI: checkbox -> radio
+              id="cat-all"
+              name="category-filter" // 8. Thêm 'name' để nhóm các radio button
+              className="h-4 w-4 text-green-600 border-gray-300 focus:ring-green-500"
+              checked={selectedCategory === null} // 9. Kiểm tra 'null'
+              onChange={() => handleCategoryChange(0)} // 10. Tạo hàm riêng hoặc logic để set về null
+              // Tạm thời dùng:
+              onClick={() => {
+                  setSelectedCategory(null);
+                  onFilterChange({ categoryId: null });
+              }}
+            />
+            <label
+              htmlFor="cat-all"
+              className={`ml-3 text-sm cursor-pointer select-none ${
+                selectedCategory === null // <-- 11. THAY ĐỔI LOGIC
+                  ? 'text-green-700 font-medium'
+                  : 'text-gray-700'
+              }`}
+            >
+              Tất cả danh mục
+            </label>
+          </li>
+
+          {/* Map qua các danh mục */}
           {allCategories.map((category) => (
             <li key={category.id} className="flex items-center">
               <input
-                type="checkbox"
+                type="radio" // <-- 7. THAY ĐỔI: checkbox -> radio
                 id={`cat-${category.id}`}
-                className="h-4 w-4 text-green-600 border-gray-300 rounded focus:ring-green-500"
-                checked={selectedCategories.includes(category.id)}
-                onChange={() => handleCategoryChange(category.id)}
+                name="category-filter" // 8. Thêm 'name'
+                className="h-4 w-4 text-green-600 border-gray-300 focus:ring-green-500"
+                checked={selectedCategory === category.id} // <-- 11. THAY ĐỔI LOGIC
+                onChange={() => handleCategoryChange(category.id)} // 12. Giữ nguyên
               />
               <label
                 htmlFor={`cat-${category.id}`}
                 className={`ml-3 text-sm cursor-pointer select-none ${
-                  selectedCategories.includes(category.id)
+                  selectedCategory === category.id // <-- 11. THAY ĐỔI LOGIC
                     ? 'text-green-700 font-medium'
                     : 'text-gray-700'
                 }`}
