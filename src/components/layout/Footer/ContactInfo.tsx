@@ -40,7 +40,7 @@ const ContactInfo: React.FC = () => {
             href="mailto:contact@fruityfruit.com"
             className="text-gray-900 text-sm font-semibold font-['Inter'] hover:text-gray-700 transition-colors"
           >
-            contact@fruityfruit.com
+            contact@tamdat.com
           </a>
         </div>
       </div>

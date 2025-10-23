@@ -1,9 +1,10 @@
 import React from 'react';
 import Link from 'next/link';
+import { ROUTES } from '@/lib/utils/routes';
 
 const infoLinks = [
-  { label: 'Cơ hội việc làm tại Fruity Fruit', href: '/tuyen-dung' },
-  { label: 'Về Fruity Fruit', href: '/gioi-thieu' },
+  { label: 'Cơ hội việc làm tại Tâm Đạt', href: '/tuyen-dung' },
+  { label: 'Về Tâm Đạt', href: '/main/about_us' },
   { label: 'Các nhà đầu tư', href: '/nha-dau-tu' },
   { label: 'Đánh giá khách hàng', href: '/danh-gia' },
   { label: 'Trách nhiệm cộng đồng', href: '/trach-nhiem-cong-dong' },

@@ -8,7 +8,7 @@ const nextConfig = {
       ,'cicin.vn','cdn.abphotos.link','www.lottemart.vn','potas.vn','buoidaxanh.com'
       ,'phunuvietnam.mediacdn.vn','delifruit.vn','media.tapchikinhtetaichinh.vn','dacsanchinhgoc.vn','dichothue.com.vn'
       ,'www.vietfuntravel.com.vn','nongsandungha.com','fujifruit.com.vn','danviet.ex-cdn.com','huucothuanthien.com','chonongsanonline.com',
-      'eakmat.vn','www.conngongvang.com','',''
+      'eakmat.vn','www.conngongvang.com','vuonnhasau.com','cayantrai.vn','upload.wikimedia.org', 'tfruit.com.vn', 'hoaquafuji.com', 'media.vietnamplus.vn', 'traicay350.com'
     ],
     formats: ['image/webp', 'image/avif'],
     remotePatterns: [
@@ -36,6 +36,7 @@ const nextConfig = {
         port: '',
         pathname: '/**', // Cho phép tất cả các đường dẫn con
       },
+      
     ],
   },
   env: {

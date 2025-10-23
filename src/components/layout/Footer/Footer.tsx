@@ -39,7 +39,7 @@ const Footer: React.FC = () => {
       {/* Copyright */}
       <div className="py-4 text-center bg-neutral-200">
         <p className="text-xs text-gray-600 font-['Inter'] tracking-wide">
-          © {new Date().getFullYear()} <span className="text-gray-800 font-semibold">Fruity Fruit</span>.  
+          © {new Date().getFullYear()} <span className="text-gray-800 font-semibold">Tâm Đạt</span>.  
           &nbsp;All Rights Reserved.
         </p>
       </div>

@@ -5,25 +5,25 @@ const socialLinks = [
   { 
     name: 'Facebook', 
     icon: Facebook, 
-    href: 'https://facebook.com/fruityfruit',
+    href: 'https://www.facebook.com/HuuCoTamDat',
     color: 'text-blue-600'
   },
   { 
     name: 'Instagram', 
     icon: Instagram, 
-    href: 'https://instagram.com/fruityfruit',
+    href: 'https://instagram.com/HuuCoTamDat',
     color: 'text-pink-600'
   },
   { 
     name: 'Youtube', 
     icon: Youtube, 
-    href: 'https://youtube.com/@fruityfruit',
+    href: 'https://youtube.com/HuuCoTamDat',
     color: 'text-red-600'
   },
   { 
     name: 'Twitter', 
     icon: Twitter, 
-    href: 'https://twitter.com/fruityfruit',
+    href: 'https://twitter.com/HuuCoTamDat',
     color: 'text-sky-600'
   },
 ];

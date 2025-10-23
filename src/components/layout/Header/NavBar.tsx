@@ -19,7 +19,7 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   { label: 'Trang chủ', href: ROUTES.ROOT },
-  { label: 'Danh mục', href: ROUTES.MAIN.CATEGORIES.LIST, hasDropdown: true },
+  { label: 'Danh mục', href: '', hasDropdown: true },
   { label: 'Sản phẩm', href: ROUTES.MAIN.PRODUCTS.LIST },
   { label: 'Về chúng tôi', href: ROUTES.MAIN.ABOUT },
   { label: 'Blog', href: ROUTES.MAIN.NEWS.LIST },
