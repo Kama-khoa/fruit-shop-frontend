@@ -12,7 +12,8 @@ export type AuthAction =
   | { type: 'LOGIN_SUCCESS'; payload: User }
   | { type: 'LOGOUT_SUCCESS' }
   | { type: 'SET_ERROR'; payload: string | null }
-  | { type: 'SET_LOADING'; payload: boolean };
+  | { type: 'SET_LOADING'; payload: boolean }
+  | { type: 'UPDATE_USER'; payload: User };
 
 // --- REDUCER FUNCTION ---
 export const authReducer = (state: AuthState, action: AuthAction): AuthState => {
@@ -44,6 +45,14 @@ export const authReducer = (state: AuthState, action: AuthAction): AuthState => 
         ...state,
         error: action.payload,
         isLoading: false,
+      };
+    case 'UPDATE_USER':
+      return {
+        ...state,
+        user: action.payload,
+        isAuthenticated: true,
+        isLoading: false,
+        error: null,
       };
     default:
       return state;

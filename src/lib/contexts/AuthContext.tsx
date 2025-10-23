@@ -26,6 +26,7 @@ interface AuthContextType extends AuthState {
   register: (credentials: RegisterCredentials) => Promise<AuthResponse>;
   logout: () => Promise<void>;
   setError: (error: string | null) => void;
+  updateAuthUser: (user: User) => void;
 }
 
 export const AuthContext = createContext<AuthContextType | undefined>(
@@ -141,6 +142,19 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  const updateAuthUser = (user: User) => {
+    try {
+      // Cập nhật user object trong storage
+      const storage = localStorage.getItem('access_token') ? localStorage : sessionStorage;
+      storage.setItem('user', JSON.stringify(user));
+      
+      // Dispatch để cập nhật state trong context
+      dispatch({ type: 'UPDATE_USER', payload: user });
+    } catch (error) {
+      console.error("Lỗi khi cập nhật session người dùng:", error);
+    }
+  };
+
   const setError = (error: string | null) => {
     dispatch({ type: "SET_ERROR", payload: error });
   };
@@ -151,6 +165,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     register,
     logout,
     setError,
+    updateAuthUser,
   };
 
   return (

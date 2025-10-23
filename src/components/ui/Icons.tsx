@@ -304,3 +304,18 @@ export const XCircleIcon = ({ className }: { className?: string }) => (
         <path d="M38 22L22 38" stroke="#EF4444" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
     </svg>
 );
+
+export const WalletIcon = ({ className }: { className?: string }) => (
+  <svg className={className || "w-6 h-6"} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M21 12V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h7"></path>
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M16 12h-3m3 0a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"></path>
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M19 21v-2a3 3 0 0 0-3-3H6"></path>
+  </svg>
+);
+
+export const ArrowUpRightIcon = ({ className }: { className?: string }) => (
+  <svg className={className || "w-5 h-5"} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 4H3v7"></path>
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 4l9 9"></path>
+  </svg>
+);

@@ -6,16 +6,16 @@ import { useAuth } from '@/lib/hooks/useAuth';
 import { useNavigation } from '@/lib/utils/navigation';
 import { ROUTES } from '@/lib/utils/routes';
 import { 
-    ProfileAccountIcon, 
     ProfileOrdersIcon, 
-    ProfileAddressIcon, 
-    ProfileNotificationIcon, 
     ProfileCouponIcon, 
     ProfileSettingsIcon, 
     ProfileHelpIcon,
-    ProfileLogoutIcon
+    ProfileLogoutIcon,
+    ProfileAddressIcon
 } from '@/components/ui/ProfileIcons';
 import ProfileMenuItem from './ProfileMenuItem';
+import { UserIcon } from '../ui/UserIcons';
+import { Bell } from 'lucide-react';
 
 type MenuItemKey = 'details' | 'orders' | 'addresses' | 'notifications' | 'coupons' | 'settings' | 'help';
 
@@ -26,16 +26,16 @@ interface ProfileMenuProps {
 
 // Cấu hình các mục menu
 const menuItems = [
-  { key: 'details', label: 'Account Details', icon: <ProfileAccountIcon /> },
-  { key: 'orders', label: 'My Orders', icon: <ProfileOrdersIcon /> },
-  { key: 'addresses', label: 'My Addresses', icon: <ProfileAddressIcon /> },
-  { key: 'notifications', label: 'Notification Setting', icon: <ProfileNotificationIcon /> },
+  { key: 'details', label: 'Thông tin tài khoản', icon: <UserIcon /> },
+  { key: 'orders', label: 'Đơn hàng', icon: <ProfileOrdersIcon /> },
+  { key: 'addresses', label: 'Địa chỉ', icon: <ProfileAddressIcon /> },
+  { key: 'notifications', label: 'Thông báo', icon: <Bell /> },
   { key: 'coupons', label: 'Coupons', icon: <ProfileCouponIcon /> },
 ];
 
 const bottomMenuItems = [
-  { key: 'settings', label: 'Account Settings', icon: <ProfileSettingsIcon /> },
-  { key: 'help', label: 'Help Center', icon: <ProfileHelpIcon /> },
+  { key: 'settings', label: 'Đổi mật khẩu', icon: <ProfileSettingsIcon /> },
+  { key: 'help', label: 'Trung tâm hỗ trợ', icon: <ProfileHelpIcon /> },
 ];
 
 const ProfileMenu: React.FC<ProfileMenuProps> = ({ activeView, setActiveView }) => {
@@ -53,7 +53,7 @@ const ProfileMenu: React.FC<ProfileMenuProps> = ({ activeView, setActiveView }) 
         <div className="flex items-center gap-3 p-2">
             <Image 
                 className="w-12 h-12 rounded-full object-cover" 
-                src={user?.avatar || '/images/default-user.png'}
+                src={user?.avatar || '/images/default-user.jpg'}
                 alt={user?.name || 'Avatar'}
                 width={48}
                 height={48}
@@ -98,7 +98,7 @@ const ProfileMenu: React.FC<ProfileMenuProps> = ({ activeView, setActiveView }) 
                 <div className="transition-colors duration-200">
                     <ProfileLogoutIcon />
                 </div>
-                <div className="flex-1 justify-start text-base font-semibold leading-snug transition-colors duration-200">
+                <div className="justify-start text-base font-semibold leading-snug transition-colors duration-200">
                     Logout
                 </div>
             </button>

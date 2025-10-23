@@ -4,7 +4,7 @@ export interface UserProfile {
   email: string;
   phone: string | null;
   avatar: string | null;
-  user_type: number;
+  user_type: string;
   customer_id: string;
   total_spent: string;
   order_count: number;
@@ -18,5 +18,4 @@ export interface UpdateUserProfilePayload {
   name?: string;
   phone?: string | null;
   avatar?: string | null;
-  // Thêm các trường khác nếu bạn cho phép người dùng tự sửa
 }

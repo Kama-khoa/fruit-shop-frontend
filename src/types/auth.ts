@@ -6,7 +6,7 @@ export interface User {
   role_id: number;
   branch_id: string;
   customer_id: string;
-  avatar?: string;
+  avatar: string | null;
 }
 
 export interface AuthState {

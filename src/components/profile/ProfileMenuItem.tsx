@@ -21,7 +21,7 @@ const ProfileMenuItem: React.FC<{
             <div className={`transition-colors duration-200 ${iconClass}`}>
                 {icon}
             </div>
-            <div className={`flex-1 justify-start text-base font-semibold leading-snug transition-colors duration-200 ${textClass}`}>
+            <div className={`justify-start text-base font-semibold leading-snug transition-colors duration-200 ${textClass}`}>
                 {label}
             </div>
         </button>

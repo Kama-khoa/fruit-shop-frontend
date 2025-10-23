@@ -2,11 +2,12 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import { UserIcon, LogoutIcon, DashboardIcon, GemIcon } from '@/components/ui/UserIcons';
+import { UserIcon, DashboardIcon, GemIcon } from '@/components/ui/UserIcons';
 import { useAuth } from '@/lib/hooks/useAuth';
 import { ROUTES } from '@/lib/utils/routes';
 import { useNavigation } from '@/lib/utils/navigation';
 import Image from 'next/image';
+import { ProfileLogoutIcon } from '@/components/ui/ProfileIcons';
 
 const UserMenu: React.FC = () => {
   const { isAuthenticated, user, logout, isLoading } = useAuth();
@@ -91,7 +92,7 @@ const UserMenu: React.FC = () => {
               onClick={handleLogout}
               className="flex items-center gap-3 w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
             >
-              <LogoutIcon className="w-4 h-4"/>
+              <ProfileLogoutIcon className="w-4 h-4 text-red-600"/>
               <span>Đăng xuất</span>
             </button>
           </div>

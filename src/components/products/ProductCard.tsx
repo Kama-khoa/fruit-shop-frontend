@@ -32,13 +32,26 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     null
   );
   const [isLoadingDetail, setIsLoadingDetail] = useState(false);
-  const initialImageUrl = (images && images.thumbnail) 
-                          ? images.thumbnail 
-                          : '/images/default.png';
+
+  const getThumbnailSrc = () => {
+    if (images && images.thumbnail) {
+      if (Array.isArray(images.thumbnail)) {
+        if (images.thumbnail.length > 0 && images.thumbnail[0]) {
+          return images.thumbnail[0];
+        }
+      } else if (typeof images.thumbnail === 'string' && images.thumbnail) {
+        return images.thumbnail;
+      }
+    }
+    return '/images/default.png';
+  };
+
+  const initialImageUrl = getThumbnailSrc();
+  console.log("Initial Image URL:", initialImageUrl);
 
   const [imageSrc, setImageSrc] = useState(initialImageUrl);
   const handleImageError = () => {
-    setImageSrc("/images/default.png"); // Chuyển sang ảnh mặc định
+    setImageSrc("/images/default.png");
   };
 
   const salePercentage =
@@ -74,7 +87,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
   const handleToggleWishlist = (e: React.MouseEvent) => {
     e.preventDefault();
-    console.log(`Toggled wishlist for ${name}`);
+    console.log('Toggled wishlist for ${name}');
   };
 
   return (
@@ -90,7 +103,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             fill
             onError={handleImageError}
             className="object-contain p-4 transition-transform duration-300 group-hover:scale-105"
-            sizes="(max-width: 640px) 50vw, 208px" 
+            sizes="(max-width: 640px) 50vw, 208px"
           />
 
           {salePercentage > 0 && (

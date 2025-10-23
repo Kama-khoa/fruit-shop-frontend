@@ -150,8 +150,8 @@ export const API_ROUTES = {
   
   // Orders API (app/api/v1/orders/)
   ORDERS: {
-    BASE: '/api/v1/my-orders',
-    DETAIL: (id: string) => `/api/v1/my-orders/${id}`,
+    BASE: '/api/v1/orders/my-orders',
+    DETAIL: (id: string) => `/api/v1/orders/my-orders/${id}`,
     CREATE: '/api/v1/orders',
     CANCEL: (id: string) => `/api/v1/orders/${id}/cancel`,
     TRACKING: (orderNumber: string) => `/api/v1/orders/tracking/${orderNumber}`,
@@ -196,8 +196,7 @@ export const API_ROUTES = {
   
   // Upload API (app/api/v1/upload/)
   UPLOAD: {
-    IMAGE: '/api/v1/upload/image',
-    DOCUMENT: '/api/v1/upload/document',
+    IMAGE: '/api/v1/uploads/signature',
   },
 } as const;
 

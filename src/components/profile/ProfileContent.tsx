@@ -2,35 +2,34 @@
 
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/lib/hooks/useAuth';
-import { UserProfile, UpdateUserProfilePayload } from '@/types/user';
+import { UserProfile } from '@/types/user';
 import { getUserProfile, updateUserProfile } from '@/lib/api/users';
 import Image from 'next/image';
 import toast from 'react-hot-toast';
 import { Loader2 } from 'lucide-react';
+import { PencilIcon } from '@/components/ui/Icons'; // Import icon Sửa
 
-// Định dạng tiền tệ
-const formatCurrency = (amount: string) => {
-    return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(parseFloat(amount));
-};
-
-// Component con cho các ô thống kê
-const StatCard: React.FC<{ label: string; value: string | number }> = ({ label, value }) => (
-    <div className="bg-gray-50 p-4 rounded-lg text-center">
-        <p className="text-sm text-gray-500">{label}</p>
-        <p className="text-xl font-bold text-green-600">{value}</p>
+// Component con để hiển thị thông tin
+const InfoBox: React.FC<{ label: string; value: string | null }> = ({ label, value }) => (
+    <div className="w-full p-4 bg-white rounded-2xl border border-gray-200">
+        <div className="flex flex-col gap-0.5">
+            <span className="text-gray-900 text-base font-semibold font-['Inter'] leading-snug">{label}</span>
+            <span className="text-gray-500 text-sm font-normal font-['Inter'] leading-tight">{value || 'Chưa cập nhật'}</span>
+        </div>
     </div>
 );
 
 export default function ProfileContent() {
-    const { user } = useAuth(); // Dùng refreshUser để cập nhật AuthContext
+    const { user, updateAuthUser } = useAuth();
     const [profile, setProfile] = useState<UserProfile | null>(null);
     const [formData, setFormData] = useState({ name: '', phone: '' });
     const [isLoading, setIsLoading] = useState(true);
+    const [isEditing, setIsEditing] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
 
-    // Tải dữ liệu hồ sơ khi component được mount
     useEffect(() => {
         const fetchProfile = async () => {
+            setIsLoading(true);
             try {
                 const profileData = await getUserProfile();
                 setProfile(profileData);
@@ -61,6 +60,13 @@ export default function ProfileContent() {
             });
             setProfile(updatedProfile);
             toast.success("Cập nhật thông tin thành công!");
+            if (user) {
+                // Tạo đối tượng user mới cho context
+                const updatedUserContext = { ...user, ...updatedProfile };
+                updateAuthUser(updatedUserContext);
+            }
+
+            setIsEditing(false); // Quay lại chế độ xem
         } catch (error) {
             toast.error("Cập nhật thất bại. Vui lòng thử lại.");
         } finally {
@@ -80,79 +86,88 @@ export default function ProfileContent() {
         return <div className="p-6 bg-white rounded-lg shadow">Không thể tải thông tin hồ sơ.</div>;
     }
 
-    return (
-        <div className="p-6 bg-white rounded-lg shadow">
-            <h2 className="text-2xl font-semibold mb-6">Chi tiết Tài khoản</h2>
+    const inputStyles = "w-full h-12 px-4 bg-neutral-50 rounded-lg text-base border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-300 transition duration-200 ease-in-out";
 
-            {/* Thống kê đơn hàng */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-                <StatCard label="Tổng chi tiêu" value={formatCurrency(profile.total_spent)} />
-                <StatCard label="Tổng đơn hàng" value={profile.order_count} />
-                <StatCard label="Đơn hàng cuối" value={profile.last_order_date ? new Date(profile.last_order_date).toLocaleDateString('vi-VN') : 'Chưa có'} />
+    return (
+        <div className="w-full p-6 bg-white rounded-lg shadow-lg border border-gray-100">
+            {/* Header */}
+            <div className="flex justify-between items-center mb-8">
+                <h2 className="text-gray-900 text-2xl font-semibold font-['Inter'] leading-loose tracking-wide">
+                    Thông tin tài khoản
+                </h2>
+                {!isEditing && (
+                    <button 
+                        onClick={() => setIsEditing(true)}
+                        className="flex items-center gap-2 px-4 py-2 rounded-full text-green-600 font-semibold text-sm hover:bg-green-50 transition-colors"
+                    >
+                        <PencilIcon className="w-4 h-4" />
+                        Sửa
+                    </button>
+                )}
             </div>
 
-            {/* Form chỉnh sửa thông tin */}
-            <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="flex items-center gap-4">
-                    <Image
-                        src={profile.avatar || user?.avatar || '/images/default-user.png'}
-                        alt="Avatar"
-                        width={80}
-                        height={80}
-                        className="rounded-full object-cover"
-                    />
-                    <button type="button" className="text-sm font-semibold text-green-600 border border-green-600 px-4 py-2 rounded-lg hover:bg-green-50">
+            {/* Content */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                {/* Cột trái: Avatar */}
+                <div className="md:col-span-1 flex flex-col items-center gap-4">
+                    <div className="relative w-40 h-40 rounded-full overflow-hidden">
+                        <Image
+                            src={profile.avatar || user?.avatar || '/images/default-user.jpg'}
+                            alt="Avatar"
+                            fill
+                            className="object-cover"
+                            sizes="160px"
+                        />
+                    </div>
+                    <button type="button" className="px-4 py-2 border border-gray-300 rounded-full text-stone-950 text-sm font-medium hover:bg-gray-50">
                         Đổi ảnh đại diện
                     </button>
                 </div>
 
-                <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-gray-700">Họ và tên</label>
-                    <input
-                        type="text"
-                        name="name"
-                        id="name"
-                        value={formData.name}
-                        onChange={handleChange}
-                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-green-500 focus:border-green-500"
-                    />
+                {/* Cột phải: Thông tin */}
+                <div className="md:col-span-2">
+                    {isEditing ? (
+                        // --- Chế độ CHỈNH SỬA ---
+                        <form onSubmit={handleSubmit} className="space-y-4">
+                            <div className="flex flex-col gap-2">
+                                <label htmlFor="name" className="text-black text-sm font-semibold font-['Inter'] leading-tight">Họ và tên</label>
+                                <input id="name" name="name" type="text" required value={formData.name} onChange={handleChange} className={inputStyles}/>
+                            </div>
+                             <div className="flex flex-col gap-2">
+                                <label htmlFor="phone" className="text-black text-sm font-semibold font-['Inter'] leading-tight">Số điện thoại</label>
+                                <input id="phone" name="phone" type="tel" value={formData.phone} onChange={handleChange} placeholder="Chưa có số điện thoại" className={inputStyles}/>
+                            </div>
+                            <div className="flex flex-col gap-2">
+                                <label htmlFor="email" className="text-black text-sm font-semibold font-['Inter'] leading-tight">Email</label>
+                                <input id="email" name="email" type="email" readOnly disabled value={profile.email} className={`${inputStyles} bg-gray-200 text-gray-500 cursor-not-allowed`}/>
+                            </div>
+                            <div className="flex justify-end gap-4 mt-6">
+                                <button
+                                    type="button"
+                                    onClick={() => setIsEditing(false)}
+                                    className="px-6 py-2 rounded-full text-gray-700 bg-gray-100 hover:bg-gray-200 font-semibold"
+                                >
+                                    Hủy
+                                </button>
+                                <button
+                                    type="submit"
+                                    disabled={isSaving}
+                                    className="px-6 py-2 rounded-full bg-Button-Auth text-white font-semibold hover:opacity-90 disabled:bg-gray-400"
+                                >
+                                    {isSaving ? <Loader2 className="w-5 h-5 animate-spin" /> : 'Lưu'}
+                                </button>
+                            </div>
+                        </form>
+                    ) : (
+                        // --- Chế độ HIỂN THỊ ---
+                        <div className="space-y-4">
+                            <InfoBox label="Họ và tên" value={profile.name} />
+                            <InfoBox label="Số điện thoại" value={profile.phone} />
+                            <InfoBox label="Email" value={profile.email} />
+                        </div>
+                    )}
                 </div>
-
-                <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
-                    <input
-                        type="email"
-                        name="email"
-                        id="email"
-                        value={profile.email}
-                        disabled // Không cho phép sửa email
-                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 bg-gray-100 text-gray-500"
-                    />
-                </div>
-
-                <div>
-                    <label htmlFor="phone" className="block text-sm font-medium text-gray-700">Số điện thoại</label>
-                    <input
-                        type="tel"
-                        name="phone"
-                        id="phone"
-                        value={formData.phone}
-                        onChange={handleChange}
-                        placeholder="Chưa có số điện thoại"
-                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-green-500 focus:border-green-500"
-                    />
-                </div>
-
-                <div className="text-right">
-                    <button
-                        type="submit"
-                        disabled={isSaving}
-                        className="inline-flex justify-center py-2 px-6 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 disabled:bg-gray-400"
-                    >
-                        {isSaving ? <Loader2 className="w-5 h-5 animate-spin" /> : 'Lưu thay đổi'}
-                    </button>
-                </div>
-            </form>
+            </div>
         </div>
     );
 }

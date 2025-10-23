@@ -33,6 +33,7 @@ export const getMyOrders = async (): Promise<OrderListSummary[]> => {
   try {
     // API trả về một mảng OrderListSummary
     const response = await apiClient.get<OrderListSummary[]>(API_ROUTES.ORDERS.BASE);
+    console.log('Fetched orders:', response.data);
     return response.data || [];
   } catch (error) {
     console.error('Lỗi khi lấy danh sách đơn hàng:', error);

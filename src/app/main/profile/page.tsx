@@ -3,14 +3,14 @@
 import { useState } from 'react';
 import ProfileMenu from '@/components/profile/ProfileMenu';
 import ProfileContent from '@/components/profile/ProfileContent';
+import MyOrders from '@/components/profile/MyOrders';
 // import MyOrders from '@/components/profile/MyOrders';
 // import MyAddresses from '@/components/profile/MyAddresses';
 
 // Định nghĩa các view có thể có
-type ProfileView = 'details' | 'orders' | 'addresses' | 'notifications' | 'coupons' | 'recipes' | 'settings' | 'help';
+type ProfileView = 'details' | 'orders' | 'addresses' | 'notifications' | 'coupons' | 'settings' | 'help';
 
 // Placeholder cho các component chưa được tạo
-const MyOrders = () => <div className="p-6 bg-white rounded-lg shadow">Nội dung Đơn hàng của tôi</div>;
 const MyAddresses = () => <div className="p-6 bg-white rounded-lg shadow">Nội dung Địa chỉ của tôi</div>;
 const Notifications = () => <div className="p-6 bg-white rounded-lg shadow">Nội dung Cài đặt Thông báo</div>;
 const Coupons = () => <div className="p-6 bg-white rounded-lg shadow">Nội dung Coupons</div>;
