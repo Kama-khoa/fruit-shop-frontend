@@ -14,15 +14,12 @@ const ITEMS_PER_PAGE = 6;
 // Hàm map trạng thái từ backend sang các tab
 const mapStatusToTab = (status: string): OrderStatusFilter => {
   status = status.toLowerCase();
-  if (status === 'pending' || status === 'processing' || status === 'shipping') {
-    return 'processing';
-  }
-  if (status === 'delivered' || status === 'completed') {
-    return 'delivered';
-  }
-  if (status === 'cancelled' || status === 'failed') {
-    return 'cancelled';
-  }
+  if (status === 'pending') return 'pending';
+  if (status === 'confirmed') return 'confirmed'
+  if (status === 'processing') return 'processing';
+  if (status === 'shipped') return 'shipped';
+  if (status === 'delivered' || status === 'completed') return 'delivered';
+  if (status === 'cancelled' || status === 'failed') return 'cancelled';
   return 'all'; // Fallback
 };
 

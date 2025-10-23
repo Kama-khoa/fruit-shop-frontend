@@ -26,7 +26,7 @@ const CartItem: React.FC<CartItemProps> = ({ item, onUpdateQuantity, onRemoveIte
   const [quantity, setQuantity] = useState(item.quantity);
   const [isUpdating, setIsUpdating] = useState(false);
   const debouncedQuantity = useDebounce(quantity, 500);
-  const [imageSrc, setImageSrc] = useState(item.variant.image || '/images/default.png');
+  const [imageSrc, setImageSrc] = useState(item.variant?.image || '/images/default.png');
 
   useEffect(() => {
     if (debouncedQuantity !== item.quantity) {

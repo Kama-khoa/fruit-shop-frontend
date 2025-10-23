@@ -56,3 +56,14 @@ export const getMyOrderDetail = async (id: string): Promise<Order | null> => {
     return null;
   }
 };
+
+export const cancelOrder = async (id: string): Promise<Order> => {
+  try {
+    // Giả sử API hủy bằng phương thức PATCH và trả về đơn hàng đã cập nhật
+    const response = await apiClient.patch<Order>(API_ROUTES.ORDERS.CANCEL);
+    return response.data;
+  } catch (error) {
+    console.error(`Lỗi khi hủy đơn hàng ${id}:`, error);
+    throw error;
+  }
+};

@@ -34,9 +34,13 @@ export interface OrderItem {
   product_sku: string;
   quantity: number;
   unit_price: number;
-  batch_number: string | null;
-  expiry_date: string | null;
-  image: string; // Chuỗi JSON chứa URL ảnh
+  variant_sku: string | null;
+  variant_name: string | null;
+  image: string; 
+  weight: string;
+  length: string | null;
+  width: string | null;
+  height: string | null;// Chuỗi JSON chứa URL ảnh
 }
 
 /**

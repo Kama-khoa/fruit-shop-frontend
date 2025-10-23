@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-export type OrderStatusFilter = 'all' | 'pending' | 'confirmed' | 'processing' | 'shipped' | 'completed' | 'cancelled';
+export type OrderStatusFilter = 'all' | 'pending' | 'confirmed' | 'processing' | 'shipped' | 'delivered' | 'cancelled';
 
 interface OrderTabsProps {
   activeTab: OrderStatusFilter;
@@ -15,7 +15,7 @@ const tabs: { key: OrderStatusFilter; label: string }[] = [
   { key: 'confirmed', label: 'Xác nhận' },
   { key: 'processing', label: 'Đóng hàng' },
   { key: 'shipped', label: 'Vận chuyển' },
-  { key: 'completed', label: 'Đã nhận' },
+  { key: 'delivered', label: 'Đã nhận' },
   { key: 'cancelled', label: 'Đã hủy' },
 ];
 

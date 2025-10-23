@@ -53,7 +53,7 @@ const formatOrderStatus = (status: string): string => {
             return 'Đóng hàng';
         case 'shipped':
             return 'Vận chuyển';
-        case 'completed':
+        case 'delivered':
             return 'Đã nhận';
         case 'cancelled':
             return 'Đã hủy';
@@ -72,7 +72,7 @@ const formatOrderLabel = (status: string): string => {
             return 'Đơn hàng đang được đóng';
         case 'shipped':
             return 'Đơn hàng đang vận chuyển';
-        case 'completed':
+        case 'delivered':
             return 'Đơn hàng đã nhận';
         case 'cancelled':
             return 'Đơn hàng đã hủy';
@@ -84,16 +84,22 @@ const formatOrderLabel = (status: string): string => {
 const getStatusClasses = (status: string, type: 'payment' | 'order') => {
   status = status.toLowerCase();
   
-  if (status === 'completed' || status === 'paid' || status === 'delivered') {
-    return 'bg-green-100 text-green-700 border-green-500'; // Đã thanh toán, Hoàn thành
+  if (status === 'delivered' || status === 'paid') {
+    return 'bg-Completed-back text-Completed border-Completed'; 
   }
-  if (status === 'cancelled' || status === 'failed' || status === 'pending' &&  type ==='payment') {
-    return 'bg-red-100 text-red-700 border-red-500'; // Đã hủy, Thất bại
+  if (status === 'cancelled' || status === 'pending' &&  type ==='payment') {
+    return 'bg-Cancelled-back text-Cancelled border-Cancelled'; 
   }
-  if (status === 'pending' &&  type ==='order' || status === 'shipping') {
-    return 'bg-blue-100 text-blue-700 border-blue-500'; // Đang xử lý, Đang giao
+  if (status === 'shipped') {
+    return 'bg-Shipped-back text-Shipped border-Shipped'; 
   }
-  // Mặc định cho 'pending' (Chờ xử lý, Chờ thanh toán)
+  if (status === 'processing') {
+    return 'bg-Processing-back text-Processing border-Processing'; 
+  }
+  if (status === 'confirmed') {
+    return 'bg-Confirmed-back text-Confirmed border-Confirmed'; 
+  }
+
   return 'bg-yellow-100 text-yellow-700 border-yellow-500';
 };
 

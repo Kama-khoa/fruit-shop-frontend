@@ -69,7 +69,6 @@ export const ROUTES = {
     // User Profile & Account
     PROFILE: {
       BASE: '/main/profile',
-      ORDERS: '/main/profile/orders',
       ORDER_DETAIL: (id: string) => `/main/profile/orders/${id}`,
       ADDRESSES: '/main/profile/addresses',
       WISHLIST: '/main/profile/wishlist',
@@ -153,8 +152,7 @@ export const API_ROUTES = {
     BASE: '/api/v1/orders/my-orders',
     DETAIL: (id: string) => `/api/v1/orders/my-orders/${id}`,
     CREATE: '/api/v1/orders',
-    CANCEL: (id: string) => `/api/v1/orders/${id}/cancel`,
-    TRACKING: (orderNumber: string) => `/api/v1/orders/tracking/${orderNumber}`,
+    CANCEL: `/api/v1/orders/cancel`,
   },
   
   // Users API (app/api/v1/users/)

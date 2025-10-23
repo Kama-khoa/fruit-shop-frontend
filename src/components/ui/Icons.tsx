@@ -306,16 +306,26 @@ export const XCircleIcon = ({ className }: { className?: string }) => (
 );
 
 export const WalletIcon = ({ className }: { className?: string }) => (
-  <svg className={className || "w-6 h-6"} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M21 12V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h7"></path>
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M16 12h-3m3 0a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"></path>
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M19 21v-2a3 3 0 0 0-3-3H6"></path>
+  <svg className={className} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M16.7672 20.959H6.90414C3.30414 20.959 1.23291 18.8877 1.23291 15.2877V8.38363C1.23291 4.78363 3.30414 2.7124 6.90414 2.7124H16.7672C20.3672 2.7124 22.4384 4.78363 22.4384 8.38363V15.2877C22.4384 18.8877 20.3672 20.959 16.7672 20.959ZM6.90414 4.19185C4.08332 4.19185 2.71236 5.56281 2.71236 8.38363V15.2877C2.71236 18.1086 4.08332 19.4795 6.90414 19.4795H16.7672C19.588 19.4795 20.9589 18.1086 20.9589 15.2877V8.38363C20.9589 5.56281 19.588 4.19185 16.7672 4.19185H6.90414Z" fill="#0D0C0D"/>
+  <path d="M11.8356 15.5342C9.79395 15.5342 8.13696 13.8772 8.13696 11.8356C8.13696 9.79395 9.79395 8.13696 11.8356 8.13696C13.8772 8.13696 15.5342 9.79395 15.5342 11.8356C15.5342 13.8772 13.8772 15.5342 11.8356 15.5342ZM11.8356 9.61641C10.6126 9.61641 9.61641 10.6126 9.61641 11.8356C9.61641 13.0586 10.6126 14.0548 11.8356 14.0548C13.0586 14.0548 14.0548 13.0586 14.0548 11.8356C14.0548 10.6126 13.0586 9.61641 11.8356 9.61641Z" fill="#0D0C0D"/>
+  <path d="M5.42454 15.0411C5.02016 15.0411 4.68481 14.7057 4.68481 14.3014V9.36985C4.68481 8.96547 5.02016 8.63013 5.42454 8.63013C5.82892 8.63013 6.16427 8.96547 6.16427 9.36985V14.3014C6.16427 14.7057 5.82892 15.0411 5.42454 15.0411Z" fill="#0D0C0D"/>
+  <path d="M18.2466 15.0411C17.8422 15.0411 17.5068 14.7057 17.5068 14.3014V9.36985C17.5068 8.96547 17.8422 8.63013 18.2466 8.63013C18.6509 8.63013 18.9863 8.96547 18.9863 9.36985V14.3014C18.9863 14.7057 18.6509 15.0411 18.2466 15.0411Z" fill="#0D0C0D"/>
   </svg>
 );
 
 export const ArrowUpRightIcon = ({ className }: { className?: string }) => (
-  <svg className={className || "w-5 h-5"} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 4H3v7"></path>
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 4l9 9"></path>
+  <svg className={className} width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M10.8333 9.16658L17.6666 2.33325" stroke="CurrentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+  <path d="M18.3333 5.66675V1.66675H14.3333" stroke="CurrentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+  <path d="M9.16675 1.66675H7.50008C3.33341 1.66675 1.66675 3.33341 1.66675 7.50008V12.5001C1.66675 16.6667 3.33341 18.3334 7.50008 18.3334H12.5001C16.6667 18.3334 18.3334 16.6667 18.3334 12.5001V10.8334" fill="white"/>
+  <path d="M9.16675 1.66675H7.50008C3.33341 1.66675 1.66675 3.33341 1.66675 7.50008V12.5001C1.66675 16.6667 3.33341 18.3334 7.50008 18.3334H12.5001C16.6667 18.3334 18.3334 16.6667 18.3334 12.5001V10.8334" stroke="CurrentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+);
+
+export const CopyIcon = ({ className }: { className?: string }) => (
+  <svg className={className} width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M10.6667 1.33331H3.33333C2.59695 1.33331 2 1.93027 2 2.66665V10C2 10.7364 2.59695 11.3333 3.33333 11.3333H10.6667C11.403 11.3333 12 10.7364 12 10V2.66665C12 1.93027 11.403 1.33331 10.6667 1.33331Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M13.9999 4.66669V12C13.9999 13.4667 12.7999 14.6667 11.3333 14.6667H4.66663" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
   </svg>
 );
