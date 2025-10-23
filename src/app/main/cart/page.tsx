@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/lib/hooks/useAuth';
-import { getAllCoupons, getCart, removeCartItem, updateCartItemQuantity } from "@/lib/api/cart";
+import { clearCart, getAllCoupons, getCart, removeCartItem, updateCartItemQuantity } from "@/lib/api/cart";
 import { getUserAddresses } from "@/lib/api/users";
 import CartContent from "@/components/cart/CartContent";
 import CartCheckout from "@/components/cart/CartCheckout";
@@ -76,6 +76,11 @@ export default function CartPage() {
         setSelectedAddress(address);
     };
 
+    // Sửa 3: Tạo hàm xử lý khi thanh toán thành công
+    const handleCheckoutSuccess = () => {
+        fetchData();
+    };
+
     const breadcrumbItems = [
         { label: 'Giỏ hàng' }
     ];
@@ -120,6 +125,7 @@ export default function CartPage() {
                                 items={cartItems} 
                                 coupons={coupons}
                                 selectedAddress={selectedAddress}
+                                onCheckoutSuccess={handleCheckoutSuccess}
                             />
                         </div>
                     </div>

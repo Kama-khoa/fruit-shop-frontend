@@ -106,11 +106,9 @@ const AddressEditor: React.FC<AddressEditorProps> = ({ initialData, onSuccess, o
     try {
 
         if (isEditing && initialData) {
-          console.log('Updating address with data:', addressPayload);
             await updateUserAddress(initialData.id, addressPayload);
             toast.success("Cập nhật địa chỉ thành công!");
         } else {
-          console.log('Updating address with data:', addressPayload);
             await addUserAddress(addressPayload);
             toast.success("Thêm địa chỉ mới thành công!");
         }

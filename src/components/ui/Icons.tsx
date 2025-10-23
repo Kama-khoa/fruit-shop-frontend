@@ -262,3 +262,45 @@ export const MailIcon = ({ className }: { className?: string }) => (
         <path d="M22 6L12 13L2 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
     </svg>
 );
+
+export const CheckCircleIcon = ({ className }: { className?: string }) => (
+    <svg className={className} width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="30" cy="30" r="28" stroke="#BAFD91" strokeOpacity="0.5" strokeWidth="4"/>
+        <path d="M18 30.5L25.5 38L42 21.5" stroke="#16A34A" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+);
+
+export const CodIcon = ({ className }: { className?: string }) => (
+    <svg className={className} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M3 10H21V20C21 20.5523 20.5523 21 20 21H4C3.44772 21 3 20.5523 3 20V10Z" stroke="#22C55E" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M3 10L12 3L21 10" stroke="#22C55E" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M12 14C13.1046 14 14 13.1046 14 12C14 10.8954 13.1046 10 12 10C10.8954 10 10 10.8954 10 12C10 13.1046 10.8954 14 12 14Z" stroke="#22C55E" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M12 14V17" stroke="#22C55E" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+);
+
+export const MomoIcon = () => (
+    <img src="/images/momo_logo.png" alt="Momo" className="w-6 h-6" />
+);
+
+// Sửa lại icon radio button
+export const RadioOnIcon = ({ className }: { className?: string }) => (
+    <svg className={className} width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="10" cy="10" r="9" stroke="#16A34A" strokeWidth="2"/>
+        <circle cx="10" cy="10" r="5" fill="#16A34A"/>
+    </svg>
+);
+
+export const RadioOffIcon = ({ className }: { className?: string }) => (
+    <svg className={className} width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="10" cy="10" r="9" stroke="#A1A1AA" strokeWidth="2"/>
+    </svg>
+);
+
+export const XCircleIcon = ({ className }: { className?: string }) => (
+    <svg className={className} width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="30" cy="30" r="28" stroke="#EF4444" strokeOpacity="0.5" strokeWidth="4"/>
+        <path d="M22 22L38 38" stroke="#EF4444" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M38 22L22 38" stroke="#EF4444" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+);

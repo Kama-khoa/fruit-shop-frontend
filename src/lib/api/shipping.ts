@@ -9,7 +9,6 @@ import { ShippingFeePayload, ShippingFeeResponse, ShippingOption } from '@/types
  */
 export const calculateShippingFee = async (payload: ShippingFeePayload): Promise<ShippingOption[]> => {
   try {
-    console.log(payload);
     const response = await apiClient.post<ShippingOption[]>(
       API_ROUTES.CUSTOMERS.SHIPPING_FEE,
       payload

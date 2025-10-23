@@ -12,7 +12,6 @@ export interface ShippingItem {
  * Định nghĩa cấu trúc cho payload gửi đi để tính phí vận chuyển.
  */
 export interface ShippingFeePayload {
-  carrierCode: string;
   to_district_id: string;
   to_ward_code: string;
   items: ShippingItem[];

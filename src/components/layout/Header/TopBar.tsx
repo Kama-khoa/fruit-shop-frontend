@@ -8,18 +8,20 @@ import Image from 'next/image';
 
 const TopBar: React.FC = () => {
   return (
-    <div className="w-full h-20 flex items-center justify-between px-4 lg:px-14">
+    <div className="w-full h-20 flex items-center justify-between pr-4 lg:pr-14">
       {/* Logo */}
-      <Link href={ROUTES.ROOT} className="flex-shrink-0">
-        <Image
-          src="/logo_ngang.png"
-          alt="Tâm Đạt Logo"
-          width={120} // Cung cấp chiều rộng gốc của ảnh (thay đổi nếu cần)
-          height={40} // Cung cấp chiều cao gốc của ảnh (thay đổi nếu cần)
-          priority // Ưu tiên tải logo
-          className="h-20 w-auto"
-        />
-      </Link>
+      <div className="flex items-center justify-start lg:flex bg-[#027635] ">
+        <Link href={ROUTES.ROOT} className="inline-block">
+          <Image
+            src="/logo_ngang.png"
+            alt="Tâm Đạt Logo"
+            width={300} // Cung cấp chiều rộng gốc của ảnh (thay đổi nếu cần)
+            height={100} // Cung cấp chiều cao gốc của ảnh (thay đổi nếu cần)
+            priority // Ưu tiên tải logo
+            className="h-20 w-[350px] object-contain "
+          />
+        </Link>
+      </div>
 
       {/* Search Bar */}
       <div className="flex-1 max-w-[677px] mx-8">

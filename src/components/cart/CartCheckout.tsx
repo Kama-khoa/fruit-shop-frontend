@@ -8,11 +8,18 @@ import CouponModal from '@/components/promotions/CouponModal';
 import { CustomerAddress } from '@/types/customers';
 import { ShippingItem } from '@/types/shipping';
 import { calculateShippingFee } from '@/lib/api/shipping';
+import { createOrder } from '@/lib/api/orders';
+import PaymentSelector from '@/components/orders/PaymentSelector';
+import { useRouter } from 'next/navigation';
+import { ROUTES } from '@/lib/utils/routes';
+import toast from 'react-hot-toast';
+import { OrderShippingOption, PaymentMethod } from '@/types/order';
 
 interface CartCheckoutProps {
   items: CartItem[];
   coupons: Coupon[];
   selectedAddress: CustomerAddress | undefined;
+  onCheckoutSuccess: () => void; 
 }
 
 const formatCurrency = (amount: number | null) => {
@@ -20,43 +27,51 @@ const formatCurrency = (amount: number | null) => {
     return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
 };
 
-const CartCheckout: React.FC<CartCheckoutProps> = ({ items, coupons, selectedAddress }) => {
+const CartCheckout: React.FC<CartCheckoutProps> = ({ items, coupons, selectedAddress, onCheckoutSuccess }) => {
+    const router = useRouter();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [appliedCoupon, setAppliedCoupon] = useState<Coupon | null>(null);
-    const [shippingFee, setShippingFee] = useState<number | null>(null);
     const [isCalculatingFee, setIsCalculatingFee] = useState(false);
+    const [shippingOption, setShippingOption] = useState<OrderShippingOption | null>(null);
+    
+    const [paymentMethod, setPaymentMethod] = useState<PaymentMethod | null>('cod');
+    const [notes, setNotes] = useState('');
+    const [isPlacingOrder, setIsPlacingOrder] = useState(false);
 
     useEffect(() => {
         if (selectedAddress && items.length > 0) {
             const calculateFee = async () => {
                 setIsCalculatingFee(true);
-                setShippingFee(null); // Reset
+                setShippingOption(null);
                 try {
                     const shippingItems: ShippingItem[] = items.map(item => ({
                         variant_id: item.variant.id,
                         quantity: item.quantity,
                         price: item.variant.price,
-                        // weight: item.variant.weight,
+                        // weight: item.variant.weight || 200,
                         weight: 200,
                     }));
 
                     const payload = {
-                        carrierCode: 'ghn',
                         to_district_id: selectedAddress.district_code,
                         to_ward_code: selectedAddress.ward_code,
                         items: shippingItems,
                     };
                     
                     const response = await calculateShippingFee(payload);
-                    if (response) {
-                        setShippingFee(response[0].fee);
+                    if (response && response.length > 0) {
+                        const firstOption = response[0];
+                        setShippingOption({
+                            fee: firstOption.fee,
+                            service_id: firstOption.service_id,
+                            service_type_id: 2 // Giả sử service_type_id là 2
+                        });
                     } else {
-                        setShippingFee(0);
+                        setShippingOption({ fee: 0, service_id: 0, service_type_id: 0 });
                     }
-
                 } catch (error) {
                     console.error("Lỗi khi tính phí vận chuyển:", error);
-                    setShippingFee(0);
+                    setShippingOption({ fee: 0, service_id: 0, service_type_id: 0 });
                 } finally {
                     setIsCalculatingFee(false);
                 }
@@ -81,7 +96,53 @@ const CartCheckout: React.FC<CartCheckoutProps> = ({ items, coupons, selectedAdd
         return appliedCoupon.value;
     }, [appliedCoupon, subtotal]);
 
+    const shippingFee = shippingOption?.fee || 0;
     const total = shippingFee !== null ? subtotal + shippingFee - discountAmount : subtotal - discountAmount;
+
+    const handleCheckout = async () => {
+        if (!selectedAddress) {
+            toast.error('Vui lòng chọn địa chỉ giao hàng.');
+            return;
+        }
+        if (!shippingOption) {
+            toast.error('Không thể tính phí vận chuyển, vui lòng thử lại.');
+            return;
+        }
+        if (!paymentMethod) {
+            toast.error('Vui lòng chọn phương thức thanh toán.');
+            return;
+        }
+
+        setIsPlacingOrder(true);
+        try {
+            const payload = {
+                addressId: selectedAddress.id,
+                shippingOption: shippingOption,
+                paymentMethod: paymentMethod,
+                notes: notes,
+            };
+            
+            const response = await createOrder(payload);
+
+            if (response.success) {
+                onCheckoutSuccess(); // Báo cho cha biết để xóa giỏ hàng
+                
+                sessionStorage.setItem('latestOrderDetails', JSON.stringify(response));
+                
+                if (paymentMethod === 'cod') {
+                    router.push(ROUTES.MAIN.CHECKOUT.SUCCESS);
+                } else if (response.paymentUrl) {
+                    window.location.href = response.paymentUrl;
+                }
+            } else {
+                toast.error(response.message || 'Đặt hàng thất bại.');
+            }
+        } catch (error) {
+            toast.error('Đã xảy ra lỗi khi đặt hàng.');
+        } finally {
+            setIsPlacingOrder(false);
+        }
+    };
 
   return (
     <>
@@ -124,6 +185,15 @@ const CartCheckout: React.FC<CartCheckoutProps> = ({ items, coupons, selectedAdd
 
             <hr className="border-gray-200" />
 
+            <PaymentSelector 
+                selectedMethod={paymentMethod}
+                onMethodChange={setPaymentMethod}
+                notes={notes}
+                onNotesChange={setNotes}
+            />
+
+            <hr className="border-gray-200" />
+
             {/* Subtotal */}
             <div className="flex justify-between items-center">
                 <span className="text-base font-semibold text-gray-900">Tổng cộng</span>
@@ -131,10 +201,14 @@ const CartCheckout: React.FC<CartCheckoutProps> = ({ items, coupons, selectedAdd
             </div>
 
             {/* Checkout Button */}
-            <button className="w-full px-6 py-4 bg-green-600 text-white rounded-full flex items-center justify-between text-base font-semibold font-['IBM_Plex_Serif'] hover:bg-green-700 transition">
+            <button 
+                onClick={handleCheckout}
+                disabled={isCalculatingFee || isPlacingOrder || !selectedAddress} 
+                className="w-full px-6 py-4 bg-green-600 text-white rounded-full flex items-center justify-between text-base font-semibold font-['IBM_Plex_Serif'] hover:bg-green-700 transition disabled:bg-gray-400"
+            >
                 <div className="flex items-center gap-2">
                     <CheckoutIcon className="w-6 h-6" />
-                    <span>Thanh toán</span>
+                    <span>{isPlacingOrder ? 'Đang xử lý...' : 'Thanh toán'}</span>
                 </div>
                 <span>{formatCurrency(total)}</span>
             </button>

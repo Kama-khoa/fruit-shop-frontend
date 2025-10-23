@@ -16,7 +16,6 @@ export const loginUser = async (credentials: LoginCredentials): Promise<AuthResp
 export const registerUser = async (credentials: RegisterCredentials): Promise<AuthResponse> => {
   const { name, email, password } = credentials;
   const registerData = { name, email, password };
-  console.log('Register Data:', registerData);
   
   const response = await apiClient.post<AuthResponse>(API_ROUTES.AUTH.REGISTER, registerData);
   return response.data;
@@ -43,7 +42,6 @@ export const forgotPassword = async (email: string): Promise<{ message: string }
  */
 export const resetPassword = async (credentials: ResetPasswordCredentials): Promise<{ message: string }> => {
     try {
-      console.log('Reset Password Credentials:', credentials);
         const response = await apiClient.post(API_ROUTES.AUTH.RESET_PASSWORD, credentials);
         return response.data;
     } catch (error) {

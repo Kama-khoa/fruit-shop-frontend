@@ -89,57 +89,6 @@ export interface ProductListResponse<T> {
 
 // #endregion
 
-// =====================================================================
-// #region Cart, Order & Payment Types
-// =====================================================================
-
-/**
- * Một sản phẩm trong giỏ hàng (bảng `carts`).
- * Lưu ý: API thường trả về thông tin chi tiết của sản phẩm.
- */
-
-/**
- * Đơn hàng (bảng `orders`).
- */
-export interface Order {
-  id: number;
-  order_code: string;
-  customer_id?: number;
-  order_date: string;
-  order_status: string;
-  total_amount: number;
-  shipping_address_id?: number;
-  payment_method?: string;
-  payment_status?: string;
-  customer_name?: string;
-  customer_phone?: string;
-  customer_email?: string;
-  shipping_address?: string;
-  subtotal: number;
-  shipping_fee: number;
-  discount_amount: number;
-  tax_amount: number;
-  notes?: string;
-  created_at: string;
-  updated_at: string;
-}
-
-/**
- * Chi tiết một sản phẩm trong đơn hàng (bảng `order_items`).
- */
-export interface OrderItem {
-  id: number;
-  order_id: number;
-  product_id: number;
-  variant_id?: number;
-  product_name: string;
-  product_sku?: string;
-  quantity: number;
-  unit_price: number;
-  batch_number?: string;
-  expiry_date?: string;
-}
-
 /**
  * Thông tin thanh toán (bảng `payments`).
  */

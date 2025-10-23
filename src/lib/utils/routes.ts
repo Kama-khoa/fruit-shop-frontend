@@ -3,6 +3,7 @@ export const ROUTES = {
   ROOT: '/',
   HOME: '/',
   RESET_PASSWORD: '/reset-password',
+  MOMO_RETURN: '/momo_return',
   
   // Auth routes (app/auth/)
   AUTH: {
@@ -149,8 +150,9 @@ export const API_ROUTES = {
   
   // Orders API (app/api/v1/orders/)
   ORDERS: {
-    BASE: '/api/v1/orders',
-    DETAIL: (id: string) => `/api/v1/orders/${id}`,
+    BASE: '/api/v1/my-orders',
+    DETAIL: (id: string) => `/api/v1/my-orders/${id}`,
+    CREATE: '/api/v1/orders',
     CANCEL: (id: string) => `/api/v1/orders/${id}/cancel`,
     TRACKING: (orderNumber: string) => `/api/v1/orders/tracking/${orderNumber}`,
   },

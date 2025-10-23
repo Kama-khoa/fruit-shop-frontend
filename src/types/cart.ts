@@ -20,6 +20,7 @@ export interface CartItemVariant {
   price: number;
   image: string | null;
   sku: string;
+  weight: number;
 }
 
 /**

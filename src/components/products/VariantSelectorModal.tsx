@@ -32,10 +32,6 @@ const VariantSelectorModal: React.FC<VariantSelectorModalProps> = ({ product, is
     }
     setIsAdding(true);
     try {
-        console.log("Thêm vào giỏ hàng:", {
-            variantId: selectedVariant.id,
-            quantity: quantity,
-        });
       await addToCart({
         variantId: selectedVariant.id,
         quantity: quantity,
