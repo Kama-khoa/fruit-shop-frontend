@@ -2,7 +2,7 @@ import { Post } from '@/types/posts';
 import { apiClient } from './client';
 import { API_ROUTES } from '../utils/routes';
 
-export const getAllPost = async (): Promise<Post[]> => {
+export const getAllPosts = async (): Promise<Post[]> => {
   try {
     // API trả về một mảng OrderListSummary
     const response = await apiClient.get<Post[]>(API_ROUTES.POSTS.LIST);

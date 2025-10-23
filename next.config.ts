@@ -30,6 +30,12 @@ const nextConfig = {
         port: '',
         pathname: '/**', // Cho phép tất cả các đường dẫn con
       },
+      {
+        protocol: 'https',
+        hostname: 'cdn.nhathuoclongchau.com.vn', 
+        port: '',
+        pathname: '/**', // Cho phép tất cả các đường dẫn con
+      },
     ],
   },
   env: {

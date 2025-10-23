@@ -3,6 +3,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { ROUTES } from "@/lib/utils/routes";
 
 const newsArticles = [
   {
@@ -73,7 +74,7 @@ const NewsSection = () => {
             </p>
           </div>
           <Link
-            href="/news"
+            href={ROUTES.MAIN.NEWS.LIST}
             className="flex items-center gap-2 text-sm font-semibold text-green-700 hover:text-green-900 transition"
           >
             Xem tất cả <ArrowRight size={16} />
@@ -85,7 +86,7 @@ const NewsSection = () => {
           {newsArticles.map((article) => (
             <Link
               key={article.id}
-              href={`/news/${article.slug}`}
+              href={ROUTES.MAIN.NEWS.DETAIL(article.slug)}
               className="group block rounded-2xl overflow-hidden bg-white shadow-md hover:shadow-xl transition-shadow duration-300"
             >
               {/* Image */}
