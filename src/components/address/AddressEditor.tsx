@@ -31,7 +31,7 @@ const AddressEditor: React.FC<AddressEditorProps> = ({ initialData, onSuccess, o
     district_name: initialData?.district_name,
     ward_code: initialData?.ward_code,
     ward_name: initialData?.ward_name,
-    address: initialData?.address,
+    address: initialData?.address || '',
     is_default: initialData?.is_default || false,
   });
   

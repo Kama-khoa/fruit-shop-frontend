@@ -10,7 +10,10 @@ import { Suspense } from 'react';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Fruity Fruit - Tươi ngon mỗi ngày',
+  title: 'TÂM ĐẠT - Thực phẩm hữu cơ',
+  icons: {
+    icon: '/logo_image.png',
+  },
   description: 'Cửa hàng nông sản tươi ngon, chất lượng cao với giá cả hợp lý',
   keywords: 'nông sản, trái cây, tươi ngon, organic, healthy, vitamin',
   authors: [{ name: 'Fruity Fruit Team' }],
@@ -21,20 +24,20 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL|| ''),
   openGraph: {
     type: 'website',
     locale: 'vi_VN',
     url: process.env.NEXT_PUBLIC_APP_URL,
-    title: 'Fruity Fruit - Nông sản tươi ngon',
+    title: 'TÂM ĐẠT - Thực phẩm hữu cơ',
     description: 'Cửa hàng nông sản tươi ngon, chất lượng cao với giá cả hợp lý',
-    siteName: 'Fruity Fruit',
+    siteName: 'TÂM ĐẠT',
     images: [
       {
-        url: '/images/logos/Logo_Fruity_fruit.jpg',
+        url: '/logo_image.png',
         width: 1200,
         height: 630,
-        alt: 'Fruity Fruit',
+        alt: 'TÂM ĐẠT',
       },
     ],
   },

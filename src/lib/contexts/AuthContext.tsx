@@ -80,7 +80,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         });
       }
     };
-    initializeAuth();
+    setTimeout(initializeAuth, 0);
   }, []);
   const login = async (
     credentials: LoginCredentials,

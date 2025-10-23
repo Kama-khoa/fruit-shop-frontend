@@ -4,15 +4,21 @@ import SearchBar from './SearchBar';
 import UserMenu from './UserMenu';
 import { ShoppingCart, MessageCircle, Bell } from 'lucide-react';
 import { ROUTES } from '@/lib/utils/routes';
+import Image from 'next/image';
 
 const TopBar: React.FC = () => {
   return (
     <div className="w-full h-20 flex items-center justify-between px-4 lg:px-14">
       {/* Logo */}
-      <Link href="/" className="flex-shrink-0">
-        <h1 className="text-green-600 text-5xl font-normal font-['Dharrochy']">
-          FRUITY FRUIT
-        </h1>
+      <Link href={ROUTES.ROOT} className="flex-shrink-0">
+        <Image
+          src="/logo_ngang.png"
+          alt="Tâm Đạt Logo"
+          width={120} // Cung cấp chiều rộng gốc của ảnh (thay đổi nếu cần)
+          height={40} // Cung cấp chiều cao gốc của ảnh (thay đổi nếu cần)
+          priority // Ưu tiên tải logo
+          className="h-20 w-auto"
+        />
       </Link>
 
       {/* Search Bar */}

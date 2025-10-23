@@ -98,8 +98,8 @@ export const clearCart = async (): Promise<{ message: string }> => {
  */
 export const getAllCoupons = async (): Promise<Coupon[]> => {
   try {
-    const response = await apiClient.get<ApiResponse<Coupon[]>>(API_ROUTES.COUPONS.LIST);
-    return response.data.data || [];
+    const response = await apiClient.get<Coupon[]>(API_ROUTES.COUPONS.LIST);
+    return response.data || [];
   } catch (error) {
     console.error('Lỗi khi lấy thông tin giảm giá:', error);
     throw error;

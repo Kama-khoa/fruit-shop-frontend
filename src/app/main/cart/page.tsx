@@ -26,15 +26,15 @@ export default function CartPage() {
         if (user?.customer_id) {
             setIsLoadingData(true);
             try {
-                const [cartData, addressData, couponData] = await Promise.all([
+                const [cartData, addressData] = await Promise.all([
                     getCart(),
                     getUserAddresses(),
-                    getAllCoupons()
+                    // getAllCoupons()
                 ]);
 
                 setCartItems(cartData.items || []);
                 setAddresses(addressData || []);
-                setCoupons(couponData || []);
+                // setCoupons(couponData || []);
                 setSelectedAddress(addressData.find(a => a.is_default) || addressData[0]);
             } catch (error) {
                 console.error("Lỗi khi tải dữ liệu giỏ hàng:", error);

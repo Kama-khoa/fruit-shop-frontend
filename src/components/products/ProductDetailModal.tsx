@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import Image from 'next/image';
 import toast from 'react-hot-toast';
 import { ProductDetail, ProductVariant } from '@/types/product';
@@ -25,11 +25,35 @@ const ProductDetailModal: React.FC<ProductDetailModalProps> = ({ product, isOpen
   const [quantity, setQuantity] = useState(1);
   const [isAdding, setIsAdding] = useState(false);
   const [mainImage, setMainImage] = useState(product.images?.[0] || '/images/default.png');
-  const [allImages, setAllImages] = useState<string[]>(product.images || []);
+  const allImages = useMemo(() => {
+    let newImages: string[] = [];
+    if (selectedVariant?.image) {
+        try {
+            // Trường hợp 1: variant.image là một chuỗi JSON của mảng
+            const variantImages = JSON.parse(selectedVariant.image);
+            if (Array.isArray(variantImages) && variantImages.length > 0) {
+                newImages = [...variantImages, ...(product.images || [])];
+            }
+        } catch (e) {
+            // Trường hợp 2: variant.image là một URL string đơn
+            newImages = [selectedVariant.image, ...(product.images || [])];
+        }
+    }
+    
+    if (newImages.length > 0) {
+        return newImages.filter(Boolean); // Lọc ra các giá trị null/undefined
+    } else {
+        return Array.isArray(product.images) ? product.images : []; 
+    }
+  }, [selectedVariant, product.images]);
+
+  useEffect(() => {
+    setMainImage(allImages[0] || '/images/default.png');
+  }, [allImages]);
 
   // Tự động chuyển ảnh chính
   useEffect(() => {
-    if (!isOpen) return;
+    if (!isOpen || allImages.length === 0) return;
     const interval = setInterval(() => {
         setMainImage(prev => {
             const currentIndex = allImages.indexOf(prev);
@@ -39,27 +63,6 @@ const ProductDetailModal: React.FC<ProductDetailModalProps> = ({ product, isOpen
     }, 10000); // 10 giây
     return () => clearInterval(interval);
   }, [isOpen, allImages]);
-
-  // Cập nhật ảnh khi chọn variant
-  useEffect(() => {
-    if (selectedVariant?.image) {
-        try {
-            // API có thể trả về một chuỗi JSON chứa mảng URL
-            const variantImages = JSON.parse(selectedVariant.image);
-            if (Array.isArray(variantImages) && variantImages.length > 0) {
-                setMainImage(variantImages[0]);
-                setAllImages([...variantImages, ...(product.images || [])]);
-            }
-        } catch (e) {
-            // Hoặc API trả về một URL trực tiếp
-            setMainImage(selectedVariant.image);
-            setAllImages([selectedVariant.image, ...(product.images || [])]);
-        }
-    } else {
-        setMainImage(product.images?.[0] || '/images/default.png');
-        setAllImages(product.images || []);
-    }
-  }, [selectedVariant, product.images]);
 
   if (!isOpen) return null;
 
@@ -92,18 +95,42 @@ const ProductDetailModal: React.FC<ProductDetailModalProps> = ({ product, isOpen
 
         {/* Cột ảnh */}
         <div className="w-1/2 flex flex-col gap-4">
-            <div className="relative aspect-square rounded-lg overflow-hidden border">
-                <Image src={mainImage} alt={product.name} fill className="object-cover"/>
+            <div className="relative aspect-square rounded-lg overflow-hidden border bg-gray-100">
+                <Image 
+                  src={mainImage} 
+                  alt={product.name} 
+                  fill 
+                  className="object-cover"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.src = '/images/default.png';
+                  }}
+                />
             </div>
-            <div className="grid grid-cols-4 gap-2">
-                {allImages.slice(0, 4).map((img, index) => (
-                    <div key={index} className={`relative aspect-square rounded-md overflow-hidden cursor-pointer border-2 ${mainImage === img ? 'border-green-500' : 'border-transparent'}`} onClick={() => setMainImage(img)}>
-                         <Image src={img} alt={`${product.name} thumbnail ${index + 1}`} fill className="object-cover"/>
-                    </div>
-                ))}
-            </div>
+            {allImages.length > 0 && (
+              <div className="grid grid-cols-4 gap-2">
+                  {allImages.slice(0, 4).map((img, index) => (
+                      <div 
+                        key={index} 
+                        className={`relative aspect-square rounded-md overflow-hidden cursor-pointer border-2 ${mainImage === img ? 'border-green-500' : 'border-transparent'}`} 
+                        onClick={() => setMainImage(img)}
+                      >
+                          <Image 
+                            src={img} 
+                            alt={`${product.name} thumbnail ${index + 1}`} 
+                            fill 
+                            className="object-cover"
+                            onError={(e) => {
+                              const target = e.target as HTMLImageElement;
+                              target.src = '/images/default.png';
+                            }}
+                          />
+                      </div>
+                  ))}  
+              </div>
+            )}
         </div>
-
+        
         {/* Cột thông tin */}
         <div className="w-1/2 flex flex-col">
             <h1 className="text-3xl font-bold text-gray-900">{product.name}</h1>
@@ -116,7 +143,10 @@ const ProductDetailModal: React.FC<ProductDetailModalProps> = ({ product, isOpen
                   {stockQuantity > 0 ? 'Còn hàng' : 'Hết hàng'}
                 </span>
             </div>
-            <p className="text-gray-600 text-sm leading-relaxed mb-4">{product.short_description}</p>
+            <div 
+              className="text-gray-600 text-sm leading-relaxed mb-4"
+              dangerouslySetInnerHTML={{ __html: product.short_description || '' }}
+            />
             
             <div className="text-4xl font-bold text-red-600 mb-6">
                 {formatCurrency(currentPrice)}

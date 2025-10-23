@@ -12,7 +12,12 @@ const UserMenu: React.FC = () => {
   const { isAuthenticated, user, logout, isLoading } = useAuth();
   const { navigateTo } = useNavigation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -32,7 +37,7 @@ const UserMenu: React.FC = () => {
     navigateTo(ROUTES.HOME);
   };
 
-  if (isLoading) {
+  if (!isMounted || isLoading) {
     return (
       <div className="w-52 h-14 bg-white rounded-3xl shadow-[0px_4px_4px_0px_rgba(218,218,218,0.25)] flex items-center justify-between px-4 animate-pulse">
         <div className="flex flex-col gap-1.5">

@@ -2,7 +2,6 @@ import React from 'react';
 import { getCategories } from '@/lib/api/categories';
 import CategorySidebarItem from '../common/CategorySidebarItem';
 
-// Component này là một Server Component, tự động fetch dữ liệu
 export default async function CategorySidebar() {
   const categories = await getCategories();
 
