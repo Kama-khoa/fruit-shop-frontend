@@ -1,64 +1,66 @@
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import SearchBar from './SearchBar';
 import UserMenu from './UserMenu';
 import { ShoppingCart, MessageCircle, Bell } from 'lucide-react';
 import { ROUTES } from '@/lib/utils/routes';
-import Image from 'next/image';
 
 const TopBar: React.FC = () => {
   return (
-    <div className="w-full h-20 flex items-center justify-between pr-4 lg:pr-14">
+    <header className="w-full h-20 bg-white shadow-sm flex items-center justify-between px-4 lg:px-10 border-b border-gray-100">
       {/* Logo */}
-      <div className="flex items-center justify-start lg:flex ">
-        <Link href={ROUTES.ROOT} className="inline-block">
+      <div className="flex items-center shrink-0">
+        <Link href={ROUTES.ROOT} className="block">
           <Image
             src="/tam_dat_ngang.jpg"
             alt="Tâm Đạt Logo"
-            width={300} // Cung cấp chiều rộng gốc của ảnh (thay đổi nếu cần)
-            height={100} // Cung cấp chiều cao gốc của ảnh (thay đổi nếu cần)
-            priority // Ưu tiên tải logo
-            className="h-20 w-[350px] object-contain "
+            width={300}
+            height={80}
+            priority
+            className="h-16 w-auto object-contain transition-transform duration-200 hover:scale-105"
           />
         </Link>
       </div>
 
       {/* Search Bar */}
-      <div className="flex-1 max-w-[677px] mx-8">
+      <div className="flex-1 max-w-[680px] mx-6">
         <SearchBar />
       </div>
 
       {/* Action Icons & User Menu */}
-      <div className="flex items-center gap-6">
+      <div className="flex items-center gap-5">
         {/* Shopping Cart */}
         <Link
           href={ROUTES.MAIN.CART}
-          className="w-9 h-7 flex items-center justify-center hover:opacity-70 transition-opacity"
           aria-label="Giỏ hàng"
+          className="relative group"
         >
-          <ShoppingCart className="w-6 h-6 text-gray-950" />
+          <div className="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center hover:bg-green-100 transition-all duration-200">
+            <ShoppingCart className="w-5 h-5 text-gray-700 group-hover:text-green-600 transition-colors" />
+          </div>
         </Link>
 
         {/* Messages */}
-        <button 
-          className="w-9 h-7 flex items-center justify-center hover:opacity-70 transition-opacity"
+        <button
           aria-label="Tin nhắn"
+          className="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center hover:bg-green-100 transition-all duration-200 group"
         >
-          <MessageCircle className="w-6 h-6 text-gray-950" />
+          <MessageCircle className="w-5 h-5 text-gray-700 group-hover:text-green-600 transition-colors" />
         </button>
 
         {/* Notifications */}
-        <button 
-          className="w-9 h-7 flex items-center justify-center hover:opacity-70 transition-opacity"
+        <button
           aria-label="Thông báo"
+          className="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center hover:bg-green-100 transition-all duration-200 group relative"
         >
-          <Bell className="w-6 h-6 text-gray-950" />
+          <Bell className="w-5 h-5 text-gray-700 group-hover:text-green-600 transition-colors" />
         </button>
 
         {/* User Menu */}
         <UserMenu />
       </div>
-    </div>
+    </header>
   );
 };
 

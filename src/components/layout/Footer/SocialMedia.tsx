@@ -1,5 +1,5 @@
 import React from 'react';
-import { Facebook, Instagram, Youtube, Twitter, Radius } from 'lucide-react';
+import { Facebook, Instagram, Youtube, Twitter } from 'lucide-react';
 
 const socialLinks = [
   { 
@@ -30,19 +30,19 @@ const socialLinks = [
 
 const SocialMedia: React.FC = () => {
   return (
-    <div className="flex items-center justify-center lg:justify-start gap-2">
+    <div className="flex items-center justify-center lg:justify-start gap-3">
       {socialLinks.map((social) => {
         const Icon = social.icon;
         return (
           <a 
-              key={social.name}
-              href={social.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-9 h-9 bg-white rounded-md flex items-center justify-center hover:opacity-80 transition-opacity shadow-sm"
-              aria-label={`Follow us on ${social.name}`}
-            >
-            <Icon className={`w-5 h-5 ${social.color} group-hover:scale-110 transition-transform`} />
+            key={social.name}
+            href={social.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group w-10 h-10 bg-gray-100 rounded-xl flex items-center justify-center hover:bg-white shadow-sm hover:shadow-md transition-all duration-300"
+            aria-label={`Follow us on ${social.name}`}
+          >
+            <Icon className={`w-5 h-5 ${social.color} transition-transform duration-300 group-hover:scale-110`} />
           </a>
         );
       })}

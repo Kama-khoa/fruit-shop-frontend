@@ -9,6 +9,7 @@ import ProductRating from "./ProductRating";
 import ProductPrice from "./ProductPrice";
 import { getProductById } from "@/lib/api/products";
 import ProductDetailModal from "./ProductDetailModal";
+import { createPortal } from "react-dom";
 
 interface ProductCardProps {
   product: Product;
@@ -18,41 +19,31 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const {
     id,
     name,
-    slug,
     price,
     compare_price,
     images,
     stock_quantity,
-    variants,
     rating = 4,
-    review_count,
   } = product;
+
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
-  const [productDetail, setProductDetail] = useState<ProductDetail | null>(
-    null
-  );
+  const [productDetail, setProductDetail] = useState<ProductDetail | null>(null);
   const [isLoadingDetail, setIsLoadingDetail] = useState(false);
 
   const getThumbnailSrc = () => {
-    if (images && images.thumbnail) {
+    if (images?.thumbnail) {
       if (Array.isArray(images.thumbnail)) {
-        if (images.thumbnail.length > 0 && images.thumbnail[0]) {
-          return images.thumbnail[0];
-        }
-      } else if (typeof images.thumbnail === 'string' && images.thumbnail) {
-        return images.thumbnail;
+        return images.thumbnail[0] || "/images/default.png";
+      }
+      if (typeof images.thumbnail === "string") {
+        return images.thumbnail || "/images/default.png";
       }
     }
-    return '/images/default.png';
+    return "/images/default.png";
   };
 
-  const initialImageUrl = getThumbnailSrc();
-  console.log("Initial Image URL:", initialImageUrl);
-
-  const [imageSrc, setImageSrc] = useState(initialImageUrl);
-  const handleImageError = () => {
-    setImageSrc("/images/default.png");
-  };
+  const [imageSrc, setImageSrc] = useState(getThumbnailSrc());
+  const handleImageError = () => setImageSrc("/images/default.png");
 
   const salePercentage =
     compare_price && parseFloat(compare_price) > parseFloat(price)
@@ -63,10 +54,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         )
       : 0;
 
-  const handleOpenDetail = async (e: React.MouseEvent) => {
-    e.preventDefault();
+  const handleOpenDetail = async () => {
     setIsLoadingDetail(true);
-    toast.loading("Đang tải chi tiết...");
+    toast.loading("Đang tải chi tiết sản phẩm...");
     try {
       const detailData = await getProductById(
         typeof id === "string" ? parseInt(id, 10) : id
@@ -77,89 +67,98 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       } else {
         toast.error("Không thể tải chi tiết sản phẩm.");
       }
-    } catch (error) {
-      toast.error("Đã xảy ra lỗi.");
+    } catch {
+      toast.error("Đã xảy ra lỗi khi tải dữ liệu.");
     } finally {
-      setIsLoadingDetail(false);
       toast.dismiss();
+      setIsLoadingDetail(false);
     }
   };
 
   const handleToggleWishlist = (e: React.MouseEvent) => {
-    e.preventDefault();
-    console.log('Toggled wishlist for ${name}');
+    e.stopPropagation();
+    toast.success("Đã thêm vào danh sách yêu thích 💖");
+  };
+
+  const handleCartClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    toast.success(`${name} đã được thêm vào giỏ hàng 🛒`);
   };
 
   return (
     <>
       <div
         onClick={handleOpenDetail}
-        className="group w-full max-w-[208px] h-96 relative bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300 flex flex-col cursor-pointer"
+        className="group flex flex-col bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer border border-gray-100 hover:border-emerald-400 relative"
       >
-        <div className="relative w-full h-48 flex-shrink-0">
+        {/* Ảnh sản phẩm */}
+        <div className="relative w-full aspect-[4/5] bg-gray-50 overflow-hidden">
           <Image
             src={imageSrc}
             alt={name}
             fill
             onError={handleImageError}
-            className="object-contain p-4 transition-transform duration-300 group-hover:scale-105"
-            sizes="(max-width: 640px) 50vw, 208px"
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
+            sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
           />
 
+          {/* Badge giảm giá */}
           {salePercentage > 0 && (
-            <div className="absolute top-3 left-3 bg-red-600 text-red-50 text-[10px] font-extrabold uppercase px-2 py-1 rounded-full">
-              {salePercentage}%
+            <div className="absolute top-3 left-3 bg-red-500 text-white text-xs font-bold px-2.5 py-1 rounded-full shadow-md">
+              -{salePercentage}%
             </div>
           )}
 
+          {/* Nút yêu thích */}
           <button
             onClick={handleToggleWishlist}
-            className="absolute top-3 right-3 w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-md hover:bg-gray-100 transition-colors"
+            className="absolute top-3 right-3 w-9 h-9 bg-white rounded-full flex items-center justify-center shadow-md opacity-0 group-hover:opacity-100 transition-all duration-300 hover:scale-110"
           >
-            <HeartIcon className="w-4 h-4 text-gray-700" />
+            <HeartIcon className="w-5 h-5 text-gray-600 hover:text-red-500 transition-colors" />
           </button>
         </div>
 
-        <div className="p-4 flex flex-col flex-grow">
-          <h3 className="text-gray-950 text-sm font-medium font-['Inter'] leading-tight h-10 mb-2 overflow-hidden">
+        {/* Thông tin sản phẩm */}
+        <div className="flex flex-col flex-1 p-4 gap-2">
+          <h3 className="text-gray-800 font-semibold text-base line-clamp-2 leading-tight">
             {name}
           </h3>
 
-          <div className="mb-3">
-            <ProductRating rating={rating} />
-          </div>
+          <ProductRating rating={rating} />
 
-          <div className="mt-auto">
-            <div className="mb-4">
-              <ProductPrice price={price} compare_price={compare_price ?? undefined} />
-            </div>
+          <ProductPrice price={price} compare_price={compare_price ?? undefined} />
 
-            <div className="flex items-center justify-between">
-              <button
-                onClick={handleOpenDetail}
-                className="w-11 h-9 bg-green-600 rounded-lg flex items-center justify-center hover:bg-green-700 transition-colors"
-              >
-                <ShoppingCartIcon className="w-5 h-5 text-white" />
-              </button>
-              {stock_quantity > 0 ? (
-                <span className="text-green-600 text-xs font-bold font-['Inter'] uppercase">
-                  Còn hàng
-                </span>
-              ) : (
-                <span className="text-red-600 text-xs font-bold font-['Inter'] uppercase">
-                  Hết hàng
-                </span>
-              )}
-            </div>
+          {/* Trạng thái & nút thêm giỏ */}
+          <div className="flex items-center justify-between mt-3">
+            {stock_quantity > 0 ? (
+              <span className="text-emerald-600 text-sm font-medium">
+                Còn hàng
+              </span>
+            ) : (
+              <span className="text-red-500 text-sm font-medium">Hết hàng</span>
+            )}
+
+            <button
+              onClick={handleCartClick}
+              className="flex items-center gap-1 bg-emerald-500 hover:bg-emerald-600 text-white px-3 py-2 rounded-lg transition-all duration-200 text-sm font-semibold shadow hover:shadow-md"
+            >
+              <ShoppingCartIcon className="w-4 h-4" />
+              Thêm
+            </button>
           </div>
         </div>
       </div>
+
+      {/* Modal chi tiết sản phẩm */}
       {isDetailModalOpen && productDetail && (
-        <ProductDetailModal
-          product={productDetail}
-          isOpen={isDetailModalOpen}
-          onClose={() => setIsDetailModalOpen(false)}
-        />
+        createPortal(
+          <ProductDetailModal
+            product={productDetail}
+            isOpen={isDetailModalOpen}
+            onClose={() => setIsDetailModalOpen(false)}
+          />,
+          document.body // 👈 Quan trọng: render modal ra body
+        )
       )}
     </>
   );

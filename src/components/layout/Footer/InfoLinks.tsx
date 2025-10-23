@@ -12,18 +12,21 @@ const infoLinks = [
 
 const InfoLinks: React.FC = () => {
   return (
-    <div className="space-y-4">
-      <h3 className="text-gray-900 text-sm font-semibold font-['Inter'] leading-none">
+    <div className="space-y-5">
+      {/* Tiêu đề */}
+      <h3 className="text-gray-800 text-sm font-semibold font-['Inter'] uppercase tracking-wide">
         Thông tin
       </h3>
-      
-      <ul className="space-y-3.5">
+
+      {/* Danh sách liên kết */}
+      <ul className="space-y-3">
         {infoLinks.map((link, index) => (
           <li key={index}>
-            <Link 
+            <Link
               href={link.href}
-              className="text-gray-600 text-xs font-normal font-['Inter'] leading-tight hover:text-gray-900 transition-colors"
+              className="text-gray-600 text-[13px] font-normal font-['Inter'] leading-snug hover:text-gray-900 hover:translate-x-0.5 transition-all duration-200 flex items-center gap-2"
             >
+              <span className="inline-block w-1.5 h-1.5 bg-gray-400 rounded-full flex-shrink-0"></span>
               {link.label}
             </Link>
           </li>
