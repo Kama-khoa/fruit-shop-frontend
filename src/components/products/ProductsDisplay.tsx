@@ -84,6 +84,7 @@ export default function ProductsDisplay({
             <option value={12}>12 sản phẩm</option>
             <option value={24}>24 sản phẩm</option>
             <option value={36}>36 sản phẩm</option>
+            <option value={50}>50 sản phẩm</option>
           </select>
         </div>
       </div>

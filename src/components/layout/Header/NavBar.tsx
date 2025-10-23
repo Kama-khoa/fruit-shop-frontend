@@ -21,10 +21,9 @@ const navItems: NavItem[] = [
   { label: 'Trang chủ', href: ROUTES.ROOT },
   { label: 'Danh mục', href: ROUTES.MAIN.CATEGORIES.LIST, hasDropdown: true },
   { label: 'Sản phẩm', href: ROUTES.MAIN.PRODUCTS.LIST },
-  { label: 'Đồ uống', href: ROUTES.MAIN.CATEGORIES.DRINKS },
+  { label: 'Về chúng thôi', href: ROUTES.MAIN.ABOUT },
   { label: 'Blog', href: ROUTES.MAIN.NEWS.LIST },
   { label: 'Liên hệ', href: ROUTES.MAIN.CONTACT },
-  { label: 'Sản phẩm nổi bật', href: `${ROUTES.MAIN.PRODUCTS.LIST}?isFeatured=true` },
   { label: 'Khuyến mãi', href: ROUTES.MAIN.PROMOTIONS, isPromo: true },
 ];
 

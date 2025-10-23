@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import type { Product } from '@/types/product';
 import ProductCard from '../products/ProductCard';
@@ -13,10 +13,28 @@ interface Props {
 export default function ProductCarousel({ products, title = 'Sản phẩm' }: Props) {
   const [activeTab, setActiveTab] = useState<'featured' | 'new' | 'promotion'>('featured');
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [itemsPerPage, setItemsPerPage] = useState(4); // mặc định desktop
+  const [mounted, setMounted] = useState(false); // để tránh SSR mismatch
 
-  // Hiển thị 4 sản phẩm/lần ở desktop, 2 ở tablet, 1 ở mobile
-  const itemsPerPage = typeof window !== 'undefined' && window.innerWidth < 640 ? 1 :
-                       typeof window !== 'undefined' && window.innerWidth < 1024 ? 2 : 4;
+  // Chạy trên client
+  useEffect(() => {
+    setMounted(true);
+
+    const updateItemsPerPage = () => {
+      const width = window.innerWidth;
+      if (width < 640) setItemsPerPage(1);
+      else if (width < 1024) setItemsPerPage(2);
+      else setItemsPerPage(4);
+    };
+
+    updateItemsPerPage();
+    window.addEventListener('resize', updateItemsPerPage);
+
+    return () => window.removeEventListener('resize', updateItemsPerPage);
+  }, []);
+
+  // Nếu chưa mounted, return null để tránh hydration error
+  if (!mounted) return null;
 
   const maxIndex = Math.max(0, Math.ceil(products.length / itemsPerPage) - 1);
 
