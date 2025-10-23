@@ -74,7 +74,8 @@ export interface Product {
 }
 
 // Giữ nguyên các type liên quan
-export interface ProductFilter {
+export interface ProductFilters {
+  search?: string;
   page?: number;
   limit?: number;
   categoryId?: number;
@@ -82,12 +83,17 @@ export interface ProductFilter {
   maxPrice?: number;
   rating?: number;
   inStock?: boolean;
-  sortBy?: 'price' | 'rating' | 'created_at' | 'popular';
+  isFeatured?: boolean;
+  sortBy?: 'price' | 'created_at';
   sortOrder?: 'asc' | 'desc';
 }
 
 // Giữ nguyên cấu trúc generic
 export interface ProductListResponse<T> {
   data: T[];
-  meta: PaginationMeta;
+  pagination: {
+      currentPage: number;
+      totalPages: number;
+      totalItems: number;
+  };
 }

@@ -1,22 +1,22 @@
 import { apiClient } from './client';
 import { API_ROUTES } from '../utils/routes';
-import { Product, ProductDetail, ProductFilter } from '@/types/product';
-import { ProductListResponse } from '@/types/index';
+import { Product, ProductDetail, ProductFilters, ProductListResponse } from '@/types/product';
 
-export const getProducts = async (filters: ProductFilter): Promise<ProductListResponse<Product>> => {
+export const getProducts = async (filters: ProductFilters): Promise<ProductListResponse<Product>> => {
   try {
-    const response = await apiClient.get<ProductListResponse<Product>>(API_ROUTES.PRODUCTS.LIST, {
-      params: filters,
+    // API backend được kỳ vọng trả về cấu trúc: { data: Product[], meta: PaginationMeta }
+  	const response = await apiClient.get<ProductListResponse<Product>>(API_ROUTES.PRODUCTS.LIST, {
+      params: filters, // Truyền toàn bộ đối tượng filters làm query params
     });
     return response.data;
   } catch (error) {
     console.error('Không thể lấy danh sách sản phẩm:', error);
+    // Trả về một trạng thái rỗng mặc định để tránh crash app.
     return {
         data: [],
-        meta: {
-            total: 0,
-            page: filters.page || 1,
-            limit: filters.limit || 20,
+        pagination: {
+            totalItems: 0,
+            currentPage: filters.page || 1,
             totalPages: 1,
         }
     };
@@ -24,12 +24,13 @@ export const getProducts = async (filters: ProductFilter): Promise<ProductListRe
 };
 
 /**
- * Lấy một sản phẩm duy nhất bằng ID.
+ * Lấy một sản phẩm duy nhất bằng ID (để hiển thị trong modal chi tiết).
  * @param id - ID của sản phẩm.
- * @returns Một đối tượng sản phẩm hoặc null.
+ * @returns Một đối tượng ProductDetail hoặc null.
  */
 export const getProductById = async (id: number): Promise<ProductDetail | null> => {
     try {
+        // API backend được kỳ vọng trả về cấu trúc: { success: boolean, data: ProductDetail }
         const response = await apiClient.get<ProductDetail>(API_ROUTES.PRODUCTS.DETAIL(id));
         return response.data || null;
     } catch (error) {
@@ -39,7 +40,8 @@ export const getProductById = async (id: number): Promise<ProductDetail | null> 
 }
 
 /**
- * Lấy danh sách sản phẩm nổi bật bằng cách gọi đến endpoint FEATURED.
+ * Lấy danh sách sản phẩm nổi bật (cho trang chủ).
+ * Gọi đến endpoint FEATURED đã định nghĩa.
  */
 export const getFeaturedProducts = async (): Promise<ProductListResponse<Product>> => {
     try {
@@ -47,12 +49,13 @@ export const getFeaturedProducts = async (): Promise<ProductListResponse<Product
         return response.data;
     } catch (error) {
         console.error('Không thể lấy sản phẩm nổi bật:', error);
-        return { data: [], meta: { total: 0, page: 1, limit: 10, totalPages: 1 } };
+        return { data: [], pagination: { totalItems: 0, currentPage: 1, totalPages: 1 } };
     }
 };
 
 /**
- * Lấy danh sách sản phẩm mới nhất bằng cách gọi đến endpoint NEWEST.
+ * Lấy danh sách sản phẩm mới nhất (cho trang chủ).
+ * Gọi đến endpoint NEWEST đã định nghĩa.
  */
 export const getNewestProducts = async (): Promise<ProductListResponse<Product>> => {
     try {
@@ -60,16 +63,22 @@ export const getNewestProducts = async (): Promise<ProductListResponse<Product>>
         return response.data;
     } catch (error) {
         console.error('Không thể lấy sản phẩm mới:', error);
-        return { data: [], meta: { total: 0, page: 1, limit: 10, totalPages: 1 } };
+        return { data: [], pagination: { totalItems: 0, currentPage: 1, totalPages: 1 } };
     }
 };
 
 /**
- * Lấy danh sách sản phẩm bán chạy nhất (Bestseller).
- * Vì không có endpoint riêng, chúng ta sẽ sử dụng hàm getProducts chung với bộ lọc phù hợp.
- */
-export const getBestsellerProducts = async (): Promise<ProductListResponse<Product>> => {
-  return getProducts({ sortBy: 'rating', sortOrder: 'desc', limit: 10 });
+ * Lấy danh sách sản phẩm đã sắp xếp theo giá tăng dần.
+ * Gọi đến endpoint SORT_PRICE đã định nghĩa.
+ */
+export const getProductsSortedByPrice = async (): Promise<ProductListResponse<Product>> => {
+    try {
+        const response = await apiClient.get<ProductListResponse<Product>>(API_ROUTES.PRODUCTS.SORT_PRICE);
+        return response.data;
+    } catch (error) {
+        console.error('Lỗi khi lấy sản phẩm sắp xếp theo giá:', error);
+        return { data: [], pagination: { totalItems: 0, currentPage: 1, totalPages: 1 } };
+    }
 };
 
 /**
@@ -82,6 +91,30 @@ export const searchProducts = async (query: string): Promise<ProductListResponse
         return response.data;
     } catch (error) {
         console.error(`Lỗi khi tìm kiếm sản phẩm với từ khóa "${query}":`, error);
-        return { data: [], meta: { total: 0, page: 1, limit: 20, totalPages: 1 } };
+        return { data: [], pagination: { totalItems: 0, currentPage: 1, totalPages: 1 } };
+    }
+};
+
+export const getBestsellerProducts = async (query: string): Promise<ProductListResponse<Product>> => {
+    try {
+        const response = await apiClient.get<ProductListResponse<Product>>(API_ROUTES.PRODUCTS.BESTSELLER);
+        return response.data;
+    } catch (error) {
+        console.error(`Lỗi khi tìm kiếm sản phẩm với từ khóa "${query}":`, error);
+        return { data: [], pagination: { totalItems: 0, currentPage: 1, totalPages: 1 } };
+    }
+};
+
+/**
+ * Lấy sản phẩm theo khoảng giá.
+ * Gọi đến endpoint PRICE_RANGE đã định nghĩa.
+ */
+export const getProductsByPriceRange = async (min: number, max: number): Promise<ProductListResponse<Product>> => {
+    try {
+        const response = await apiClient.get<ProductListResponse<Product>>(API_ROUTES.PRODUCTS.PRICE_RANGE(min, max));
+        return response.data;
+    } catch (error) {
+        console.error(`Lỗi khi lấy sản phẩm theo giá từ ${min} đến ${max}:`, error);
+        return { data: [], pagination: { totalItems: 0, currentPage: 1, totalPages: 1 } };
     }
 };

@@ -118,6 +118,7 @@ export const API_ROUTES = {
     FEATURED: '/api/v1/products?isFeatured=true',
     NEWEST: '/api/v1/products?sortBy=created_at&sortOrder=desc',
     SORT_PRICE:'/api/v1/products?sortBy=price&sortOrder=asc',
+    BESTSELLER: '/api/v1/products?sortBy=rating&sortOrder=desc',
     SEARCH: (query: string) => `/api/v1/products?search=${query}`,
     PRICE_RANGE: (min: number, max: number) => `/api/v1/products?priceMin=${min}&priceMax=${max}`,
     COMPLEX: (categoryId: number, search: string, min: number, sortBy: string, sortOrder: string) => `/api/v1/products?categoryId=${categoryId}&search=${search}&minPrice=${min}&sortBy=${sortBy}&sortOrder=${sortOrder}`,
@@ -190,6 +191,15 @@ export const API_ROUTES = {
     CREATE: '/api/v1/checkout',
     VERIFY: '/api/v1/checkout/verify',
     CALLBACK: '/api/v1/checkout/callback',
+  },
+
+  POSTS: {
+    LIST: '/api/v1/posts',
+    DETAIL: (slug: string) => `/api/v1/posts/${slug}`,
+  },
+
+  POST_CATEGORIES: {
+    LIST: '/api/v1/post-categories',
   },
   
   // Upload API (app/api/v1/upload/)
