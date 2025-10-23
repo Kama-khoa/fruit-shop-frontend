@@ -1,54 +1,89 @@
-import React from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
+"use client";
+import React from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 
 const promos = [
-    {
-        title: 'We provide you the best quality products',
-        subtitle: 'Only This Week',
-        description: 'A family place for grocery',
-        img: '/images/promo/promo1.png',
-        bgColor: 'bg-green-50'
-    },
-    {
-        title: 'We make your grocery shopping more exciting',
-        subtitle: 'Only This Week',
-        description: 'Shine the morning...',
-        img: '/images/promo/promo2.png',
-        bgColor: 'bg-blue-50'
-    },
-    {
-        title: 'The one supermarket that saves your money',
-        subtitle: 'Only This Week',
-        description: 'Breakfast made better',
-        img: '/images/promo/promo3.png',
-        bgColor: 'bg-orange-50'
-    }
+  {
+    title: "Chúng tôi mang đến cho bạn sản phẩm chất lượng nhất",
+    subtitle: "Chỉ trong tuần này",
+    description: "Nơi mua sắm thực phẩm cho cả gia đình",
+    img: "/images/promo/promo1.png",
+    gradient: "from-green-500/20 via-green-400/10 to-transparent",
+  },
+  {
+    title: "Biến việc đi chợ trở nên thú vị hơn bao giờ hết",
+    subtitle: "Ưu đãi độc quyền",
+    description: "Buổi sáng tràn đầy năng lượng và tươi mới",
+    img: "/images/promo/promo2.png",
+    gradient: "from-blue-500/20 via-blue-400/10 to-transparent",
+  },
+  {
+    title: "Siêu thị giúp bạn tiết kiệm hơn mỗi ngày",
+    subtitle: "Khuyến mãi đặc biệt",
+    description: "Mua sắm thông minh – tiết kiệm thật",
+    img: "/images/promo/promo3.png",
+    gradient: "from-orange-500/20 via-orange-400/10 to-transparent",
+  },
 ];
 
 const PromotionBanners = () => {
-    return (
-        <section className="py-16">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    {promos.map((promo, index) => (
-                        <div key={index} className={`relative rounded-lg overflow-hidden p-8 flex items-center ${promo.bgColor}`}>
-                             <Image src={promo.img} alt={promo.title} layout="fill" objectFit="cover" className="opacity-40" />
-                            <div className="relative z-10">
-                                <p className="text-orange-600 text-xs font-medium font-['Inter']">{promo.subtitle}</p>
-                                <h3 className="text-gray-900 text-xl font-bold font-['Inter'] mt-2 max-w-[200px]">{promo.title}</h3>
-                                <p className="text-gray-500 text-xs font-normal font-['Inter'] mt-2">{promo.description}</p>
-                                <Link href="/products" className="mt-6 inline-flex items-center gap-2 text-sm font-bold bg-white px-4 py-2 rounded-full shadow-sm hover:bg-gray-100 transition">
-                                    Shop Now <ArrowRight size={16} />
-                                </Link>
-                            </div>
-                        </div>
-                    ))}
-                </div>
+  return (
+    <section className="py-20 bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Tiêu đề section */}
+        <div className="text-center mb-12">
+          <h2 className="text-3xl font-bold text-gray-900">
+            Ưu đãi & Khuyến mãi
+          </h2>
+          <p className="text-gray-500 mt-2 text-sm">
+            Săn deal cực hot – chỉ có tại Tâm Đạt Store tuần này!
+          </p>
+        </div>
+
+        {/* Lưới 3 banner */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {promos.map((promo, index) => (
+            <div
+              key={index}
+              className="relative group rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300"
+            >
+              {/* Hình nền */}
+              <div className="absolute inset-0">
+                <Image
+                  src={promo.img}
+                  alt={promo.title}
+                  fill
+                  className="object-cover group-hover:scale-110 transition-transform duration-500"
+                />
+                <div
+                  className={`absolute inset-0 bg-gradient-to-r ${promo.gradient}`}
+                />
+              </div>
+
+              {/* Nội dung */}
+              <div className="relative z-10 p-8 flex flex-col justify-center min-h-[280px]">
+                <p className="text-sm text-green-700 font-semibold uppercase tracking-wide">
+                  {promo.subtitle}
+                </p>
+                <h3 className="text-xl md:text-2xl font-bold text-gray-900 leading-snug mt-2">
+                  {promo.title}
+                </h3>
+                <p className="text-sm text-gray-600 mt-3">{promo.description}</p>
+                <Link
+                  href="/products"
+                  className="mt-6 inline-flex items-center gap-2 self-start bg-green-600 text-white px-4 py-2 rounded-full text-sm font-semibold hover:bg-green-700 transition"
+                >
+                  Mua ngay <ArrowRight size={16} />
+                </Link>
+              </div>
             </div>
-        </section>
-    );
+          ))}
+        </div>
+      </div>
+    </section>
+  );
 };
 
 export default PromotionBanners;

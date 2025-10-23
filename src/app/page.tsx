@@ -7,6 +7,8 @@ import ProductCarousel from '@/components/home/ProductCarousel';
 import BestsellerBanner from '@/components/home/BestsellerBanner';
 import PromotionBanners from '@/components/home/PromotionBanners';
 import NewsSection from '@/components/home/NewsSection';
+import { createPortal } from "react-dom";
+
 
 export default async function HomePage() {
   const featuredProducts = await getFeaturedProducts();
@@ -14,42 +16,55 @@ export default async function HomePage() {
 
   return (
     <div className="bg-neutral-50">
-      <div className="max-w-max mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      {/* Hero + Sidebar */}
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          
-          {/* Left Sidebar */}
           <aside className="hidden lg:block lg:col-span-1">
             <CategorySidebar />
           </aside>
-
-          {/* Main Content */}
           <div className="lg:col-span-3">
             <HeroBanner />
           </div>
         </div>
       </div>
 
-      <FeaturesSection />
+      {/* Ưu điểm nổi bật */}
+      <section className="bg-green-50 py-12">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <FeaturesSection />
+        </div>
+      </section>
 
-      {/* Featured Products Section */}
-      <ProductCarousel 
-        products={featuredProducts.data} 
-        title="Sản phẩm"
-      />
-      
-      <BestsellerBanner />
+      {/* Sản phẩm nổi bật */}
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-16">
+        <ProductCarousel 
+            products={featuredProducts.data} 
+            title="✨ Sản phẩm nổi bật"
+          />
+      </section>
 
-      {/* Bestseller Products Section */}
-      <ProductCarousel 
-        products={bestsellerProducts.data} 
-        title="Best Seller"
-      />
-      
-      <PromotionBanners />
-      
-      <NewsSection />
+      {/* Best seller banner */}
+      <div className="mt-20">
+        <BestsellerBanner />
+      </div>
 
+      {/* Best Seller */}
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-16 bg-white py-12 rounded-2xl shadow-sm">
+        <ProductCarousel 
+          products={bestsellerProducts.data} 
+          title="🔥 Best Seller"
+        />
+      </section>
+
+      {/* Khuyến mãi */}
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-20">
+        <PromotionBanners />
+      </section>
+
+      {/* Tin tức */}
+      <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mt-20 pb-32">
+        <NewsSection />
+      </section>
     </div>
   );
 }
-

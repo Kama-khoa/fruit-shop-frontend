@@ -12,17 +12,19 @@ const supportLinks = [
 
 const SupportLinks: React.FC = () => {
   return (
-    <div className="space-y-4">
-      <h3 className="text-gray-900 text-sm font-semibold font-['Inter'] leading-none">
+    <div className="space-y-5">
+      {/* Tiêu đề */}
+      <h3 className="text-gray-800 text-base font-semibold font-['Inter'] tracking-wide">
         Hỗ trợ
       </h3>
-      
-      <ul className="space-y-3.5">
+
+      {/* Danh sách liên kết */}
+      <ul className="space-y-3">
         {supportLinks.map((link, index) => (
           <li key={index}>
             <Link 
               href={link.href}
-              className="text-gray-600 text-xs font-normal font-['Inter'] leading-tight hover:text-gray-900 transition-colors"
+              className="text-gray-600 text-sm font-normal font-['Inter'] hover:text-blue-600 transition-colors duration-200"
             >
               {link.label}
             </Link>

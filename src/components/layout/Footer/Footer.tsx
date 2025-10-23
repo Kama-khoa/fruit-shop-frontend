@@ -6,21 +6,41 @@ import AppDownload from './AppDownload';
 
 const Footer: React.FC = () => {
   return (
-    <footer className="w-full bg-neutral-400/25">
-      <div className="container mx-auto px-4 py-7">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
-          <ContactInfo />
+    <footer className="w-full bg-neutral-100 text-gray-700 border-t border-gray-200">
+      {/* Main content */}
+      <div className="container mx-auto px-6 lg:px-16 py-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-14">
           
-          <SupportLinks />
-          
-          <InfoLinks />
-          
-          <AppDownload />
+          {/* Liên hệ */}
+          <div className="transition-transform duration-300 hover:-translate-y-1">
+            <ContactInfo />
+          </div>
+
+          {/* Hỗ trợ */}
+          <div className="transition-transform duration-300 hover:-translate-y-1">
+            <SupportLinks />
+          </div>
+
+          {/* Thông tin */}
+          <div className="transition-transform duration-300 hover:-translate-y-1">
+            <InfoLinks />
+          </div>
+
+          {/* Tải app & MXH */}
+          <div className="transition-transform duration-300 hover:-translate-y-1">
+            <AppDownload />
+          </div>
         </div>
       </div>
-      <div className="text-center py-4 border-t border-gray-200 mt-8">
-        <p className="text-xs text-gray-500">
-          © {new Date().getFullYear()} Fruity Fruit. All Rights Reserved.
+
+      {/* Divider */}
+      <div className="border-t border-gray-300"></div>
+
+      {/* Copyright */}
+      <div className="py-4 text-center bg-neutral-200">
+        <p className="text-xs text-gray-600 font-['Inter'] tracking-wide">
+          © {new Date().getFullYear()} <span className="text-gray-800 font-semibold">Fruity Fruit</span>.  
+          &nbsp;All Rights Reserved.
         </p>
       </div>
     </footer>
