@@ -1,19 +1,11 @@
-import AuthForm from '@/components/auth/AuthForm';
-import VerificationSuccess from './VerificationSuccess';
+'use client';
 
-interface LoginPageProps {
-  searchParams: {
-    verified?: string;
-  };
-}
+import { useSearchParams } from 'next/navigation';
+import AuthForm from "@/components/auth/AuthForm";
+import VerificationSuccess from "./VerificationSuccess";
 
-export default function LoginPage({ searchParams }: LoginPageProps) {
-  
-  const isVerified = searchParams.verified === 'true';
-
-  if (isVerified) {
-
-    return <VerificationSuccess />;
-  }
-  return <AuthForm type="login" />;
+export default function LoginPage() {
+  const searchParams = useSearchParams();
+  const isVerified = searchParams.get('verified') === 'true';
+  return isVerified ? <VerificationSuccess /> : <AuthForm type="login" />;
 }

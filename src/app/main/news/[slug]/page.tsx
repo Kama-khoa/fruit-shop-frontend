@@ -26,8 +26,12 @@ const formatDate = (dateString: string) => {
  * Đây là Trang Chi tiết Bài viết (Server Component)
  * Tự động gọi API khi render
  */
-export default async function PostDetailPage({ params }: PostPageProps) {
-  const { slug } = params;
+export default async function PostDetailPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
 
   // 2. Gọi API để lấy dữ liệu bài viết
   const post = await getPostBySlug(slug);
