@@ -2,21 +2,22 @@ export interface Post {
   id: number;
   title: string;
   slug: string;
-  excerpt?: string;
-  content?: string;
-  featured_image?: string;
-  category_id?: number;
+  excerpt: string | null;
+  content: string ;
+  featured_image: string | null;
+  category_id: number;
   views: number;
   is_featured: boolean;
   is_published: boolean;
-  published_at?: string;
-  seo_title?: string;
-  seo_description?: string;
-  author_id?: number;
+  published_at: string;
+  seo_title: string;
+  seo_description: string;
+  author_id: number;
   created_at: string;
   updated_at: string;
-  author_name?: string;
-    category_name?: string;
+  author_name: string;
+    category_name: string;
+    tags: Tag[];
 }
 
 /**

@@ -30,7 +30,7 @@ export interface ProductDetail extends Omit<Product, 'id'> {
  * Phản ánh chính xác cấu trúc dữ liệu trả về từ API.
  */
 export interface Product {
-  id: string; // ID có thể là string hoặc number, dựa trên JSON thì là string
+  id: number; // ID có thể là string hoặc number, dựa trên JSON thì là string
   name: string;
   slug: string;
   sku?: string;
